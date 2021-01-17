@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '..', 'build'),
     filename: '[name].bundle.js',
-    publicPath: '/public',
+    publicPath: '/public/',
   },
   resolve: {
     extensions: ['.jsx', '.js'],
@@ -22,6 +22,18 @@ module.exports = {
       {
         test: /\.(jpg|jpeg|png|svg)?$/,
         use: ['file-loader'],
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/',
+            },
+          },
+        ],
       },
     ],
   },

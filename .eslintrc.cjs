@@ -7,4 +7,8 @@ module.exports = {
     'import/no-default-export': 'error',
     'max-len': 'off',
   },
+  env: {
+    browser: true,
+    node: true,
+  }
 };
