@@ -6,8 +6,11 @@
   "scripts": {
     "start": "node server/server",
     "build": "rimraf ./build && webpack --config scripts/webpack.prod.cjs",
+    "lint": "eslint . --fix",
+    "dev": "concurrently \"npm run dev-client\" \"npm run dev-server\"",
     "dev-server": "nodemon ./server/server",
-    "dev-client": "webpack serve --open --hot --config scripts/webpack.dev.cjs"
+    "dev-client": "webpack serve --open --hot --config scripts/webpack.dev.cjs",
+    "gcp-build": "npm run build"
   },
   "type": "module",
   "author": "David Li <me@davidli.io>",
@@ -54,7 +57,9 @@
     "@babel/core": "^7.12.9",
     "@babel/preset-env": "^7.12.7",
     "@babel/preset-react": "^7.12.7",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
+    "concurrently": "^5.3.0",
     "css-loader": "^5.0.1",
     "css-minimizer-webpack-plugin": "^1.1.5",
     "eslint-config-airbnb": "18.2.0",

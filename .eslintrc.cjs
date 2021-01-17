@@ -6,9 +6,11 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'import/no-default-export': 'error',
     'max-len': 'off',
+    'no-underscore-dangle': 'off',
   },
   env: {
     browser: true,
     node: true,
-  }
+  },
+  parser: 'babel-eslint',
 };
