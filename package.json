@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server/server",
     "build": "rimraf ./build && webpack --config scripts/webpack.prod.cjs",
+    "test": "echo \"Add tests!\"",
     "lint": "eslint . --fix",
     "dev": "concurrently \"npm run dev-client\" \"npm run dev-server\"",
     "dev-server": "nodemon ./server/server",
