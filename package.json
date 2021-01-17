@@ -7,7 +7,7 @@
     "start": "node --experimental-specifier-resolution=node server/server",
     "build": "rimraf ./build && webpack --config scripts/webpack.prod.cjs",
     "test": "echo \"Add tests!\"",
-    "lint": "npm run eslint . --fix",
+    "lint": "eslint . --fix",
     "dev": "concurrently \"npm run dev-client\" \"npm run dev-server\"",
     "dev-server": "nodemon --experimental-specifier-resolution=node ./server/server",
     "dev-client": "webpack serve --open --config scripts/webpack.dev.cjs",

@@ -7,6 +7,7 @@ module.exports = {
     'import/no-default-export': 'error',
     'max-len': 'off',
     'no-underscore-dangle': 'off',
+    'no-unused-vars': 'warn',
   },
   env: {
     browser: true,
