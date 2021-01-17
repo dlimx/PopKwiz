@@ -1,0 +1,62 @@
+{
+  "name": "popkwiz",
+  "version": "1.0.0",
+  "description": "A platform for quizz applications",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server",
+    "build": "rimraf ./build && webpack --config scripts/webpack.prod.cjs",
+    "dev-server": "nodemon ./server/server",
+    "dev-client": "webpack serve --open --hot --config scripts/webpack.dev.cjs"
+  },
+  "type": "module",
+  "author": "David Li <me@davidli.io>",
+  "contributors": [
+    {
+      "name": "David Lee"
+    },
+    {
+      "name": "David Vega"
+    },
+    {
+      "name": "Justin Lin"
+    }
+  ],
+  "license": "ISC",
+  "engines": {
+    "node": ">=14"
+  },
+  "dependencies": {
+    "@google-cloud/datastore": "^6.2.0",
+    "@netflix/nerror": "^1.1.3",
+    "axios": "^0.21.0",
+    "cookie-parser": "^1.4.4",
+    "debug": "^2.6.9",
+    "dotenv": "^8.2.0",
+    "express": "^4.16.1",
+    "http-errors": "^1.6.3",
+    "morgan": "^1.9.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
+    "yup": "^0.29.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-react": "^7.12.7",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.0.1",
+    "css-minimizer-webpack-plugin": "^1.1.5",
+    "file-loader": "^6.2.0",
+    "html-loader": "^1.3.2",
+    "html-webpack-plugin": "^4.5.0",
+    "mini-css-extract-plugin": "^1.3.2",
+    "nodemon": "^2.0.6",
+    "rimraf": "^3.0.2",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.15.0",
+    "webpack-cli": "^4.3.1",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
