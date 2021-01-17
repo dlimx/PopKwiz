@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+const ErrorOverlayPlugin = require('error-overlay-webpack-plugin')
 const common = require('./webpack.common.cjs');
 
 module.exports = {
@@ -18,13 +20,17 @@ module.exports = {
       },
     ],
   },
+  plugins: [...common.plugins, new ErrorOverlayPlugin()],
   devServer: {
     inline: true,
     port: 3000,
     historyApiFallback: true,
+    hot: true,
     // contentBase: path.join(__dirname, '..', 'public'),
     proxy: {
       '/api': 'http://localhost:3001',
     },
+    open: true,
+    overlay: true,
   },
 };

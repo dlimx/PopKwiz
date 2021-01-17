@@ -9,6 +9,11 @@ module.exports = {
     filename: '[name].bundle.js',
     publicPath: '/public/',
   },
+  node: {
+    global: true,
+    // TODO - remove as part of Webpack 5 update
+    process: true,
+  },
   resolve: {
     extensions: ['.jsx', '.js'],
   },
@@ -18,6 +23,10 @@ module.exports = {
         test: /\.(js|jsx)?$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
+        resolve: {
+          // TODO - uncomment as part of Webpack 5 update
+          // fullySpecified: false,
+        },
       },
       {
         test: /\.(jpg|jpeg|png|svg)?$/,
