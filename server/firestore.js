@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import { serviceAccount } from '../kingdom_keys.js';
+import { serviceAccount } from '../keys.js';
 
 export const firebaseAdmin = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
