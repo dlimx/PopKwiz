@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
-const Login = () => {
+export const Login = () => {
   return (
     <div>
       <h1>Page coming soon</h1>
@@ -12,5 +12,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;

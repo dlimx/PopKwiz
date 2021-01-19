@@ -1,8 +1,9 @@
 import { db } from '../firestore';
-import { User, userConverter } from '../models/userModel';
+// import { User, userConverter } from '../models/userModel';
+// import { User } from '../models/userModel';
 
 // get users from firestore
-export const getUsers = async () => {
+export const getUsers = async (req, res) => {
   let uname = req.query.username;
   let userSearch = '';
   if (uname) {
@@ -15,10 +16,14 @@ export const getUsers = async () => {
   }
 
   let found = await userSearch.get();
-  let userList = [];
-  for (const doc of found.docs) {
-    userList.push(doc.data());
-  }
+  // let userList = [];
+
+  // this prob doesn't work. Did it for linter
+  let userList = Array.from(found.keys(), found)
+
+  // for (const doc of found.docs()) {
+  //   userList.push(doc.data());
+  // }
   console.log(userList);
   return res.json(userList);
 };
@@ -36,8 +41,8 @@ export const addUser = async (req, res) => {
   // https://firebase.google.com/docs/firestore/manage-data/add-data
   db.collection('users')
     .doc(req.body.uid)
-    .withConverter(userConverter)
-    .set(new User(req.body.username, req.body.email))
+    // .withConverter(userConverter)
+    .set({username:req.body.username, email:req.body.email})
     .then((doc) => {
       res.json({ message: `document ${doc.id} created successfully` });
     })

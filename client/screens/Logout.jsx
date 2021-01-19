@@ -3,12 +3,12 @@ import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import { useAuth } from '../AuthContext';
 import { Alert } from '@material-ui/lab';
 import { Link, useHistory } from 'react-router-dom';
-import Copyright from '../components/Copyright';
-import UseStyles from '../components/UseStyles';
+import {Copyright} from '../components/Copyright';
+import {UseStyles} from '../components/UseStyles';
 
 import { Avatar, Button, Container, Box, Typography, CssBaseline } from '@material-ui/core';
 
-export default function Logout() {
+export function Logout() {
   const classes = UseStyles();
   const [error, setError] = useState('');
   const { logout } = useAuth();

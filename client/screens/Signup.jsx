@@ -3,11 +3,11 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Alert } from '@material-ui/lab';
 import { useAuth } from '../AuthContext';
 import { Link, useHistory } from 'react-router-dom';
-import Copyright from '../components/Copyright';
-import UseStyles from '../components/UseStyles';
+import {Copyright} from '../components/Copyright';
+import {UseStyles} from '../components/UseStyles';
 import { Avatar, Button, Container, Box, Typography, CssBaseline, Grid, TextField } from '@material-ui/core';
 
-export default function SignUp() {
+export function SignUp() {
   const classes = UseStyles();
   const emailRef = useRef();
   const passwordRef = useRef();

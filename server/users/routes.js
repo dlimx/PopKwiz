@@ -4,7 +4,7 @@ import { getUsers, addUser } from './controller';
 export const userRouter = express.Router();
 
 userRouter.get('/', async(req, res) => {
-  await getUsers();
+  await getUsers(req, res);
   res.status(200).send('get users');
 });
 
