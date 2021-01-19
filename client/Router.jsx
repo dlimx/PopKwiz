@@ -2,16 +2,16 @@ import React from 'react';
 // import axios from 'axios';
 //import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { BrowserRouter as BrowserRouter, Switch, Route } from 'react-router-dom';
-import { AuthProvider } from './AuthContext';
+import { AuthProvider } from '../client/store/users/AuthContext';
 import { Container, CssBaseline } from '@material-ui/core';
 import {SignUp} from './screens/Signup';
-import {UseStyles} from './components/UseStyles';
+import {useStyles} from './styles/UseStyles';
 import {Dashboard} from './screens/Dashboard';
 import {Login} from './screens/Login';
 import {Logout} from './screens/Logout'
 
 export const Router = () => {
-  const classes = UseStyles();
+  const classes = useStyles();
   return (
     <>
       <AuthProvider>

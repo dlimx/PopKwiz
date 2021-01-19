@@ -24,5 +24,4 @@
 //   },
 // };
 
-
 // linter didn't like this class being used.

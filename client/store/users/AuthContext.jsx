@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { auth } from './firebase';
-import {postURL} from './api/PostURL';
+import { auth } from '../../authentication/firebase';
+import {postURL} from '../../api/PostURL';
 import PropTypes from 'prop-types';
 
 const AuthContext = React.createContext();

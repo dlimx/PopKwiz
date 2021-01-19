@@ -5,12 +5,24 @@ export const userRouter = express.Router();
 
 userRouter.get('/', async (req, res) => {
   const user = req.query;
-  const userList = await getUsers(user);
-  res.status(200).send(userList);
+  await getUsers(user)
+    .then((userList) => {
+      res.status(200).send(userList);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: 'something went wrong retreving users from db.' });
+    });
 });
 
 userRouter.post('/add', async (req, res) => {
   const user = req.body;
-  await addUser(user);
-  res.status(200).send('add users');
+  await addUser(user)
+    .then(() => {
+      res.status(200).send('add users');
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: 'something went wrong adding user to db.' });
+    });
 });

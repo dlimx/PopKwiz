@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 // import { Row } from 'react-bootstrap';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
-import { useAuth } from '../AuthContext';
+import { useAuth } from '../store/users/AuthContext';
 // import { Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Alert } from '@material-ui/lab';
 import {Copyright} from '../components/Copyright';
-import {UseStyles} from '../components/UseStyles';
+import {useStyles} from '../styles/UseStyles';
 import { Avatar, Button, Container, Box, Typography, CssBaseline } from '@material-ui/core';
 
 export function Dashboard() {
-  const classes = UseStyles();
+  const classes = useStyles();
   const [error, setError] = useState('');
   const { currentUser } = useAuth();
   // const { logout } = useAuth();

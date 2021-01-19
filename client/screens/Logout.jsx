@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
-import { useAuth } from '../AuthContext';
+import { useAuth } from '../store/users/AuthContext';
 import { Alert } from '@material-ui/lab';
 import { Link, useHistory } from 'react-router-dom';
 import {Copyright} from '../components/Copyright';
-import {UseStyles} from '../components/UseStyles';
+import {useStyles} from '../styles/UseStyles';
 
 import { Avatar, Button, Container, Box, Typography, CssBaseline } from '@material-ui/core';
 
 export function Logout() {
-  const classes = UseStyles();
+  const classes = useStyles();
   const [error, setError] = useState('');
   const { logout } = useAuth();
   const history = useHistory();

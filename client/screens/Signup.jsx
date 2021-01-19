@@ -1,14 +1,14 @@
 import React, { useRef, useState } from 'react';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Alert } from '@material-ui/lab';
-import { useAuth } from '../AuthContext';
+import { useAuth } from '../store/users/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
 import {Copyright} from '../components/Copyright';
-import {UseStyles} from '../components/UseStyles';
+import {useStyles} from '../styles/UseStyles';
 import { Avatar, Button, Container, Box, Typography, CssBaseline, Grid, TextField } from '@material-ui/core';
 
 export function SignUp() {
-  const classes = UseStyles();
+  const classes = useStyles();
   const emailRef = useRef();
   const passwordRef = useRef();
   const usernameRef = useRef();
