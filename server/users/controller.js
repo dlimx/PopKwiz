@@ -3,34 +3,34 @@ import { db } from '../firestore';
 // import { User } from '../models/userModel';
 
 // get users from firestore
-export const getUsers = async (req, res) => {
-  let uname = req.query.username;
+export const getUsers = async (userQuery) => {
+
+  const {username} = userQuery;
   let userSearch = '';
-  if (uname) {
+  if (username) {
     userSearch = db
       .collection('users')
-      .where('username', '>=', uname)
-      .where('username', '<=', uname + '\uf8ff');
+      .where('username', '>=', username)
+      .where('username', '<=', username + '\uf8ff');
   } else {
     userSearch = db.collection('users');
   }
+  // create list for users and populate it with data in firestore
+  let userList = [];
+  await userSearch.get().then(function(querySnapshot){
+    querySnapshot.forEach(function(doc){
+      userList.push(doc.data())
+    })
+  })
 
-  let found = await userSearch.get();
-  // let userList = [];
-
-  // this prob doesn't work. Did it for linter
-  let userList = Array.from(found.keys(), found)
-
-  // for (const doc of found.docs()) {
-  //   userList.push(doc.data());
-  // }
-  console.log(userList);
-  return res.json(userList);
+  console.log(userList)
+  return userList
+ 
 };
 
 // add users to firestore
-export const addUser = async (req, res) => {
-  console.log(req.body);
+export const addUser = async (user) => {
+  console.log(user);
 
   // The signup function in frontend/src/contexts/AuthContext.js first adds the
   // new user to Firebase Auth. Then the uid created by Firebase auth is passed
@@ -40,14 +40,15 @@ export const addUser = async (req, res) => {
   // In this case we want to use the id given to us by Firebase
   // https://firebase.google.com/docs/firestore/manage-data/add-data
   db.collection('users')
-    .doc(req.body.uid)
+    .doc(user.uid)
     // .withConverter(userConverter)
-    .set({username:req.body.username, email:req.body.email})
-    .then((doc) => {
-      res.json({ message: `document ${doc.id} created successfully` });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: 'something went wrong' });
-      console.error(err);
-    });
+    .set({username:user.username, email:user.email})
+    
+    // .then((doc) => {
+    //   res.json({ message: `document ${doc.id} created successfully` });
+    // })
+    // .catch((err) => {
+    //   res.status(500).json({ error: 'something went wrong' });
+    //   console.error(err);
+    // });
 };

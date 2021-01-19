@@ -3,13 +3,14 @@ import { getUsers, addUser } from './controller';
 
 export const userRouter = express.Router();
 
-userRouter.get('/', async(req, res) => {
-  await getUsers(req, res);
-  res.status(200).send('get users');
+userRouter.get('/', async (req, res) => {
+  const user = req.query;
+  const userList = await getUsers(user);
+  res.status(200).send(userList);
 });
 
-userRouter.post('/add', async(req, res) => {
-  await addUser(req, res);
-  // res.status(200).send('add users');
-  // commented this out. Browser complains that we can't set headers twice.
+userRouter.post('/add', async (req, res) => {
+  const user = req.body;
+  await addUser(user);
+  res.status(200).send('add users');
 });

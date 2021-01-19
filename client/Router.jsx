@@ -1,6 +1,7 @@
 import React from 'react';
 // import axios from 'axios';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+//import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as BrowserRouter, Switch, Route } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
 import { Container, CssBaseline } from '@material-ui/core';
 import {SignUp} from './screens/Signup';
@@ -9,12 +10,12 @@ import {Dashboard} from './screens/Dashboard';
 import {Login} from './screens/Login';
 import {Logout} from './screens/Logout'
 
-export const RRouter = () => {
+export const Router = () => {
   const classes = UseStyles();
   return (
     <>
       <AuthProvider>
-        <Router>
+        <BrowserRouter>
           <div>
             <CssBaseline className={classes.root} />
             {/* <ButtonAppBar /> */}
@@ -25,12 +26,11 @@ export const RRouter = () => {
                   <Route path="/signup" component={SignUp} />
                   <Route path="/login" component={Login} />
                   <Route path="/logout" component={Logout} />
-
                 </Switch>
               </div>
             </Container>
           </div>
-        </Router>
+        </BrowserRouter>
       </AuthProvider>
     </>
   );
