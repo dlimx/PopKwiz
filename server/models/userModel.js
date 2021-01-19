@@ -1,6 +1,6 @@
 // needs to be updated.
 // used in server/users/controller.js
-class User {
+export const User = class User {
   constructor(username, email) {
     (this.username = username), (this.email = email);
   }
@@ -10,7 +10,7 @@ class User {
 }
 // https://firebase.google.com/docs/firestore/manage-data/add-data
 // need to convert class object to be compatible with Firestore
-const userConverter = {
+export const userConverter = {
   toFirestore: (user) => {
     return {
       username: user.username,
@@ -23,4 +23,3 @@ const userConverter = {
   },
 };
 
-export { User, userConverter };

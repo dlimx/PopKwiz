@@ -2,7 +2,7 @@ import { db } from '../firestore';
 import { User, userConverter } from '../models/userModel';
 
 // get users from firestore
-export const getUsers = async () => {
+export const getUsers = async (req, res) => {
   let uname = req.query.username;
   let userSearch = '';
   if (uname) {

@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // import { Row } from 'react-bootstrap';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import { useAuth } from '../AuthContext';
 // import { Alert } from 'react-bootstrap';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Alert } from '@material-ui/lab';
-import Copyright from '../components/Copyright';
-import UseStyles from '../components/UseStyles';
-
+import {Copyright} from '../components/Copyright';
+import {UseStyles} from '../components/UseStyles';
 import { Avatar, Button, Container, Box, Typography, CssBaseline } from '@material-ui/core';
 
-export default function Dashboard() {
+export function Dashboard() {
   const classes = UseStyles();
   const [error, setError] = useState('');
   const { currentUser } = useAuth();
