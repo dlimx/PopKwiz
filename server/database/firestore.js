@@ -6,4 +6,3 @@ export const firebaseAdmin = admin.initializeApp({
 });
 
 export const db = firebaseAdmin.firestore();
-// I tried to combine this with client/firebase.js but couldn't get it to work.

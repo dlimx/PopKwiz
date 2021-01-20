@@ -4,11 +4,11 @@ import React from 'react';
 import { BrowserRouter as BrowserRouter, Switch, Route } from 'react-router-dom';
 import { AuthProvider } from '../client/store/users/AuthContext';
 import { Container, CssBaseline } from '@material-ui/core';
-import {SignUp} from './screens/Signup';
-import {useStyles} from './styles/UseStyles';
-import {Dashboard} from './screens/Dashboard';
-import {Login} from './screens/Login';
-import {Logout} from './screens/Logout'
+import { SignUp } from './screens/Signup';
+import { useStyles } from './styles/useStyles';
+import { Dashboard } from './screens/Dashboard';
+import { Login } from './screens/Login';
+import { Logout } from './screens/Logout';
 
 export const Router = () => {
   const classes = useStyles();
@@ -18,7 +18,7 @@ export const Router = () => {
         <BrowserRouter>
           <div>
             <CssBaseline className={classes.root} />
-            {/* <ButtonAppBar /> */}
+            {/* navbar here */}
             <Container className={classes.paper2} style={{ minHeight: '100vh' }}>
               <div className="w-100" style={{ maxWidth: '400px' }}>
                 <Switch>

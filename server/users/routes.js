@@ -3,6 +3,7 @@ import { getUsers, addUser } from './controller';
 
 export const userRouter = express.Router();
 
+// GET users
 userRouter.get('/', async (req, res) => {
   const user = req.query;
   await getUsers(user)
@@ -15,6 +16,7 @@ userRouter.get('/', async (req, res) => {
     });
 });
 
+// POST new user to database
 userRouter.post('/add', async (req, res) => {
   const user = req.body;
   await addUser(user)
