@@ -3,22 +3,30 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Alert } from '@material-ui/lab';
 import { useAuth } from '../store/users/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
-import {Copyright} from '../components/Copyright';
-import {useStyles} from '../styles/UseStyles';
+import { Copyright } from '../components/Copyright';
+import { useStyles } from '../styles/useStyles';
 import { Avatar, Button, Container, Box, Typography, CssBaseline, Grid, TextField } from '@material-ui/core';
 
 export function SignUp() {
+  // firestore and firebase parameters
   const classes = useStyles();
   const emailRef = useRef();
   const passwordRef = useRef();
   const usernameRef = useRef();
   const passwordConfirmRef = useRef();
-  const { signup } = useAuth();
+
+  // useState
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // redirect
   const history = useHistory();
 
+  // firebase functions
+  const { signup } = useAuth();
+
+  // action handlers
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -30,7 +38,6 @@ export function SignUp() {
     try {
       setError('');
       setLoading(true);
-      // console.log(`${usernameRef.current.value} -- ${emailRef.current.value}`)
       await signup(usernameRef.current.value, emailRef.current.value, passwordRef.current.value);
       setMessage('Account successfully created!');
       history.push('/');
@@ -41,6 +48,7 @@ export function SignUp() {
     setLoading(false);
   }
 
+  // jsx component rendered to screen
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

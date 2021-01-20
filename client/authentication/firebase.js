@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+// Used only by client
 const firebaseConfig = {
   apiKey: 'AIzaSyAX0ztYQLBWaTdqizTHDcm7u6uBY6ECAGM',
   authDomain: 'popkwiz.firebaseapp.com',
