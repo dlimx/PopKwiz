@@ -7,6 +7,7 @@ export function Login() {
   const email = useRef('');
   const password = useRef('');
   const { login } = useAuth()
+  const { loginWithGoogle } = useAuth()
   const history = useHistory();
 
   // Login using firebase authentication
@@ -14,6 +15,18 @@ export function Login() {
     try {
       e.preventDefault();
       let userInfo = await login(email.current.value, password.current.value);
+      console.log(userInfo.user.uid);
+      history.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Login using Google OAuth
+  async function handleGoogleLogin(e) {
+    try {
+      e.preventDefault();
+      let userInfo = await loginWithGoogle();
       console.log(userInfo.user.uid);
       history.push('/');
     } catch (error) {
@@ -36,6 +49,8 @@ export function Login() {
       </label>
       <br />
       <input type="submit" value="Submit" />
+      <br />
+      <button onClick={handleGoogleLogin}>Sign in with Google</button>
     </form>
 
     // <div>
