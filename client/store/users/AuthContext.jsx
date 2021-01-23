@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { auth } from '../../authentication/firebase';
-import { postURL } from '../../api/PostURL';
+import { auth, googleProvider } from '../../authentication/firebase';
+import {postURL} from '../../api/PostURL';
 import PropTypes from 'prop-types';
 
 const AuthContext = React.createContext();
@@ -28,6 +28,10 @@ export function AuthProvider({ children }) {
 
   function login(email, password) {
     return auth.signInWithEmailAndPassword(email, password);
+  }
+
+  function loginWithGoogle() {
+    return auth.signInWithPopup(googleProvider);
   }
 
   function logout() {
@@ -58,6 +62,7 @@ export function AuthProvider({ children }) {
   const value = {
     currentUser,
     login,
+    loginWithGoogle,
     signup,
     logout,
     resetPassword,
