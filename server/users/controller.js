@@ -31,7 +31,7 @@ export const addUser = async (user) => {
   const newUser = new User(user.username, user.email);
 
   // https://firebase.google.com/docs/firestore/manage-data/add-data
-  db.collection('users').doc(newUserID).withConverter(userConverter).set(newUser);
+  await db.collection('users').doc(newUserID).withConverter(userConverter).set(newUser);
 
   console.log(newUser);
 };
