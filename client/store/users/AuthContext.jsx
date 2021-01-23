@@ -13,13 +13,10 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  // this is going to add a user to firebase auth as well as use the credential
-  // or uid created by firebase auth to add the user to firestore. The postURL
-  // function acts as a form of frontend middleware (maybe?) between the
-  // frontend and backend.
-  //https://www.youtube.com/watch?v=qWy9ylc3f9U
+  // this is going to add a user to firebase auth as well as use the credential or uid created by firebase auth to
+  // add the user to firestore. The postURL function acts as a form of frontend middleware (maybe?) between the
+  // frontend and backend. https://www.youtube.com/watch?v=qWy9ylc3f9U
   function signup(uname, uemail, password) {
-    // return auth.createUserWithEmailAndPassword(uemail, password);
     auth.createUserWithEmailAndPassword(uemail, password).then((cred) => {
       return postURL('/api/users/add', {
         uid: cred.user.uid,
@@ -78,4 +75,4 @@ export function AuthProvider({ children }) {
 
 AuthProvider.propTypes = {
   children: PropTypes.node,
-}
+};
