@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { auth, googleProvider } from '../../authentication/firebase';
-import {postURL} from '../../api/PostURL';
 import PropTypes from 'prop-types';
+import { auth, googleProvider } from '../../authentication/firebase';
+import { postURL } from '../../api/PostURL';
 
 const AuthContext = React.createContext();
 
@@ -17,13 +17,11 @@ export function AuthProvider({ children }) {
   // add the user to firestore. The postURL function acts as a form of frontend middleware (maybe?) between the
   // frontend and backend. https://www.youtube.com/watch?v=qWy9ylc3f9U
   function signup(uname, uemail, password) {
-    auth.createUserWithEmailAndPassword(uemail, password).then((cred) => {
-      return postURL('/api/users/add', {
-        uid: cred.user.uid,
-        username: uname,
-        email: uemail,
-      });
-    });
+    auth.createUserWithEmailAndPassword(uemail, password).then((cred) => postURL('/api/users', {
+      uid: cred.user.uid,
+      username: uname,
+      email: uemail,
+    }));
   }
 
   function login(email, password) {
@@ -74,5 +72,5 @@ export function AuthProvider({ children }) {
 }
 
 AuthProvider.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };

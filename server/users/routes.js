@@ -17,7 +17,7 @@ userRouter.get('/', async (req, res) => {
 });
 
 // POST new user to database
-userRouter.post('/add', async (req, res) => {
+userRouter.post('/', async (req, res) => {
   const user = req.body;
   await addUser(user)
     .then(() => {
