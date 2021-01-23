@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use('/public', express.static(path.resolve(__dirname, '..', 'build')));
 
 app.use('/api', apiRouter);
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
