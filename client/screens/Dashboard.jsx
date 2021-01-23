@@ -41,6 +41,12 @@ export function Dashboard() {
           Signup Page
         </Button>
 
+        <br />
+        
+        <Button variant="contained" color="primary" component={Link} to="/login">
+          Login Page
+        </Button>
+
         {error && <Alert variant="danger">{error}</Alert>}
       </div>
 
