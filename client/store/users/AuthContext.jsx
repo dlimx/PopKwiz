@@ -29,7 +29,14 @@ export function AuthProvider({ children }) {
   }
 
   function loginWithGoogle() {
-    return auth.signInWithPopup(googleProvider);
+    return auth.signInWithPopup(googleProvider)
+      .then((cred) => {
+        postURL('/api/users', {
+          uid: cred.user.uid,
+          username: cred.user.displayName,
+          email: cred.user.email,
+        });
+      });
   }
 
   function logout() {

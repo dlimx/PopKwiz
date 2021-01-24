@@ -8,6 +8,7 @@ module.exports = {
     'max-len': 'off',
     'no-underscore-dangle': 'off',
     'no-unused-vars': 'warn',
+    'no-console': 'off',
   },
   env: {
     browser: true,
