@@ -3,10 +3,12 @@ import React from 'react';
 // import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Container, CssBaseline } from '@material-ui/core';
+import { PrivateRoute } from './components/PrivateRoute';
 import { AuthProvider } from './store/users/AuthContext';
 import { SignUp } from './screens/Signup';
 import { useStyles } from './styles/useStyles';
 import { Dashboard } from './screens/Dashboard';
+import { SearchUsers } from './screens/SearchUsers';
 import { Login } from './screens/Login';
 import { Logout } from './screens/Logout';
 import { Browse } from './screens/Browse';
@@ -25,6 +27,7 @@ export const Router = () => {
               <div className="w-100">
                 <Switch>
                   <Route exact path="/" component={Dashboard} />
+                  <PrivateRoute path="/search-users" component={SearchUsers} />
                   <Route path="/signup" component={SignUp} />
                   <Route path="/login" component={Login} />
                   <Route path="/logout" component={Logout} />
