@@ -40,11 +40,7 @@ export function SearchUsers() {
           },
         })
         .then((resp) => {
-          const susers = [];
-          resp.data.forEach((doc) => {
-            susers.push(doc);
-          });
-          setUsers(susers);
+          setUsers(resp.data);
         });
     });
   }, []);

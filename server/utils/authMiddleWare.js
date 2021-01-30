@@ -3,11 +3,13 @@ import { firebaseAdmin } from '../database/firestore';
 export function authMiddleWare(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
-    return res.send({ message: 'Token Missing.' }).status(401);
+    res.send({ message: 'Token Missing.' }).status(401);
+    next(new Error('Need a token'));
   }
 
   if (authHeader && authHeader.split(' ')[0] !== 'Bearer') {
     res.send({ message: 'Invalid token' }).status(401);
+    next(new Error('Token passed is invalid.'));
   }
 
   const token = authHeader.split(' ')[1];
@@ -16,6 +18,4 @@ export function authMiddleWare(req, res, next) {
     .verifyIdToken(token)
     .then(() => next())
     .catch(() => res.send({ message: 'Authorization failed' }).status(403));
-
-  return token;
 }
