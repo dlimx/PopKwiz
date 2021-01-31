@@ -39,7 +39,7 @@ export function FormBuilder(props) {
                   type={field.type}
                   id={field.id}
                   autoComplete={field.autoComplete}
-                  inputRef={field.inputRef}
+                  value={field.value}
                   onChange={(e) => {
                     field.onChange(e.target.value);
                   }}

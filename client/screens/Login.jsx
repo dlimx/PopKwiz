@@ -27,7 +27,6 @@ export function Login() {
     try {
       e.preventDefault();
       const userInfo = await login(email, password);
-      console.log(userInfo.user.uid);
       history.push('/');
     } catch (error) {
       console.log(error);
@@ -39,7 +38,6 @@ export function Login() {
     try {
       e.preventDefault();
       const userInfo = await loginWithGoogle();
-      console.log(userInfo);
       history.push('/');
     } catch (error) {
       console.log(error);
@@ -57,7 +55,7 @@ export function Login() {
           type: 'email',
           id: 'email',
           autoComplete: 'email',
-          inputRef: { email },
+          value: email,
           onChange: handleEmailChange,
         }, {
           name: 'password',
@@ -65,7 +63,7 @@ export function Login() {
           type: 'password',
           id: 'password',
           autoComplete: 'password',
-          inputRef: { password },
+          value: password,
           onChange: handlePasswordChange,
         },
       ]}
