@@ -3,6 +3,7 @@ import React from 'react';
 // import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Container, CssBaseline } from '@material-ui/core';
+import { PrivateRoute } from './components/PrivateRoute';
 import { AuthProvider } from './store/users/AuthContext';
 import { SignUp } from './screens/Signup';
 import { useStyles } from './styles/useStyles';

@@ -9,15 +9,16 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
+// https://www.youtube.com/watch?v=qWy9ylc3f9U
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
   // this is going to add a user to firebase auth as well as use the credential or uid created by firebase auth to
   // add the user to firestore. The postURL function acts as a form of frontend middleware (maybe?) between the
-  // frontend and backend. https://www.youtube.com/watch?v=qWy9ylc3f9U
-  function signup(uname, uemail, password) {
-    auth.createUserWithEmailAndPassword(uemail, password).then((cred) => postURL('/api/users', {
+  // frontend and backend.
+  async function signup(uname, uemail, password) {
+    return auth.createUserWithEmailAndPassword(uemail, password).then((cred) => postURL('/api/signup', {
       uid: cred.user.uid,
       username: uname,
       email: uemail,
@@ -28,15 +29,14 @@ export function AuthProvider({ children }) {
     return auth.signInWithEmailAndPassword(email, password);
   }
 
-  function loginWithGoogle() {
-    return auth.signInWithPopup(googleProvider)
-      .then((cred) => {
-        postURL('/api/users', {
-          uid: cred.user.uid,
-          username: cred.user.displayName,
-          email: cred.user.email,
-        });
+  async function loginWithGoogle() {
+    return auth.signInWithPopup(googleProvider).then((cred) => {
+      postURL('/api/signup', {
+        uid: cred.user.uid,
+        username: cred.user.displayName,
+        email: cred.user.email,
       });
+    });
   }
 
   function logout() {
