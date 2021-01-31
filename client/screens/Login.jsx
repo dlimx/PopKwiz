@@ -10,27 +10,23 @@ import { FormBuilder } from '../components/FormBuilder';
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const email = useRef('a');
-  // const password = useRef('');
   const { login } = useAuth();
   const { loginWithGoogle } = useAuth();
   const history = useHistory();
 
   const handleEmailChange = (value) => {
-    console.log(value);
     setEmail(value);
   };
 
-  function handlePasswordChange(value) {
+  const handlePasswordChange = (value) => {
     setPassword(value);
-  }
+  };
 
   // Login using firebase authentication
   async function handleLogin(e) {
     try {
       e.preventDefault();
-      // console.log(password.current.value);
-      const userInfo = await login(email.current.value, password.current.value);
+      const userInfo = await login(email, password);
       console.log(userInfo.user.uid);
       history.push('/');
     } catch (error) {
@@ -51,7 +47,6 @@ export function Login() {
   }
 
   return (
-    // TODO: Create better UI for login using MaterialUI
     <FormBuilder
       header="Log In"
       onSubmit={handleLogin}
@@ -63,43 +58,26 @@ export function Login() {
           id: 'email',
           autoComplete: 'email',
           inputRef: { email },
-          onChange: { handleEmailChange },
-          // onChange: {onChange={() => this.handleEmailChange()}}
+          onChange: handleEmailChange,
+        }, {
+          name: 'password',
+          label: 'Password',
+          type: 'password',
+          id: 'password',
+          autoComplete: 'password',
+          inputRef: { password },
+          onChange: handlePasswordChange,
         },
-        // {
-        //   name: 'password',
-        //   label: 'Password',
-        //   type: 'password',
-        //   id: 'password',
-        //   autoComplete: 'password',
-        //   inputRef: {password},
-        //   onChange: {handlePasswordChange}
-        // }
       ]}
       buttons={[
         {
           text: 'Log In',
+          onClick: handleLogin,
         }, {
           text: 'Log In with Google',
+          onClick: handleGoogleLogin,
         },
       ]}
     />
-
-  // <form onSubmit={handleLogin}>
-  //   <h1>Log In Page:</h1>
-  //   <label htmlFor="username">
-  //     Email:
-  //     <input id="username" type="text" name="username" ref={email} />
-  //   </label>
-  //   <br />
-  //   <label htmlFor="password">
-  //     Password:
-  //     <input id="password" type="password" name="password" ref={password} />
-  //   </label>
-  //   <br />
-  //   <input type="submit" value="Submit" />
-  //   <br />
-  //   <button type="button" onClick={handleGoogleLogin}>Sign in with Google</button>
-  // </form>
   );
 }

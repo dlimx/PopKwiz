@@ -14,13 +14,6 @@ import { Copyright } from './Copyright';
 export function FormBuilder(props) {
   const classes = useStyles();
 
-  const handleChange = (e) => {
-    // console.log(index)
-    console.log(e.target.value);
-    // console.log(props.fields[0].action);
-    props.onChange(e.target.value);
-  };
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -47,7 +40,6 @@ export function FormBuilder(props) {
                   id={field.id}
                   autoComplete={field.autoComplete}
                   inputRef={field.inputRef}
-                                    // onChange={handleChange}
                   onChange={(e) => {
                     field.onChange(e.target.value);
                   }}
@@ -63,6 +55,7 @@ export function FormBuilder(props) {
               color="primary"
               className={classes.submit}
               disabled={button.loading}
+              onClick={button.onClick}
             >
               {button.text}
             </Button>
