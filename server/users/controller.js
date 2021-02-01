@@ -12,7 +12,7 @@ export const getUsers = async (userQuery) => {
       .where('username', '>=', username)
       .where('username', '<=', `${username}\uf8ff`);
   } else {
-    userSearch = db.collection('users');
+    userSearch = db.collection(USERS);
   }
   // create list for users and populate it with data in firestore
   const userList = [];

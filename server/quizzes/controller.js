@@ -1,5 +1,8 @@
 import { db } from '../database/firestore';
 import { QUIZZES } from '../../constants';
+import { newError } from '../utils/error';
+import { StatusCode } from '../utils/http';
+import { quizSchema } from '../../constants/quizConstants';
 
 // get quizzes from firestore
 export const getQuizzes = async (userQuery) => {
@@ -26,4 +29,19 @@ export const getQuizzes = async (userQuery) => {
   return quizList;
 };
 
-export const createQuiz = async (quiz) => quiz;
+export const createQuiz = async (body) => {
+  let quiz;
+  try {
+    quiz = quizSchema.validateSync(body);
+  } catch (error) {
+    throw newError(StatusCode.BadRequest, error.message);
+  }
+
+  try {
+    const ref = await db.collection(QUIZZES).add(quiz);
+
+    return { ...quiz, id: ref.id };
+  } catch (error) {
+    throw newError(StatusCode.Error, error.message);
+  }
+};

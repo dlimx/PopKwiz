@@ -3,10 +3,12 @@ import { Redirect } from 'react-router-dom';
 import {
   Avatar, Button, Container, Box, Typography, CssBaseline, Grid, TextField,
 } from '@material-ui/core';
+import { Formik } from 'formik';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { useAuth } from '../store/users/AuthContext';
-import { useAPI } from '../api/api';
+import { useAuth } from '../../store/users/AuthContext';
+import { useAPI } from '../../api/api';
+import { quizSchema } from '../../../constants/quizConstants';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -22,7 +24,6 @@ export const QuizCreate = () => {
   const api = useAPI();
   const classes = useStyles();
 
-  const [questions, setQuestion] = useState([]);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -32,8 +33,7 @@ export const QuizCreate = () => {
   }, []);
 
   const createQuiz = useCallback(() => {
-    api.post('/quizzes').then(({ data }) => {
-    });
+    api.post('/quizzes').then(({ data }) => {});
   }, [api]);
 
   if (!auth.currentUser) {
@@ -47,7 +47,21 @@ export const QuizCreate = () => {
         <Typography component="h1" variant="h2">
           Create Quiz
         </Typography>
-        <form className={classes.form} />
+
+        <Formik
+          initialValues={{ name: '', questions: [], categories: [] }}
+          onSubmit={createQuiz}
+          validationSchema={quizSchema}
+        >
+          {({
+            handleSubmit, handleChange, handleBlur, values, touched,
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <input name="name" value={values.name} onChange={handleChange} onBlur={handleBlur} />
+              <button type="submit">create</button>
+            </form>
+          )}
+        </Formik>
       </div>
     </Container>
   );

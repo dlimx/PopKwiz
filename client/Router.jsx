@@ -8,7 +8,7 @@ import { Login } from './screens/Login';
 import { Logout } from './screens/Logout';
 import { Browse } from './screens/Browse';
 import { Navbar } from './components/Navbar';
-import { QuizCreate } from './screens/QuizCreate';
+import { QuizCreate } from './screens/QuizCreate/QuizCreate';
 import { QuizProfile } from './screens/QuizProfile';
 import { QuizAction } from './screens/QuizAction';
 

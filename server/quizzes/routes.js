@@ -1,6 +1,8 @@
 import express from 'express';
 import { getQuizzes, createQuiz } from './controller';
 import { authMiddleWare } from '../utils/authMiddleWare';
+import { sendError } from '../utils/error';
+import { StatusCode } from '../utils/http';
 
 export const quizRouter = express.Router();
 
@@ -19,9 +21,8 @@ quizRouter.get('/', async (req, res) => {
 quizRouter.post('/', authMiddleWare, async (req, res) => {
   try {
     const data = await createQuiz(req.body);
-    res.status(200).send(data);
-  } catch (e) {
-    console.error(e);
-    res.status(500).send('error');
+    res.status(StatusCode.Success).send(data);
+  } catch (error) {
+    sendError(res, error);
   }
 });

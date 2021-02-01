@@ -1,6 +1,4 @@
-import NError, { VError } from '@netflix/nerror';
-import { Response } from 'express';
-import { StatusCode } from './http';
+import NError from '@netflix/nerror';
 
 export const newError = (code, message) => new NError.VError({ info: { code } }, message);
 

@@ -14,7 +14,10 @@ export function authMiddleWare(req, res, next) {
     firebaseAdmin
       .auth()
       .verifyIdToken(token)
-      .then(() => next())
+      .then((decodedToken) => {
+        // TODO - set user
+        next();
+      })
       .catch(() => res.send({ message: 'Authorization failed' }).status(403));
   }
 }
