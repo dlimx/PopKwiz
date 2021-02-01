@@ -1,5 +1,6 @@
 import { db } from '../database/firestore';
 import { User, userConverter } from './userModel';
+import { USERS } from '../../constants';
 
 // get users from firestore
 export const getUsers = async (userQuery) => {
@@ -7,7 +8,7 @@ export const getUsers = async (userQuery) => {
   let userSearch = '';
   if (username) {
     userSearch = db
-      .collection('users')
+      .collection(USERS)
       .where('username', '>=', username)
       .where('username', '<=', `${username}\uf8ff`);
   } else {
@@ -31,7 +32,7 @@ export const addUser = async (user) => {
   const newUser = new User(user.username, user.email);
 
   // https://firebase.google.com/docs/firestore/manage-data/add-data
-  await db.collection('users').doc(newUserID).withConverter(userConverter).set(newUser);
+  await db.collection(USERS).doc(newUserID).withConverter(userConverter).set(newUser);
 
   console.log(newUser);
 };

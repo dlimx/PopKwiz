@@ -38,7 +38,7 @@ export const Navbar = () => {
   }
 
   const navLinks = [
-    { title: 'create', path: '/create' },
+    { title: 'create', path: '/quiz/create' },
     { title: 'browse', path: '/browse' },
     { title: 'about', path: '/about' },
     loggedStatus,
@@ -48,16 +48,18 @@ export const Navbar = () => {
     <AppBar position="static">
       <Toolbar>
         <Container maxWidth="lg" className={classes.navbarDisplayFlex}>
-          <IconButton edge="start" color="inherit" aria-label="home" href="/">
-            <Home fontSize="large" />
-          </IconButton>
+          <Link className={classes.linkText} to="/">
+            <IconButton edge="start" color="inherit" aria-label="home" href="/">
+              <Home color="inherit" fontSize="large" />
+            </IconButton>
+          </Link>
           <List component="nav" aria-labelledby="main navigation" className={classes.navDisplayFlex}>
             {navLinks.map(({ title, path }) => (
-              <a href={path} key={title} className={classes.linkText}>
+              <Link to={path} key={title} className={classes.linkText}>
                 <ListItem button>
                   <ListItemText primary={title} />
                 </ListItem>
-              </a>
+              </Link>
             ))}
           </List>
         </Container>
