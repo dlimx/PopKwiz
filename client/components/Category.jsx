@@ -1,42 +1,34 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import PropTypes from 'prop-types';
 
-const subjects = [
-  { name: 'Math' },
-  { name: 'English' },
-  { name: 'Science' },
-  { name: 'Computer' },
-];
+// https://material-ui.com/components/tabs/
 
-const useStyles = makeStyles((theme) => ({
-  catButton: {
-    padding: theme.spacing(3),
-    textAlign: 'center',
-    backgroundColor: theme.palette.primary.light,
-    color: theme.palette.primary.contrastText,
-    width: '100%',
-    '&:hover': {
-      backgroundColor: theme.palette.primary.dark,
-    },
-  },
-}));
+// category selection to filter quiz list
+export const Category = ({ setCategoryVal }) => {
+  const [value, setValue] = React.useState(0);
 
-export const Category = () => {
-  const classes = useStyles();
+  const selectCategory = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
     <div>
       <Box m={2}>
-        <Grid container spacing={3}>
-          {subjects.map((subject, index) => (
-            <Grid item xs={3}>
-              <Button className={classes.catButton} onClick={() => { console.log(index); }}>{subject.name}</Button>
-            </Grid>
-          ))}
-        </Grid>
+        <Tabs value={value} indicatorColor="primary" textColor="primary" onChange={selectCategory} centered>
+          <Tab label="All" onClick={() => { setCategoryVal(''); }} />
+          <Tab label="Math" onClick={() => { setCategoryVal('math'); }} />
+          <Tab label="English" onClick={() => { setCategoryVal('english'); }} />
+          <Tab label="Science" onClick={() => { setCategoryVal('science'); }} />
+          <Tab label="Computer" onClick={() => { setCategoryVal('computer'); }} />
+        </Tabs>
       </Box>
     </div>
   );
+};
+
+Category.propTypes = {
+  setCategoryVal: PropTypes.func.isRequired,
 };
