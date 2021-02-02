@@ -1,5 +1,5 @@
 module.exports = {
-  presets: ['@babel/env', '@babel/react'],
+  presets: ['@babel/preset-env', '@babel/preset-react'],
   plugins: [
     [
       'babel-plugin-import',
@@ -20,6 +20,12 @@ module.exports = {
         camel2DashComponentName: false,
       },
       'icons',
+    ],
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        regenerator: true,
+      },
     ],
   ],
 };
