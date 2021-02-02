@@ -2,9 +2,7 @@ import React, { useRef, useState } from 'react';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Alert } from '@material-ui/lab';
 import { Link, useHistory } from 'react-router-dom';
-import {
-  Avatar, Button, Container, Box, Typography, CssBaseline, Grid, TextField,
-} from '@material-ui/core';
+import { Avatar, Button, Container, Box, Typography, CssBaseline, Grid, TextField } from '@material-ui/core';
 import { useAuth } from '../store/users/AuthContext';
 import { Copyright } from '../components/Copyright';
 import { useStyles } from '../styles/useStyles';

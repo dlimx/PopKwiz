@@ -21,11 +21,13 @@ export function AuthProvider({ children }) {
   // add the user to firestore. The postURL function acts as a form of frontend middleware (maybe?) between the
   // frontend and backend.
   async function signup(uname, uemail, password) {
-    return auth.createUserWithEmailAndPassword(uemail, password).then((cred) => postURL('/api/signup', {
-      uid: cred.user.uid,
-      username: uname,
-      email: uemail,
-    }));
+    return auth.createUserWithEmailAndPassword(uemail, password).then((cred) =>
+      postURL('/api/signup', {
+        uid: cred.user.uid,
+        username: uname,
+        email: uemail,
+      }),
+    );
   }
 
   function login(email, password) {

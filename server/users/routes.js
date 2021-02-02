@@ -1,7 +1,10 @@
 import express from 'express';
 import { getUsers } from './controller';
+import { authMiddleWare } from '../utils/authMiddleWare';
 
 export const userRouter = express.Router();
+
+userRouter.use(authMiddleWare);
 
 // GET users
 userRouter.get('/', async (req, res) => {

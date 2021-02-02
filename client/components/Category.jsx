@@ -18,11 +18,36 @@ export const Category = ({ setCategoryVal }) => {
     <div>
       <Box m={2}>
         <Tabs value={value} indicatorColor="primary" textColor="primary" onChange={selectCategory} centered>
-          <Tab label="All" onClick={() => { setCategoryVal(''); }} />
-          <Tab label="Math" onClick={() => { setCategoryVal('math'); }} />
-          <Tab label="English" onClick={() => { setCategoryVal('english'); }} />
-          <Tab label="Science" onClick={() => { setCategoryVal('science'); }} />
-          <Tab label="Computer" onClick={() => { setCategoryVal('computer'); }} />
+          <Tab
+            label="All"
+            onClick={() => {
+              setCategoryVal('');
+            }}
+          />
+          <Tab
+            label="Math"
+            onClick={() => {
+              setCategoryVal('math');
+            }}
+          />
+          <Tab
+            label="English"
+            onClick={() => {
+              setCategoryVal('english');
+            }}
+          />
+          <Tab
+            label="Science"
+            onClick={() => {
+              setCategoryVal('science');
+            }}
+          />
+          <Tab
+            label="Computer"
+            onClick={() => {
+              setCategoryVal('computer');
+            }}
+          />
         </Tabs>
       </Box>
     </div>

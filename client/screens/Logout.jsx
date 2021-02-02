@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import { Alert } from '@material-ui/lab';
 import { useHistory } from 'react-router-dom';
-import {
-  Avatar, Button, Container, Box, Typography, CssBaseline,
-} from '@material-ui/core';
+import { Avatar, Button, Container, Box, Typography, CssBaseline } from '@material-ui/core';
 import { useAuth } from '../store/users/AuthContext';
 import { Copyright } from '../components/Copyright';
 import { useStyles } from '../styles/useStyles';

@@ -50,15 +50,17 @@ export function Login() {
       <br />
       <input type="submit" value="Submit" />
       <br />
-      <button type="button" onClick={handleGoogleLogin}>Sign in with Google</button>
+      <button type="button" onClick={handleGoogleLogin}>
+        Sign in with Google
+      </button>
     </form>
 
-  // <div>
-  //   <h1>Page coming soon</h1>
+    // <div>
+    //   <h1>Page coming soon</h1>
 
-  //   <Button variant="contained" color="primary" component={Link} to="/">
-  //     Home
-  //   </Button>
-  // </div>
+    //   <Button variant="contained" color="primary" component={Link} to="/">
+    //     Home
+    //   </Button>
+    // </div>
   );
 }
