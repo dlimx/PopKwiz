@@ -56,6 +56,7 @@
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
+    "use-debounce": "^5.2.0",
     "yup": "^0.29.3"
   },
   "devDependencies": {
@@ -64,6 +65,7 @@
     "@babel/preset-react": "^7.12.7",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
+    "babel-plugin-import": "^1.13.3",
     "concurrently": "^5.3.0",
     "css-loader": "^5.0.1",
     "css-minimizer-webpack-plugin": "^1.1.5",
@@ -97,6 +99,6 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx}": "eslint --cache --fix"
+    "*.{js,jsx,cjs}": "eslint --cache --fix"
   }
 }

@@ -5,7 +5,7 @@ import * as React from 'react';
 import {
   AppBar, Toolbar, IconButton, List, ListItem, ListItemText, Container,
 } from '@material-ui/core';
-import { Home } from '@material-ui/icons';
+import Home from '@material-ui/icons/Home';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../store/users/AuthContext';
@@ -14,6 +14,7 @@ const useStyles = makeStyles({
   navbarDisplayFlex: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   navDisplayFlex: {
     display: 'flex',
@@ -38,7 +39,7 @@ export const Navbar = () => {
   }
 
   const navLinks = [
-    { title: 'create', path: '/create' },
+    { title: 'create', path: '/quiz/create' },
     { title: 'browse', path: '/browse' },
     { title: 'about', path: '/about' },
     loggedStatus,
@@ -48,16 +49,16 @@ export const Navbar = () => {
     <AppBar position="static">
       <Toolbar>
         <Container maxWidth="lg" className={classes.navbarDisplayFlex}>
-          <IconButton edge="start" color="inherit" aria-label="home" href="/">
-            <Home fontSize="large" />
-          </IconButton>
+          <Link className={classes.linkText} to="/">
+            <Home color="inherit" fontSize="large" />
+          </Link>
           <List component="nav" aria-labelledby="main navigation" className={classes.navDisplayFlex}>
             {navLinks.map(({ title, path }) => (
-              <a href={path} key={title} className={classes.linkText}>
+              <Link to={path} key={title} className={classes.linkText}>
                 <ListItem button>
                   <ListItemText primary={title} />
                 </ListItem>
-              </a>
+              </Link>
             ))}
           </List>
         </Container>

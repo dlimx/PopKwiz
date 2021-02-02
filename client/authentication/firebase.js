@@ -18,6 +18,7 @@ export const app = firebase.initializeApp(firebaseConfig);
 
 // auth is used in client/AuthContext.js
 export const auth = app.auth();
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
 // Google provider
 export const googleProvider = new firebase.auth.GoogleAuthProvider();

@@ -13,6 +13,9 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState('');
+
+  // this a global API with auth token baked in - this way we can track the user
 
   // this is going to add a user to firebase auth as well as use the credential or uid created by firebase auth to
   // add the user to firestore. The postURL function acts as a form of frontend middleware (maybe?) between the
@@ -56,12 +59,16 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged(async (user) => {
       setCurrentUser(user);
+      if (user) {
+        const newToken = await user.getIdToken();
+        setToken(newToken);
+      } else {
+        setToken('');
+      }
       setLoading(false);
     });
-
-    return unsubscribe;
   }, []);
 
   const value = {
@@ -73,6 +80,7 @@ export function AuthProvider({ children }) {
     resetPassword,
     updateEmail,
     updatePassword,
+    token,
   };
 
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
