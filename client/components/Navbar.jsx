@@ -14,6 +14,7 @@ const useStyles = makeStyles({
   navbarDisplayFlex: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   navDisplayFlex: {
     display: 'flex',
@@ -49,9 +50,7 @@ export const Navbar = () => {
       <Toolbar>
         <Container maxWidth="lg" className={classes.navbarDisplayFlex}>
           <Link className={classes.linkText} to="/">
-            <IconButton edge="start" color="inherit" aria-label="home" href="/">
-              <Home color="inherit" fontSize="large" />
-            </IconButton>
+            <Home color="inherit" fontSize="large" />
           </Link>
           <List component="nav" aria-labelledby="main navigation" className={classes.navDisplayFlex}>
             {navLinks.map(({ title, path }) => (

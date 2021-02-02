@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const ErrorOverlayPlugin = require('error-overlay-webpack-plugin')
+const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 const common = require('./webpack.common.cjs');
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
     publicPath: '/',
   },
   mode: 'development',
-  devtool: 'inline-source-map',
+  devtool: 'cheap-module-eval-source-map',
   module: {
     ...common.module,
     rules: [
@@ -26,7 +26,6 @@ module.exports = {
     port: 3000,
     historyApiFallback: true,
     hot: true,
-    // contentBase: path.join(__dirname, '..', 'public'),
     proxy: {
       '/api': 'http://localhost:3001',
     },

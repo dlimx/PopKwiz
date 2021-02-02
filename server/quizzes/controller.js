@@ -42,6 +42,7 @@ export const createQuiz = async (body) => {
 
     return { ...quiz, id: ref.id };
   } catch (error) {
+    console.error(error);
     throw newError(StatusCode.Error, error.message);
   }
 };

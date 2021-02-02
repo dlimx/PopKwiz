@@ -1,11 +1,13 @@
 import React, { useRef, useState } from 'react';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Alert } from '@material-ui/lab';
-import { useAuth } from '../store/users/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
+import {
+  Avatar, Button, Container, Box, Typography, CssBaseline, Grid, TextField,
+} from '@material-ui/core';
+import { useAuth } from '../store/users/AuthContext';
 import { Copyright } from '../components/Copyright';
 import { useStyles } from '../styles/useStyles';
-import { Avatar, Button, Container, Box, Typography, CssBaseline, Grid, TextField } from '@material-ui/core';
 
 export function SignUp() {
   // firestore and firebase parameters
@@ -31,7 +33,8 @@ export function SignUp() {
     e.preventDefault();
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError('Passwords do not match');
+      setError('Passwords do not match');
+      return;
     }
 
     // signup user with firebase authentication
@@ -51,8 +54,6 @@ export function SignUp() {
   // jsx component rendered to screen
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
-
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <AccountCircleIcon />
