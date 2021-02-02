@@ -23,13 +23,16 @@ export const DebouncedTextField = (props) => {
     }
   }, INPUT_DELAY);
 
-  const handleOnChange = useCallback((event) => {
-    event.persist();
+  const handleOnChange = useCallback(
+    (event) => {
+      event.persist();
 
-    const newValue = event.currentTarget.value;
-    setInnerValue(newValue);
-    debouncedHandleOnChange(event);
-  }, []);
+      const newValue = event.currentTarget.value;
+      setInnerValue(newValue);
+      debouncedHandleOnChange(event);
+    },
+    [debouncedHandleOnChange],
+  );
 
   return <TextField {...props} value={innerValue} onChange={handleOnChange} />;
 };

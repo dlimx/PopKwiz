@@ -9,7 +9,16 @@ export const Search = ({ setSearchVal }) => (
   <div>
     <Box m={2}>
       <Grid container justify="center">
-        <TextField id="outlined-search" label="Search" type="search" variant="outlined" style={{ width: '80%' }} onChange={(e) => { setSearchVal(e.target.value); }} />
+        <TextField
+          id="outlined-search"
+          label="Search"
+          type="search"
+          variant="outlined"
+          style={{ width: '80%' }}
+          onChange={(e) => {
+            setSearchVal(e.target.value);
+          }}
+        />
       </Grid>
     </Box>
   </div>

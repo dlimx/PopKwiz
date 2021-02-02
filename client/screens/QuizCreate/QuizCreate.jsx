@@ -1,11 +1,9 @@
-/* eslint-disable react/no-array-index-key */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 import {
   Button,
   Container,
   Typography,
-  TextField,
   Select,
   MenuItem,
   ListItemText,
@@ -13,9 +11,7 @@ import {
   FormControl,
   Checkbox,
 } from '@material-ui/core';
-import {
-  Formik, Field, Form, FastField,
-} from 'formik';
+import { Formik, Field, Form, FastField } from 'formik';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuth } from '../../store/users/AuthContext';
@@ -49,26 +45,26 @@ export const QuizCreate = () => {
   const history = useHistory();
   const classes = useStyles();
 
-  if (!auth.currentUser) {
-    return <Redirect to="/login?to=/quiz/create" />;
-  }
-
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     api.get('/categories').then(({ data }) => {
       setCategories(data.data);
     });
-  }, []);
+  }, [api]);
 
   const createQuiz = useCallback(
     (body) => {
       api.post('/quizzes', body).then((data) => {
-        // history.push('/');
+        history.push('/');
       });
     },
-    [api],
+    [api, history],
   );
+
+  if (!auth.currentUser) {
+    return <Redirect to="/login?to=/quiz/create" />;
+  }
 
   return (
     <Container className={classes.root} component="main" maxWidth="lg">
@@ -131,6 +127,7 @@ export const QuizCreate = () => {
                 )}
               </Field>
               {values.questions.map((question, index) => (
+                // eslint-disable-next-line react/no-array-index-key
                 <QuizCreateQuestion question={question} key={index} index={index} />
               ))}
               <Button

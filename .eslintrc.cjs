@@ -1,8 +1,7 @@
 module.exports = {
   root: true,
   plugins: ['prettier'],
-  extends: ['prettier', 'eslint-config-prettier', 'airbnb'],
-  // extends: ['airbnb', 'plugin:prettier/recommended', 'prettier/react'],
+  extends: ['airbnb', 'airbnb/hooks', 'plugin:prettier/recommended', 'prettier', 'prettier/react'],
   rules: {
     'import/prefer-default-export': 'off',
     'import/no-default-export': 'error',

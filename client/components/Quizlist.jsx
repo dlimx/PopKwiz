@@ -45,7 +45,6 @@ export const Quizlist = ({ quizList }) => {
         {quizList.map((quiz) => (
           <Accordion expanded={expanded === quiz} onChange={handleChange(quiz)}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-
               <Typography className={classes.heading}>{quiz.name}</Typography>
 
               <Typography className={classes.secondaryHeading}>{quiz.name}</Typography>
@@ -53,8 +52,14 @@ export const Quizlist = ({ quizList }) => {
             <AccordionDetails>
               <Typography>
                 <Grid container spacing={12}>
-                  <Grid item xs={11}>{quiz.description}</Grid>
-                  <Grid item xs={1}><Button variant="contained" color="primary">Start</Button></Grid>
+                  <Grid item xs={11}>
+                    {quiz.description}
+                  </Grid>
+                  <Grid item xs={1}>
+                    <Button variant="contained" color="primary">
+                      Start
+                    </Button>
+                  </Grid>
                 </Grid>
               </Typography>
             </AccordionDetails>

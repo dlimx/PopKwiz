@@ -11,8 +11,7 @@ export function Copyright() {
         {'Copyright © '}
         <Link color="inherit" to="/">
           PopKwiz
-        </Link>
-        {' '}
+        </Link>{' '}
         {new Date().getFullYear()}
         {'.'}
       </Typography>

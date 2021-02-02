@@ -7,10 +7,7 @@ export const getUsers = async (userQuery) => {
   const { username } = userQuery;
   let userSearch = '';
   if (username) {
-    userSearch = db
-      .collection(USERS)
-      .where('username', '>=', username)
-      .where('username', '<=', `${username}\uf8ff`);
+    userSearch = db.collection(USERS).where('username', '>=', username).where('username', '<=', `${username}\uf8ff`);
   } else {
     userSearch = db.collection(USERS);
   }

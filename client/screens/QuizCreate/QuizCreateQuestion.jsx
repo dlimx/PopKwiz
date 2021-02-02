@@ -1,8 +1,5 @@
-/* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
-import {
-  FastField, Field, Form, useFormik, useFormikContext,
-} from 'formik';
+import { FastField, useFormikContext } from 'formik';
 import PropTypes from 'prop-types';
 import {
   Accordion,
@@ -13,11 +10,8 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  InputLabel,
   Radio,
   RadioGroup,
-  Select,
-  TextField,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
@@ -65,7 +59,9 @@ export const QuizCreateQuestion = ({ index, question }) => {
     if (!question) return null;
     return (
       <Button
-        onClick={() => formik.setFieldValue(`${name}.answers`, [...formik.values.questions[index].answers, { answer: '' }])}
+        onClick={() =>
+          formik.setFieldValue(`${name}.answers`, [...formik.values.questions[index].answers, { answer: '' }])
+        }
       >
         Add Answer
       </Button>
@@ -87,6 +83,7 @@ export const QuizCreateQuestion = ({ index, question }) => {
             </div>
 
             {answers.map((answer, answerIndex) => (
+              // eslint-disable-next-line react/no-array-index-key
               <div key={answerIndex} className={`${classes.row} ${classes.formField}`}>
                 <FastField name={`${name}.answers[${answerIndex}].answer`}>
                   {({ field, meta }) => (
@@ -148,6 +145,7 @@ export const QuizCreateQuestion = ({ index, question }) => {
             <FormLabel htmlFor={`${name}.answers`}>Answers</FormLabel>
 
             {answers.map((answer, answerIndex) => (
+              // eslint-disable-next-line react/no-array-index-key
               <FastField key={answerIndex} name={`${name}.answers[${answerIndex}].answer`}>
                 {({ field, meta }) => (
                   <DebouncedTextField
