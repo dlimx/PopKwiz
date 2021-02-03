@@ -8,6 +8,9 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+import PropTypes from 'prop-types';
+
+// return list of quizzes
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,14 +29,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // dummy database values
-const quizzes = [
-  { id: 'Quiz #1', name: 'CS161 - Introduction to Computer Science (Final Exam)', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
-  { id: 'Quiz #2', name: 'CS290 - Web Programming (Final Exam)', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
-  { id: 'Quiz #3', name: 'CS344 - Operating Systems (Midterm Exam)', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
-  { id: 'Quiz #4', name: 'CS372 - Introduction to Networking (Midterm Exam)', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' },
-];
 
-export const Quizlist = () => {
+export const Quizlist = ({ quizList }) => {
   const classes = useStyles();
   // initialize state
   const [expanded, setExpanded] = React.useState(false);
@@ -45,17 +42,24 @@ export const Quizlist = () => {
   return (
     <div className={classes.root}>
       <Box m={2}>
-        {quizzes.map((quiz, index) => (
+        {quizList.map((quiz) => (
           <Accordion expanded={expanded === quiz} onChange={handleChange(quiz)}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>{quiz.id}</Typography>
+              <Typography className={classes.heading}>{quiz.name}</Typography>
+
               <Typography className={classes.secondaryHeading}>{quiz.name}</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
                 <Grid container spacing={12}>
-                  <Grid item xs={11}>{quiz.description}</Grid>
-                  <Grid item xs={1}><Button variant="contained" color="primary">Start</Button></Grid>
+                  <Grid item xs={11}>
+                    {quiz.description}
+                  </Grid>
+                  <Grid item xs={1}>
+                    <Button variant="contained" color="primary">
+                      Start
+                    </Button>
+                  </Grid>
                 </Grid>
               </Typography>
             </AccordionDetails>
@@ -64,4 +68,8 @@ export const Quizlist = () => {
       </Box>
     </div>
   );
+};
+
+Quizlist.propTypes = {
+  quizList: PropTypes.arrayOf(Object).isRequired,
 };

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
-import { useAuth } from '../store/users/AuthContext';
 import { Link } from 'react-router-dom';
 import { Alert } from '@material-ui/lab';
-import {Copyright} from '../components/Copyright';
-import {useStyles} from '../styles/useStyles';
-import { Avatar, Button, Container, Box, Typography, CssBaseline } from '@material-ui/core';
+import { Avatar, Button, Container, Box, Typography } from '@material-ui/core';
+import { useAuth } from '../store/users/AuthContext';
+import { Copyright } from '../components/Copyright';
+import { useStyles } from '../styles/useStyles';
 
 export function Dashboard() {
   const classes = useStyles();
@@ -14,13 +14,11 @@ export function Dashboard() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
-        
         <Avatar className={classes.avatar}>
           <AssignmentTurnedInIcon />
         </Avatar>
-        
+
         <Typography component="h1" variant="h5">
           Welcome to PopKwiz
         </Typography>
@@ -42,9 +40,14 @@ export function Dashboard() {
         </Button>
 
         <br />
-        
+
         <Button variant="contained" color="primary" component={Link} to="/login">
           Login Page
+        </Button>
+        <br />
+
+        <Button variant="contained" color="primary" component={Link} to="/search-users">
+          Search User Database
         </Button>
 
         {error && <Alert variant="danger">{error}</Alert>}
@@ -53,7 +56,6 @@ export function Dashboard() {
       <Box mt={8}>
         <Copyright />
       </Box>
-
     </Container>
   );
 }

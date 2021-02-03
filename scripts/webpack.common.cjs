@@ -14,9 +14,9 @@ module.exports = {
     // TODO - remove as part of Webpack 5 update
     process: true,
     fs: 'empty',
-    tls:'empty',
-    net:'empty',
-    child_process:'empty',
+    tls: 'empty',
+    net: 'empty',
+    child_process: 'empty',
   },
   resolve: {
     extensions: ['.jsx', '.js'],

@@ -1,17 +1,15 @@
 import { db } from '../database/firestore';
 import { User, userConverter } from './userModel';
+import { USERS } from '../../constants';
 
 // get users from firestore
 export const getUsers = async (userQuery) => {
   const { username } = userQuery;
   let userSearch = '';
   if (username) {
-    userSearch = db
-      .collection('users')
-      .where('username', '>=', username)
-      .where('username', '<=', `${username}\uf8ff`);
+    userSearch = db.collection(USERS).where('username', '>=', username).where('username', '<=', `${username}\uf8ff`);
   } else {
-    userSearch = db.collection('users');
+    userSearch = db.collection(USERS);
   }
   // create list for users and populate it with data in firestore
   const userList = [];
@@ -31,7 +29,7 @@ export const addUser = async (user) => {
   const newUser = new User(user.username, user.email);
 
   // https://firebase.google.com/docs/firestore/manage-data/add-data
-  await db.collection('users').doc(newUserID).withConverter(userConverter).set(newUser);
+  await db.collection(USERS).doc(newUserID).withConverter(userConverter).set(newUser);
 
   console.log(newUser);
 };
