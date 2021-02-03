@@ -25,10 +25,9 @@ export function FormBuilder(props) {
           {props.header}
         </Typography>
         <form className={classes.form} onSubmit={props.onSubmit}>
-          {/* {console.log(props.fields)} */}
           <Grid container spacing={2}>
             {props.fields.map((field, index) => (
-              <Grid item xs={12}>
+              <Grid item xs={12} key={index}>
                 <TextField
                   variant="outlined"
                   required
@@ -51,6 +50,7 @@ export function FormBuilder(props) {
             <Button
               type="submit"
               fullWidth
+              key={button.text}
               variant="contained"
               color="primary"
               className={classes.submit}
