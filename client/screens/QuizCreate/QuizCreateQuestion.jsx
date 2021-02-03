@@ -90,7 +90,6 @@ export const QuizCreateQuestion = ({ index, question }) => {
                     <DebouncedTextField
                       {...field}
                       className={classes.answerFormField}
-                      multiline
                       label={`Option ${answerIndex + 1}`}
                       error={(formik.submitCount || meta.touched) && !!meta.error}
                     />
