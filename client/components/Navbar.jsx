@@ -32,19 +32,13 @@ export const Navbar = () => {
   // navbar will changed depending on the loggedStatus of user
   const loggedStatus = { title: 'login', path: '/login' };
 
-  const navLinks = [
-    { title: 'browse', path: '/browse' },
-    { title: 'about', path: '/about' },
-    loggedStatus,
-  ];
+  const navLinks = [{ title: 'browse', path: '/browse' }, { title: 'about', path: '/about' }, loggedStatus];
 
   if (currentUser) {
     loggedStatus.title = 'logout';
     loggedStatus.path = '/logout';
 
-    navLinks.unshift(
-      { title: 'create', path: '/quiz/create' },
-    );
+    navLinks.unshift({ title: 'create', path: '/quiz/create' });
   }
 
   return (
