@@ -7,7 +7,7 @@ import { StatusCode } from '../utils/http';
 export const quizRouter = express.Router();
 
 // GET quiz
-quizRouter.get('/quizzes/:id', async (req, res) => {
+quizRouter.get('/:id', async (req, res) => {
   await getQuiz(req.params.id)
     .then((quiz) => {
       res.status(200).json({ data: quiz.data() });

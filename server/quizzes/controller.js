@@ -38,12 +38,9 @@ export const getQuizzes = async (userQuery) => {
 
 export const getQuiz = async (id) => {
   try {
-    console.log(id);
-    const query = await db.collection(QUIZZES).doc(id);
-    const quiz = query.get();
-    // quizSearch = await db.collection(QUIZZES).where('id', '==', id).get();
-    console.log('in get quiz function now');
-    console.log(quiz);
+    const quizRef = db.collection(QUIZZES).doc(id);
+    const quiz = await quizRef.get();
+
     return quiz;
   } catch (error) {
     console.error(error);

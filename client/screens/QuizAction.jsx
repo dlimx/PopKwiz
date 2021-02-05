@@ -11,6 +11,7 @@ export const QuizAction = () => {
     api.get(`/quizzes/${quizID}`).then((res) => {
       console.log('got quiz');
       console.log(res);
+      console.log(res.data);
     });
   };
 
