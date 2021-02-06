@@ -22,7 +22,6 @@ export const Browse = () => {
       <Search setSearchVal={setSearchVal} />
       <Category setCategoryVal={setCategoryVal} />
       <Quizlist quizList={quizList} />
-      <Copyright />
     </div>
   );
 };

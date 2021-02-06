@@ -1,64 +1,107 @@
-// Temporary NavBar: to be changed
-// reference: https://ansonlowzf.com/how-to-build-a-material-ui-navbar/
-
-import * as React from 'react';
-import { AppBar, Toolbar, IconButton, List, ListItem, ListItemText, Container } from '@material-ui/core';
-import Home from '@material-ui/icons/Home';
-import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../store/users/AuthContext';
-
-const useStyles = makeStyles({
-  navbarDisplayFlex: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  navDisplayFlex: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  linkText: {
-    textDecoration: 'none',
-    textTransform: 'uppercase',
-    color: 'white',
-  },
-});
+import React, { useState } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import Toolbar from '@material-ui/core/Toolbar';
+import Drawer from '@material-ui/core/Drawer';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
+import clsx from 'clsx';
+import { Link } from '@material-ui/core';
+import { CustomSelect } from './CustomSelect';
+import { Navlist } from './Navlist';
+import { useStyles } from '../styles/navbarStyles';
 
 export const Navbar = () => {
   const classes = useStyles();
-  const { currentUser } = useAuth();
+  const [open, setOpen] = useState(false);
+  // const [select, setSelect] = useState('lists');
+  const [dVal, setDVal] = useState('lists');
 
-  // navbar will changed depending on the loggedStatus of user
-  const loggedStatus = { title: 'login', path: '/login' };
+  const handleDropDownVal = (value) => {
+    console.log(value);
+    setDVal(value);
+  };
 
-  const navLinks = [{ title: 'browse', path: '/browse' }, { title: 'about', path: '/about' }, loggedStatus];
+  // handle opening and closing of app drawer
+  const drawerOpen = () => {
+    setOpen(true);
+  };
 
-  if (currentUser) {
-    loggedStatus.title = 'logout';
-    loggedStatus.path = '/logout';
+  const drawerClose = () => {
+    setOpen(false);
+  };
 
-    navLinks.unshift({ title: 'create', path: '/quiz/create' });
-  }
+  const menuItems = ['quiz', '?', '??'];
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Container maxWidth="lg" className={classes.navbarDisplayFlex}>
-          <Link className={classes.linkText} to="/">
-            <Home color="inherit" fontSize="large" />
+    <>
+      <AppBar
+        position="sticky"
+        color="transparent"
+        elevation={0}
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
+        <Toolbar className={classes.toolbar}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={drawerOpen}
+            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+          >
+            <i style={{ color: '#fff', paddingRight: '1rem' }} className="fas fa-bars fa-lg" />
+          </IconButton>
+
+          <Typography className={classes.title} variant="h4" noWrap>
+            PopKwiz
+          </Typography>
+
+          {/* pass function as prop to set dVal in a callback */}
+          <CustomSelect onChange={handleDropDownVal} menu={menuItems} />
+
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </div>
+
+          <Link href="/">
+            <i
+              style={{ color: '#fff', paddingLeft: '1.5rem', paddingRight: '1rem', paddingTop: '.5rem' }}
+              className="fab fa-battle-net fa-3x"
+            />
           </Link>
-          <List component="nav" aria-labelledby="main navigation" className={classes.navDisplayFlex}>
-            {navLinks.map(({ title, path }) => (
-              <Link to={path} key={title} className={classes.linkText}>
-                <ListItem button>
-                  <ListItemText primary={title} />
-                </ListItem>
-              </Link>
-            ))}
-          </List>
-        </Container>
-      </Toolbar>
-    </AppBar>
+        </Toolbar>
+      </AppBar>
+
+      <Drawer
+        styles={{ background: 'linear-gradient(90deg, #222629 0%, #222629 100%);' }}
+        variant="temporary"
+        classes={{
+          paper: clsx('navbar', classes.drawerPaper, !open && classes.drawerPaperClose),
+        }}
+        open={open}
+      >
+        <div className={classes.toolbarIcon}>
+          <IconButton onClick={drawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        <Divider />
+
+        <Navlist drawer={drawerClose} />
+      </Drawer>
+    </>
   );
 };
