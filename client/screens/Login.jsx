@@ -57,7 +57,8 @@ export function Login() {
           autoComplete: 'email',
           value: email,
           onChange: handleEmailChange,
-        }, {
+        },
+        {
           name: 'password',
           label: 'Password',
           type: 'password',
@@ -71,7 +72,8 @@ export function Login() {
         {
           text: 'Log In',
           onClick: handleLogin,
-        }, {
+        },
+        {
           text: 'Log In with Google',
           onClick: handleGoogleLogin,
         },
