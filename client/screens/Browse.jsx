@@ -12,12 +12,13 @@ export const Browse = () => {
   const [categoryVal, setCategoryVal] = useState('');
   const [quizList, setQuizList] = useState([]);
   useEffect(() => {
-    const delaySearch = setTimeout(()=>{
-    api.get(`/quizzes?search=${searchVal}&category=${categoryVal}`).then((res) => {
-      setQuizList(res.data);
-    })
-    },200);
-    return() => clearTimeout(delaySearch);
+    // input delay to reduce number of
+    const delaySearch = setTimeout(() => {
+      api.get(`/quizzes?search=${searchVal}&category=${categoryVal}`).then((res) => {
+        setQuizList(res.data);
+      });
+    }, 200);
+    return () => clearTimeout(delaySearch);
   }, [api, searchVal, categoryVal]);
 
   return (

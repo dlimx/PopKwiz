@@ -65,3 +65,16 @@ export const createQuiz = async (body) => {
     throw newError(StatusCode.Error, error.message);
   }
 };
+
+export const rateQuiz = async (userQuery) => {
+  try {
+    const addRating = await db
+      .collection(QUIZZES)
+      .doc(userQuery.id)
+      .update({ rating: { [userQuery.user]: userQuery.score } });
+    return { addRating };
+  } catch (error) {
+    console.error(error);
+    throw newError(StatusCode.Error, error.message);
+  }
+};

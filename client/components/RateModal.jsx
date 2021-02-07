@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { Rate }from '../components/Rate';
+import PropTypes from 'prop-types';
+import { Rate } from './Rate';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -12,14 +13,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    backgroundColor: theme.palette.primary.main,
+    // border: '3px solid #1976d2',
+    color: 'white',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
 }));
 
-export default function RateModal({quizID}) {
+export const RateModal = ({ setRate }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -50,12 +52,17 @@ export default function RateModal({quizID}) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">How was the quiz?</h2>
-            <Rate handleClose={handleClose}/>
-            <p id="transition-modal-description"></p>
+            <h2>Please rate the quiz.</h2>
+            <h4>( click on the stars below )</h4>
+            <Rate handleClose={handleClose} setRate={setRate} />
+            <p id="transition-modal-description" />
           </div>
         </Fade>
       </Modal>
     </div>
   );
-}
+};
+
+RateModal.propTypes = {
+  setRate: PropTypes.func.isRequired,
+};
