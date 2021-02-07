@@ -5,7 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 
 // search component for browsing quizzes by name
-export const Search = ({ setSearchVal }) => (
+export const Search = ({ setSearchVal }) => {
+  return(
   <div>
     <Box m={2}>
       <Grid container justify="center">
@@ -22,7 +23,8 @@ export const Search = ({ setSearchVal }) => (
       </Grid>
     </Box>
   </div>
-);
+  )
+};
 
 Search.propTypes = {
   setSearchVal: PropTypes.func.isRequired,
