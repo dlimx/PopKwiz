@@ -36,6 +36,18 @@ export const getQuizzes = async (userQuery) => {
   return quizList;
 };
 
+export const getQuiz = async (id) => {
+  try {
+    const quizRef = db.collection(QUIZZES).doc(id);
+    const quiz = await quizRef.get();
+
+    return quiz;
+  } catch (error) {
+    console.error(error);
+    throw newError(StatusCode.BadRequest, error.message);
+  }
+};
+
 export const createQuiz = async (body) => {
   let quiz;
   try {
