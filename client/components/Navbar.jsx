@@ -6,24 +6,16 @@ import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
 import clsx from 'clsx';
 import { Link } from '@material-ui/core';
-import { CustomSelect } from './CustomSelect';
 import { Navlist } from './Navlist';
 import { useStyles } from '../styles/navbarStyles';
+import { useAuth } from '../store/users/AuthContext';
 
 export const Navbar = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  // const [select, setSelect] = useState('lists');
-  const [dVal, setDVal] = useState('lists');
-
-  const handleDropDownVal = (value) => {
-    console.log(value);
-    setDVal(value);
-  };
+  const { currentUser } = useAuth();
 
   // handle opening and closing of app drawer
   const drawerOpen = () => {
@@ -34,7 +26,11 @@ export const Navbar = () => {
     setOpen(false);
   };
 
-  const menuItems = ['quiz', '?', '??'];
+  const links = [
+    { name: 'Browse', route: '/browse', class: 'fas fa-binoculars' },
+    { name: 'Create', route: '/quiz/create', class: 'fas fa-file-alt' },
+    { name: 'Profile', route: '/', class: 'fas fa-user-circle' },
+  ];
 
   return (
     <>
@@ -45,8 +41,47 @@ export const Navbar = () => {
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
         <Toolbar className={classes.toolbar}>
+          <Link href="/">
+            <i
+              style={{ color: '#fff', paddingLeft: '1rem', paddingRight: '2.5rem', paddingTop: '.5rem' }}
+              className="fab fa-battle-net fa-3x"
+            />
+          </Link>
+          <Typography className={classes.title} variant="h4" noWrap>
+            PopKwiz
+          </Typography>
+
+          {links.map((field, index) => (
+            <Typography className={classes.topLinks} noWrap>
+              <i className={field.class} />
+              <Link href={field.route} className={classes.topLinksColor}>
+                {` ${field.name}`}
+              </Link>
+            </Typography>
+          ))}
+
+          <Typography className={classes.topLinks} noWrap>
+            {currentUser ? (
+              <div>
+                <i className="fas fa-sign-out-alt" />
+                <Link href="/logout" className={classes.topLinksColor}>
+                  {' '}
+                  Logout{' '}
+                </Link>
+              </div>
+            ) : (
+              <div>
+                <i className="fas fa-sign-in-alt" />
+                <Link href="/login" className={classes.topLinksColor}>
+                  {' '}
+                  Login{' '}
+                </Link>
+              </div>
+            )}
+          </Typography>
+
           <IconButton
-            edge="start"
+            edge="end"
             color="inherit"
             aria-label="open drawer"
             onClick={drawerOpen}
@@ -54,39 +89,11 @@ export const Navbar = () => {
           >
             <i style={{ color: '#fff', paddingRight: '1rem' }} className="fas fa-bars fa-lg" />
           </IconButton>
-
-          <Typography className={classes.title} variant="h4" noWrap>
-            PopKwiz
-          </Typography>
-
-          {/* pass function as prop to set dVal in a callback */}
-          <CustomSelect onChange={handleDropDownVal} menu={menuItems} />
-
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
-
-          <Link href="/">
-            <i
-              style={{ color: '#fff', paddingLeft: '1.5rem', paddingRight: '1rem', paddingTop: '.5rem' }}
-              className="fab fa-battle-net fa-3x"
-            />
-          </Link>
         </Toolbar>
       </AppBar>
 
       <Drawer
-        styles={{ background: 'linear-gradient(90deg, #222629 0%, #222629 100%);' }}
+        anchor="right"
         variant="temporary"
         classes={{
           paper: clsx('navbar', classes.drawerPaper, !open && classes.drawerPaperClose),

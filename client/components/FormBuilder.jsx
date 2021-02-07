@@ -3,11 +3,9 @@
 /* eslint react/no-array-index-key: 0 */
 
 import React from 'react';
-import { Avatar, Button, Container, Box, Typography, CssBaseline, Grid, TextField } from '@material-ui/core';
+import { Avatar, Button, Container, Typography, CssBaseline, Grid, TextField } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { Alert } from '@material-ui/lab';
 import { useStyles } from '../styles/useStyles';
-import { Copyright } from './Copyright';
 
 export function FormBuilder(props) {
   const classes = useStyles();
