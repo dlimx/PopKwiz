@@ -53,3 +53,13 @@ export const createQuiz = async (body) => {
     throw newError(StatusCode.Error, error.message);
   }
 };
+
+export const rateQuiz = async (userQuery) =>{
+  try {    
+    const add_rating = await db.collection(QUIZZES).doc(userQuery.id).update({rating: {[userQuery.user]: userQuery.score}});
+    return {add_rating};
+  } catch (error) {
+    console.error(error);
+    throw newError(StatusCode.Error, error.message);
+  }  
+};

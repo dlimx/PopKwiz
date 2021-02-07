@@ -12,6 +12,7 @@ export const Browse = () => {
   const [categoryVal, setCategoryVal] = useState('');
   const [quizList, setQuizList] = useState([]);
   useEffect(() => {
+    //input delay to reduce number of 
     const delaySearch = setTimeout(()=>{
     api.get(`/quizzes?search=${searchVal}&category=${categoryVal}`).then((res) => {
       setQuizList(res.data);
