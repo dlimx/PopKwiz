@@ -1,64 +1,120 @@
-// Temporary NavBar: to be changed
-// reference: https://ansonlowzf.com/how-to-build-a-material-ui-navbar/
-
-import * as React from 'react';
-import { AppBar, Toolbar, IconButton, List, ListItem, ListItemText, Container } from '@material-ui/core';
-import Home from '@material-ui/icons/Home';
-import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import Toolbar from '@material-ui/core/Toolbar';
+import Drawer from '@material-ui/core/Drawer';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import CreateIcon from '@material-ui/icons/Create';
+import MenuIcon from '@material-ui/icons/Menu';
+import clsx from 'clsx';
+import { Link } from '@material-ui/core';
+import { Navlist } from './Navlist';
+import { useStyles } from '../styles/navbarStyles';
 import { useAuth } from '../store/users/AuthContext';
-
-const useStyles = makeStyles({
-  navbarDisplayFlex: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  navDisplayFlex: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  linkText: {
-    textDecoration: 'none',
-    textTransform: 'uppercase',
-    color: 'white',
-  },
-});
 
 export const Navbar = () => {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
   const { currentUser } = useAuth();
 
-  // navbar will changed depending on the loggedStatus of user
-  const loggedStatus = { title: 'login', path: '/login' };
+  // handle opening and closing of app drawer
+  const drawerOpen = () => {
+    setOpen(true);
+  };
 
-  const navLinks = [{ title: 'browse', path: '/browse' }, { title: 'about', path: '/about' }, loggedStatus];
+  const drawerClose = () => {
+    setOpen(false);
+  };
 
-  if (currentUser) {
-    loggedStatus.title = 'logout';
-    loggedStatus.path = '/logout';
+  const itemsCommon = [{ id: '0', route: '/', icon: <VisibilityIcon />, text: 'Browse' }];
 
-    navLinks.unshift({ title: 'create', path: '/quiz/create' });
-  }
+  const itemsLoggedIn = [
+    { id: '1', route: '/logout', icon: <AccountCircleIcon />, text: 'Log Out' },
+    { id: '2', route: '/', icon: <LockOpenIcon />, text: 'Profile' },
+    { id: '3', route: '/quiz/create', icon: <CreateIcon />, text: 'Create' },
+    ...itemsCommon,
+  ];
+
+  const itemsLoggedOut = [
+    { id: '4', route: '/signup', icon: <PersonAddIcon />, text: 'Sign Up' },
+    { id: '5', route: '/login', icon: <AccountCircleIcon />, text: 'Log In' },
+    ...itemsCommon,
+  ];
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Container maxWidth="lg" className={classes.navbarDisplayFlex}>
-          <Link className={classes.linkText} to="/">
-            <Home color="inherit" fontSize="large" />
+    <>
+      <AppBar
+        position="sticky"
+        color="transparent"
+        elevation={0}
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
+        <Toolbar className={classes.toolbar}>
+          <Link href="/" style={{ paddingLeft: '1rem' }}>
+            <img src="/client/icons/learning.svg" width="40px" height="40px" alt="" />;
           </Link>
-          <List component="nav" aria-labelledby="main navigation" className={classes.navDisplayFlex}>
-            {navLinks.map(({ title, path }) => (
-              <Link to={path} key={title} className={classes.linkText}>
-                <ListItem button>
-                  <ListItemText primary={title} />
-                </ListItem>
-              </Link>
-            ))}
-          </List>
-        </Container>
-      </Toolbar>
-    </AppBar>
+          <Typography className={classes.title} variant="h4" noWrap>
+            PopKwiz
+          </Typography>
+
+          {currentUser
+            ? itemsLoggedIn.map((field) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <Typography key={field.id} className={classes.topLinks} noWrap>
+                  {field.icon}
+                  <Link href={field.route} className={classes.topLinksColor}>
+                    {` ${field.text}`}
+                  </Link>
+                </Typography>
+              ))
+            : itemsLoggedOut.map((field) => (
+                <Typography key={field.id} className={classes.topLinks} noWrap>
+                  {field.icon}
+                  <Link href={field.route} className={classes.topLinksColor}>
+                    {` ${field.text}`}
+                  </Link>
+                </Typography>
+              ))}
+
+          <IconButton
+            edge="end"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={drawerOpen}
+            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+          >
+            <MenuIcon large style={{ transform: 'scale(2)', color: '#fff' }} />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      <Drawer
+        anchor="right"
+        variant="temporary"
+        classes={{
+          paper: clsx('navbar', classes.drawerPaper, !open && classes.drawerPaperClose),
+        }}
+        open={open}
+      >
+        <div className={classes.toolbarIcon}>
+          <IconButton onClick={drawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        <Divider />
+
+        {currentUser ? (
+          <Navlist drawer={drawerClose} items={itemsLoggedIn} />
+        ) : (
+          <Navlist drawer={drawerClose} items={itemsLoggedOut} />
+        )}
+      </Drawer>
+    </>
   );
 };
