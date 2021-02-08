@@ -1,5 +1,5 @@
 import express from 'express';
-import { getQuiz, getQuizzes, createQuiz } from './controller';
+import { getQuiz, getQuizzes, createQuiz, rateQuiz } from './controller';
 import { authMiddleWare } from '../utils/authMiddleWare';
 import { sendError } from '../utils/error';
 import { StatusCode } from '../utils/http';
@@ -17,6 +17,8 @@ quizRouter.get('/:id', async (req, res) => {
       res.status(500).json({ error: 'something went wrong retreving quizzes from db.' });
     });
 });
+
+// JLIN88 Pending Route
 // quizRouter.get('/quizzes/:id', async (req, res) => {
 //   const id = req.params.id;
 //   console.log(`id = ${id}`)
@@ -27,6 +29,17 @@ quizRouter.get('/:id', async (req, res) => {
 //     res.status(200).json({data: quiz.data})})
 //   .catch(error => res.status(500).send(error));
 // });
+
+// Send Score - will change to POST method.
+quizRouter.get('/:user/:id/:score', async (req, res) => {
+  // const data = await rateQuiz(req.params);
+  try {
+    const data = await rateQuiz(req.params);
+    res.status(StatusCode.Success).send(data);
+  } catch (error) {
+    sendError(res, error);
+  }
+});
 
 // GET quizzes
 quizRouter.get('/', async (req, res) => {
