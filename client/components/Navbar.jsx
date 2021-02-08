@@ -13,7 +13,8 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import CreateIcon from '@material-ui/icons/Create';
 import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
-import { Link } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+
 import { Navlist } from './Navlist';
 import { useStyles } from '../styles/navbarStyles';
 import { useAuth } from '../store/users/AuthContext';
@@ -56,7 +57,7 @@ export const Navbar = () => {
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
         <Toolbar className={classes.toolbar}>
-          <Link href="/" style={{ paddingLeft: '1rem' }}>
+          <Link to="/" style={{ paddingLeft: '1rem' }}>
             <img src="/client/icons/learning.svg" width="40px" height="40px" alt="" />;
           </Link>
           <Typography className={classes.title} variant="h4" noWrap>
@@ -68,7 +69,7 @@ export const Navbar = () => {
                 // eslint-disable-next-line react/no-array-index-key
                 <Typography key={field.id} className={classes.topLinks} noWrap>
                   {field.icon}
-                  <Link href={field.route} className={classes.topLinksColor}>
+                  <Link to={field.route} className={classes.topLinksColor}>
                     {` ${field.text}`}
                   </Link>
                 </Typography>
@@ -76,7 +77,7 @@ export const Navbar = () => {
             : itemsLoggedOut.map((field) => (
                 <Typography key={field.id} className={classes.topLinks} noWrap>
                   {field.icon}
-                  <Link href={field.route} className={classes.topLinksColor}>
+                  <Link to={field.route} className={classes.topLinksColor}>
                     {` ${field.text}`}
                   </Link>
                 </Typography>
