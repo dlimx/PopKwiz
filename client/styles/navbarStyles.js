@@ -17,6 +17,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    paddingLeft: '1rem',
     // display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
@@ -59,9 +60,8 @@ export const useStyles = makeStyles((theme) => ({
     }),
   },
   menuButton: {
-    marginRight: theme.spacing(0),
+    marginRight: theme.spacing(1.8),
     marginLeft: theme.spacing(0.4),
-    // backgroundColor: theme.palette.primary.title,
   },
   menuButtonHidden: {
     display: 'none',

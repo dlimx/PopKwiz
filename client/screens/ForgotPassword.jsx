@@ -26,10 +26,9 @@ export function ForgotPassword() {
       setMessage('Check your inbox for further instructions');
     } catch (err) {
       setError('Failed to reset password');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
-    return 0;
   }
 
   return (

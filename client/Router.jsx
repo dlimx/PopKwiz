@@ -4,7 +4,6 @@ import { CssBaseline, Box } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 import { SignUp } from './screens/Signup';
-import { Dashboard } from './screens/Dashboard';
 import { Login } from './screens/Login';
 import { Logout } from './screens/Logout';
 import { Browse } from './screens/Browse';
@@ -24,12 +23,11 @@ export const Router = () => {
           <CssBaseline />
           <Navbar />
           <Switch>
-            <Route exact path="/" component={Dashboard} />
+            <Route exact path="/" component={Browse} />
             <Route path="/signup" component={SignUp} />
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
             <Route path="/forgot-password" component={ForgotPassword} />
-            <Route path="/browse" component={Browse} />
             <Route path="/quiz/create" component={QuizCreate} />
             <Route path="/quiz/:id/action" component={QuizAction} />
             <Route path="/quiz/:id" component={QuizProfile} />
