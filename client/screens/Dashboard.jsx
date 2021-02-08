@@ -52,10 +52,6 @@ export function Dashboard() {
 
         {error && <Alert variant="danger">{error}</Alert>}
       </div>
-
-      <Box mt={8}>
-        <Copyright />
-      </Box>
     </Container>
   );
 }
