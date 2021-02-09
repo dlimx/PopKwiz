@@ -33,8 +33,8 @@ export const Router = () => {
             <Route path="/forgot-password" component={ForgotPassword} />
             <Route path="/quiz/create" component={QuizCreate} />
             <Route path="/quiz/:id/action" component={QuizAction} />
-            <Route path="/quiz/:id" component={QuizProfile} />
             <Route path="/quiz/:id/rate" component={QuizRate} />
+            <Route path="/quiz/:id" component={QuizProfile} />
           </Switch>
           <Box mt={5}>
             <Copyright />
