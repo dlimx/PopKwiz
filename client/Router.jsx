@@ -11,9 +11,12 @@ import { Navbar } from './components/Navbar';
 import { QuizCreate } from './screens/QuizCreate/QuizCreate';
 import { QuizProfile } from './screens/QuizProfile';
 import { QuizAction } from './screens/QuizAction';
+import { QuizRate } from './screens/QuizRate';
+
 import { theme } from './styles/theme';
 import { Copyright } from './components/Copyright';
 import { ForgotPassword } from './screens/ForgotPassword';
+
 
 export const Router = () => {
   return (
@@ -30,6 +33,7 @@ export const Router = () => {
             <Route path="/forgot-password" component={ForgotPassword} />
             <Route path="/quiz/create" component={QuizCreate} />
             <Route path="/quiz/:id/action" component={QuizAction} />
+            <Route path="/quiz/:id/rate" component={QuizRate} />
             <Route path="/quiz/:id" component={QuizProfile} />
           </Switch>
           <Box mt={5}>
