@@ -14,6 +14,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
+import logo from '../icons/learning.svg';
 
 import { Navlist } from './Navlist';
 import { useStyles } from '../styles/navbarStyles';
@@ -58,7 +59,7 @@ export const Navbar = () => {
       >
         <Toolbar className={classes.toolbar}>
           <Link to="/" style={{ paddingLeft: '1rem' }}>
-            <img src="/client/icons/learning.svg" width="40px" height="40px" alt="" />;
+            <img src={logo} width="40px" height="40px" alt="" style={{ height: 40, width: 40 }} />;
           </Link>
           <Typography className={classes.title} variant="h4" noWrap>
             PopKwiz
