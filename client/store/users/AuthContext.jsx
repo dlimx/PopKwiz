@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, createContext } from 'react';
 import PropTypes from 'prop-types';
 import { auth, googleProvider } from '../../authentication/firebase';
 import { postURL } from '../../api/PostURL';
 
-const AuthContext = React.createContext();
+const AuthContext = createContext();
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
   // frontend and backend.
   async function signup(uname, uemail, password) {
     return auth.createUserWithEmailAndPassword(uemail, password).then((cred) =>
-      postURL('/api/signup', {
+      postURL('/api/users', {
         uid: cred.user.uid,
         username: uname,
         email: uemail,
@@ -36,7 +36,7 @@ export function AuthProvider({ children }) {
 
   async function loginWithGoogle() {
     return auth.signInWithPopup(googleProvider).then((cred) => {
-      postURL('/api/signup', {
+      postURL('/api/users', {
         uid: cred.user.uid,
         username: cred.user.displayName,
         email: cred.user.email,
