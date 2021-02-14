@@ -1,6 +1,6 @@
 import express from 'express';
 import { getQuiz, getQuizzes, createQuiz, rateQuiz } from './controller';
-import { authMiddleWare } from '../utils/authMiddleWare';
+import { authMiddleware } from '../users/middleware';
 import { sendError } from '../utils/error';
 import { StatusCode } from '../utils/http';
 
@@ -53,9 +53,9 @@ quizRouter.get('/', async (req, res) => {
     });
 });
 
-quizRouter.post('/', authMiddleWare, async (req, res) => {
+quizRouter.post('/', authMiddleware, async (req, res) => {
   try {
-    const data = await createQuiz(req.body);
+    const data = await createQuiz(req.body, req.user);
     res.status(StatusCode.Success).send(data);
   } catch (error) {
     sendError(res, error);

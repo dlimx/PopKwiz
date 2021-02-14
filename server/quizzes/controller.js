@@ -1,3 +1,5 @@
+import firebase from 'firebase-admin';
+
 import { db } from '../database/firestore';
 import { QUIZZES } from '../../constants';
 import { newError } from '../utils/error';
@@ -48,7 +50,7 @@ export const getQuiz = async (id) => {
   }
 };
 
-export const createQuiz = async (body) => {
+export const createQuiz = async (body, user) => {
   let quiz;
   try {
     quiz = quizSchema.validateSync(body);
@@ -57,7 +59,9 @@ export const createQuiz = async (body) => {
   }
 
   try {
-    const ref = await db.collection(QUIZZES).add(quiz);
+    const ref = db.collection(QUIZZES).doc();
+    const now = firebase.firestore.Timestamp.now();
+    await ref.set({ ...quiz, userID: user.id, id: ref.id, createdAt: now, updatedAt: now });
 
     return { ...quiz, id: ref.id };
   } catch (error) {
