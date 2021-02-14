@@ -7,7 +7,7 @@ export const useAPI = () => {
   const auth = useAuth();
 
   if (auth.token) {
-    instance.defaults.headers.common['Authorization'] = auth.token;
+    instance.defaults.headers.common['Authorization'] = `Bearer ${auth.token}`;
   }
 
   return instance;
