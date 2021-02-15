@@ -31,7 +31,7 @@ quizRouter.get('/:id', async (req, res) => {
 // });
 
 // Send Score - will change to POST method.
-quizRouter.get('/:user/:id/:score', async (req, res) => {
+quizRouter.get('/:user/:id/:rating/:comment', async (req, res) => {
   // const data = await rateQuiz(req.params);
   try {
     const data = await rateQuiz(req.params);
