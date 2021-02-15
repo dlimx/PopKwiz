@@ -71,8 +71,6 @@ export const QuizAction = () => {
         }
       }
     }
-    console.log(`score: ${numCorrect}`);
-    console.log(`out of: ${numQuestions}`);
     return (numCorrect / numQuestions) * 100.0;
   };
 
