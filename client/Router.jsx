@@ -8,6 +8,9 @@ import { Login } from './screens/Login';
 import { Logout } from './screens/Logout';
 import { Browse } from './screens/Browse';
 import { Navbar } from './components/Navbar';
+import { Profile } from './screens/Profile';
+
+import { UpdateProfile } from './screens/UpdateProfile';
 import { QuizCreate } from './screens/QuizCreate/QuizCreate';
 import { QuizProfile } from './screens/QuizProfile';
 import { QuizAction } from './screens/QuizAction';
@@ -16,7 +19,6 @@ import { QuizRate } from './screens/QuizRate';
 import { theme } from './styles/theme';
 import { Copyright } from './components/Copyright';
 import { ForgotPassword } from './screens/ForgotPassword';
-
 
 export const Router = () => {
   return (
@@ -30,6 +32,8 @@ export const Router = () => {
             <Route path="/signup" component={SignUp} />
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/update-profile" component={UpdateProfile} />
             <Route path="/forgot-password" component={ForgotPassword} />
             <Route path="/quiz/create" component={QuizCreate} />
             <Route path="/quiz/:id/action" component={QuizAction} />

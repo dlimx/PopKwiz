@@ -38,7 +38,7 @@ export const Navbar = () => {
 
   const itemsLoggedIn = [
     { id: '1', route: '/logout', icon: <AccountCircleIcon />, text: 'Log Out' },
-    { id: '2', route: '/', icon: <LockOpenIcon />, text: 'Profile' },
+    { id: '2', route: '/profile', icon: <LockOpenIcon />, text: 'Profile' },
     { id: '3', route: '/quiz/create', icon: <CreateIcon />, text: 'Create' },
     ...itemsCommon,
   ];
@@ -46,6 +46,8 @@ export const Navbar = () => {
   const itemsLoggedOut = [
     { id: '4', route: '/signup', icon: <PersonAddIcon />, text: 'Sign Up' },
     { id: '5', route: '/login', icon: <AccountCircleIcon />, text: 'Log In' },
+    { id: '6', route: '/forgot-password', icon: <LockOpenIcon />, text: 'Reset Password' },
+
     ...itemsCommon,
   ];
 

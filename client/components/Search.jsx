@@ -6,24 +6,24 @@ import PropTypes from 'prop-types';
 
 // search component for browsing quizzes by name
 export const Search = ({ setSearchVal }) => {
-  return(
-  <div>
-    <Box m={2}>
-      <Grid container justify="center">
-        <TextField
-          id="outlined-search"
-          label="Search"
-          type="search"
-          variant="outlined"
-          style={{ width: '80%' }}
-          onChange={(e) => {
-            setSearchVal(e.target.value);
-          }}
-        />
-      </Grid>
-    </Box>
-  </div>
-  )
+  return (
+    <div>
+      <Box m={2}>
+        <Grid container justify="center">
+          <TextField
+            id="outlined-search"
+            label="Search"
+            type="search"
+            variant="outlined"
+            style={{ width: '80%' }}
+            onChange={(e) => {
+              setSearchVal(e.target.value);
+            }}
+          />
+        </Grid>
+      </Box>
+    </div>
+  );
 };
 
 Search.propTypes = {
