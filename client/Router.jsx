@@ -10,7 +10,7 @@ import { Browse } from './screens/Browse';
 import { Navbar } from './components/Navbar';
 import { Profile } from './screens/Profile';
 
-import { UpdateProfile } from './screens/UpdateProfile';
+import { ProfileUpdate } from './screens/ProfileUpdate';
 import { QuizCreate } from './screens/QuizCreate/QuizCreate';
 import { QuizProfile } from './screens/QuizProfile';
 import { QuizAction } from './screens/QuizAction';
@@ -33,7 +33,7 @@ export const Router = () => {
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
             <Route path="/profile" component={Profile} />
-            <Route path="/update-profile" component={UpdateProfile} />
+            <Route path="/update-profile" component={ProfileUpdate} />
             <Route path="/forgot-password" component={ForgotPassword} />
             <Route path="/quiz/create" component={QuizCreate} />
             <Route path="/quiz/:id/action" component={QuizAction} />

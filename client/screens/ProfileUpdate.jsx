@@ -4,11 +4,11 @@ import { useHistory } from 'react-router-dom';
 import { useAuth } from '../store/users/AuthContext';
 import { FormBuilder } from '../components/FormBuilder';
 
-export function UpdateProfile() {
-  const [email, setEmail] = useState('');
+export function ProfileUpdate() {
+  const { currentUser, updatePassword, updateEmail } = useAuth();
+  const [email, setEmail] = useState(currentUser.email);
   const [password, setPassword] = useState('');
   const [confPassword, setconfPassword] = useState('');
-  const { currentUser, updatePassword, updateEmail } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -51,7 +51,6 @@ export function UpdateProfile() {
       .finally(() => {
         setLoading(false);
       });
-    return false;
   }
 
   return (
@@ -64,6 +63,7 @@ export function UpdateProfile() {
           type: 'email',
           id: 'email',
           autoComplete: 'email',
+          value: email,
           onChange: handleEmail,
         },
         {
@@ -72,6 +72,7 @@ export function UpdateProfile() {
           type: 'password',
           id: 'password',
           autoComplete: 'password',
+          value: password,
           onChange: handlePassword,
         },
         {
@@ -80,6 +81,7 @@ export function UpdateProfile() {
           type: 'password',
           id: 'confpassword',
           autoComplete: 'confpassword',
+          value: confPassword,
           onChange: handleConfPassword,
         },
       ]}
