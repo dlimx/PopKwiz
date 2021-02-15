@@ -77,13 +77,14 @@ export const QuizCreate = () => {
         initialValues={{
           name: '',
           description: '',
-          questions: [{ question: '', type: '', id: uniqueId() }],
+          questions: [{ question: '', type: '', options: [], id: uniqueId() }],
           categories: [],
         }}
         onSubmit={createQuiz}
         validationSchema={quizSchema}
       >
         {({ setFieldValue, values }) => {
+          console.log(values);
           return (
             <Form className={classes.form}>
               <FastField name="name">
@@ -133,7 +134,10 @@ export const QuizCreate = () => {
               <Button
                 style={{ margin: '20px 0' }}
                 onClick={() =>
-                  setFieldValue('questions', [...values.questions, { question: '', type: '', id: uniqueId() }])
+                  setFieldValue('questions', [
+                    ...values.questions,
+                    { question: '', type: '', options: [], id: uniqueId() },
+                  ])
                 }
               >
                 Add Question

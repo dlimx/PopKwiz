@@ -9,12 +9,12 @@ export const quizSchema = yup.object().shape({
       yup.object().shape({
         question: yup.string().required(),
         type: yup.string().required(),
-        answers: yup
+        options: yup
           .array()
           .of(
             yup.object().shape({
-              answer: yup.string().required(),
-              correct: yup.boolean(),
+              option: yup.string().required(),
+              correct: yup.boolean().required(),
             }),
           )
           .required(),
@@ -35,9 +35,17 @@ export const QuizTypes = Object.freeze({
   // FillInTheBlank: 'FILLINTHEBLANK',
 });
 
+export const QuizConstants = Object.freeze({
+  True: 'TRUE',
+  False: 'FALSE',
+});
+
 export const QuizStrings = Object.freeze({
   [QuizTypes.MultipleChoice]: 'Multiple Choice',
   [QuizTypes.FillInTheBlank]: 'Fill-in-the-Blank',
   [QuizTypes.TrueFalse]: 'True or False',
   [QuizTypes.ShortAnswer]: 'Short Answer',
+
+  [QuizConstants.True]: 'True',
+  [QuizConstants.False]: 'False',
 });
