@@ -12,6 +12,7 @@ import {
   Checkbox,
 } from '@material-ui/core';
 import { Formik, Field, Form, FastField } from 'formik';
+import { uniqueId } from 'lodash';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuth } from '../../store/users/AuthContext';
@@ -76,7 +77,7 @@ export const QuizCreate = () => {
         initialValues={{
           name: '',
           description: '',
-          questions: [{ question: '', type: '' }],
+          questions: [{ question: '', type: '', id: uniqueId() }],
           categories: [],
         }}
         onSubmit={createQuiz}
@@ -127,12 +128,13 @@ export const QuizCreate = () => {
                 )}
               </Field>
               {values.questions.map((question, index) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <QuizCreateQuestion question={question} key={index} index={index} />
+                <QuizCreateQuestion question={question} key={question.id} index={index} />
               ))}
               <Button
                 style={{ margin: '20px 0' }}
-                onClick={() => setFieldValue('questions', [...values.questions, { name: '', type: '' }])}
+                onClick={() =>
+                  setFieldValue('questions', [...values.questions, { question: '', type: '', id: uniqueId() }])
+                }
               >
                 Add Question
               </Button>

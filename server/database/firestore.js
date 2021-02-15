@@ -1,4 +1,4 @@
-import admin from 'firebase-admin';
+import firebase from 'firebase-admin';
 import fs from 'fs';
 import path from 'path';
 import url from 'url';
@@ -9,11 +9,11 @@ if (isDevelopment()) {
   const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
   const keyFile = fs.readFileSync(path.resolve(__dirname, '..', '..', 'keys.json'));
   const keys = JSON.parse(keyFile);
-  firebaseAuth = admin.initializeApp({
-    credential: admin.credential.cert(keys),
+  firebaseAuth = firebase.initializeApp({
+    credential: firebase.credential.cert(keys),
   });
 } else {
-  firebaseAuth = admin.initializeApp();
+  firebaseAuth = firebase.initializeApp();
 }
 
 export const firebaseAdmin = firebaseAuth;

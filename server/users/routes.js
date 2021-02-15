@@ -1,11 +1,11 @@
 import express from 'express';
 import { getUsers, addUser } from './controller';
-import { authMiddleWare } from '../utils/authMiddleWare';
+import { authMiddleware } from './middleware';
 
 export const userRouter = express.Router();
 
 // GET users
-userRouter.get('/', authMiddleWare, async (req, res) => {
+userRouter.get('/', authMiddleware, async (req, res) => {
   const user = req.query;
   await getUsers(user)
     .then((userList) => {
