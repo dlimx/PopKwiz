@@ -21,26 +21,9 @@ export const QuizRate = () => {
   //     // No user is signed in.
   //     }
 
-  // useEffect(() => {
-  //   if (rateVal > 0) {
-  //     api.get(`/quizzes/${currentUser.uid}/${id}/${rateVal}`).then((res) => {
-  //       console.log(res);
-  //     });
-  //   }
-  // });
-
-
   return (
     <div>
-      {/* display quiz id */}
-      {/* <h1>{id}</h1> */}
       <RateModal quizID={id} rateVal={rateVal} commentVal={commentVal} setRate={setRate} setComment={setComment}/>
-
-      {/* display quiz rating value set by user (-1 is default) */}
-      {/* <h3>{rateVal}</h3> */}
-
-      {/* display quiz comment inputted by user */}
-      {/* <h3>{commentVal}</h3> */}
     </div>
   );
 };

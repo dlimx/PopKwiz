@@ -74,8 +74,8 @@ export const rateQuiz = async (userQuery) => {
   try {
     const addRating = await db
       .collection(QUIZZES)
-      .doc(userQuery.id)
-      .update({ rating: { [userQuery.user]: {'user_score': userQuery.rating, 'user_comment' :userQuery.comment }} });
+      .doc(userQuery.Quiz)
+      .update({ rating: { [userQuery.User]: {'user_score': userQuery.Rating, 'user_comment' :userQuery.Comment }} });
     return { addRating };
   } catch (error) {
     console.error(error);

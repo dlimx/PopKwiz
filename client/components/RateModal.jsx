@@ -61,10 +61,6 @@ export const RateModal = ({quizID, rateVal, setRate, commentVal, setComment }) =
           <div className={classes.paper}>
           {/* instructions */}
           <h2>How did you like the quiz?</h2>
-          {/* test to check hook states */}
-          {/* <h6>{rateVal}</h6>
-          <h6>{commentVal}</h6>
-          <h6>{quizID}</h6> */}
 
           {/* rate via stars */}
             <Grid container justify= "center">
@@ -82,8 +78,13 @@ export const RateModal = ({quizID, rateVal, setRate, commentVal, setComment }) =
               <Button variant="contained" color="primary" onClick={()=>{
                 handleClose();
                 if (rateVal > 0 || commentVal.length > 0) {
-                  // GET Request to send rating star value to DB
-                  api.get(`/quizzes/${currentUser.uid}/${quizID}/${rateVal}/${commentVal}`).then((res) => {
+                  api.post('/quizzes/rating', {
+                    User: currentUser.uid,
+                    Quiz: quizID,
+                    Rating: rateVal,
+                    Comment: commentVal,
+                  })
+                  .then( (res) => {
                     console.log(res);
                   });
               }}}>Send</Button>
