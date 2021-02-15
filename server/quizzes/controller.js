@@ -1,5 +1,5 @@
 import { db } from '../database/firestore';
-import { QUIZZES } from '../../constants';
+import { QUIZZES, QUIZ_RESULTS } from '../../constants';
 import { newError } from '../utils/error';
 import { StatusCode } from '../utils/http';
 import { quizSchema } from '../../constants/quizConstants';
@@ -60,6 +60,17 @@ export const createQuiz = async (body) => {
     const ref = await db.collection(QUIZZES).add(quiz);
 
     return { ...quiz, id: ref.id };
+  } catch (error) {
+    console.error(error);
+    throw newError(StatusCode.Error, error.message);
+  }
+};
+
+export const submitQuiz = async (body) => {
+  try {
+    const ref = await db.collection(QUIZ_RESULTS).add(body);
+
+    return { ...body, id: ref.id };
   } catch (error) {
     console.error(error);
     throw newError(StatusCode.Error, error.message);

@@ -13,11 +13,15 @@ export const AnswerBuilder = (props) => {
 
   switch (answerType) {
     case QuizTypes.MultipleChoice:
-      return <MultipleChoice answers={props.answers} />;
+      return (
+        <MultipleChoice qid={props.qid} answers={props.answers} results={props.results} onChange={props.saveResults} />
+      );
     case QuizTypes.ShortAnswer:
-      return <ShortAnswer answers={props.answers} />;
+      return (
+        <ShortAnswer qid={props.qid} answers={props.answers} results={props.results} onChange={props.saveResults} />
+      );
     case QuizTypes.TrueFalse:
-      return <TrueFalse answers={props.answers} />;
+      return <TrueFalse qid={props.qid} answers={props.answers} results={props.results} onChange={props.saveResults} />;
     default:
       return null;
   }

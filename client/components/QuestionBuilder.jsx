@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 export const QuestionBuilder = (props) => {
   const classes = useStyles();
   if (props.questions) {
-    console.log(props.questions);
+    // console.log(props.questions);
 
     return (
       <div className={classes.paper}>
@@ -30,13 +30,20 @@ export const QuestionBuilder = (props) => {
               <Typography variant="h6">Question {index + 1}</Typography>
               <Divider className={classes.divider} variant="fullWidth" />
               <Typography>{question.question}</Typography>
-              <AnswerBuilder type={question.type} answers={question.answers} />
+              <AnswerBuilder
+                qid={question.question_id}
+                type={question.type}
+                answers={question.answers}
+                results={props.results}
+                saveResults={props.saveResults}
+              />
             </CardContent>
           </Card>
         ))}
       </div>
     );
   }
+  // Temporary loading screen while waiting for GET to return
   return (
     <Card>
       <Typography variant="h6">Loading...</Typography>

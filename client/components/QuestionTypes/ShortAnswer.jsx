@@ -15,7 +15,14 @@ export const ShortAnswer = (props) => {
   const classes = useStyles();
   return (
     <FormControl component="fieldset">
-      <TextField className={classes.textField} id="outlined-basic" variant="outlined" />
+      <TextField
+        className={classes.textField}
+        id="outlined-basic"
+        variant="outlined"
+        onChange={(e) => {
+          props.onChange(props.qid, e.target.value);
+        }}
+      />
     </FormControl>
   );
 };

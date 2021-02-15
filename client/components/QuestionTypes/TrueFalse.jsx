@@ -9,8 +9,22 @@ export const TrueFalse = (props) => {
   return (
     <FormControl component="fieldset">
       <RadioGroup>
-        <FormControlLabel value="True" control={<Radio />} label="True" />
-        <FormControlLabel value="False" control={<Radio />} label="False" />
+        <FormControlLabel
+          value="True"
+          control={<Radio />}
+          label="True"
+          onChange={(e) => {
+            props.onChange(props.qid, e.target.value);
+          }}
+        />
+        <FormControlLabel
+          value="False"
+          control={<Radio />}
+          label="False"
+          onChange={(e) => {
+            props.onChange(props.qid, e.target.value);
+          }}
+        />
       </RadioGroup>
     </FormControl>
   );

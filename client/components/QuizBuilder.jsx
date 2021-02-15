@@ -33,8 +33,7 @@ export const QuizBuilder = (props) => {
         </Typography>
       </Card>
       <br />
-      {console.log(props.quiz.questions)}
-      <QuestionBuilder questions={props.quiz.questions} />
+      <QuestionBuilder questions={props.quiz.questions} results={props.results} saveResults={props.saveResults} />
     </Container>
   );
 };

@@ -11,6 +11,7 @@ import { Navbar } from './components/Navbar';
 import { QuizCreate } from './screens/QuizCreate/QuizCreate';
 import { QuizProfile } from './screens/QuizProfile';
 import { QuizAction } from './screens/QuizAction';
+import { QuizResults } from './screens/QuizResults';
 
 export const Router = () => {
   const classes = useStyles();
@@ -28,6 +29,7 @@ export const Router = () => {
 
           <Route path="/quiz/create" component={QuizCreate} />
           <Route path="/quiz/:id/action" component={QuizAction} />
+          <Route path="/quiz/:id/results" component={QuizResults} />
           <Route path="/quiz/:id" component={QuizProfile} />
         </Switch>
       </>
