@@ -19,3 +19,4 @@ if (isDevelopment()) {
 export const firebaseAdmin = firebaseAuth;
 
 export const db = firebaseAdmin.firestore();
+db.settings({ ignoreUndefinedProperties: true });
