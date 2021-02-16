@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   comment: {
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const CommentField = ({setComment}) => {
+export const CommentField = ({ setComment }) => {
   const classes = useStyles();
 
   return (
@@ -25,14 +25,16 @@ export const CommentField = ({setComment}) => {
           multiline
           rows={4}
           variant="outlined"
-          onChange = {(e) =>{
+          onChange={(e) => {
             setComment(e.target.value);
           }}
         />
         {/* submit button for comments only */}
-
       </div>
-      
     </form>
   );
-}
+};
+
+CommentField.propTypes = {
+  setComment: PropTypes.func.isRequired,
+};
