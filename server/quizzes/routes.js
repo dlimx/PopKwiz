@@ -31,9 +31,9 @@ quizRouter.get('/:id', async (req, res) => {
 // });
 
 // POST Rating and Comment
-quizRouter.post('/rating', async (req, res) => {
+quizRouter.post('/rating', authMiddleware, async (req, res) => {
   try {
-    const data = await rateQuiz(req.body);
+    const data = await rateQuiz(req.body, req.user);
     res.status(StatusCode.Success).send(data);
   } catch (error) {
     sendError(res, error);

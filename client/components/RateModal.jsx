@@ -10,7 +10,6 @@ import { Rate } from './Rate';
 import { CommentField } from './CommentField';
 
 import { useAPI } from '../api/api';
-import { useAuth } from '../store/users/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -38,7 +37,6 @@ export const RateModal = ({ quizID, rateVal, setRate, commentVal, setComment }) 
   };
 
   const api = useAPI();
-  const { currentUser } = useAuth();
 
   return (
     <div>
@@ -79,7 +77,6 @@ export const RateModal = ({ quizID, rateVal, setRate, commentVal, setComment }) 
                   if (rateVal > 0 || commentVal.length > 0) {
                     api
                       .post('/quizzes/rating', {
-                        User: currentUser.uid,
                         Quiz: quizID,
                         Rating: rateVal,
                         Comment: commentVal,
