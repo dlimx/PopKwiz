@@ -40,6 +40,7 @@ export function AuthProvider({ children }) {
         uid: cred.user.uid,
         username: cred.user.displayName,
         email: cred.user.email,
+        picture: cred.user.photoURL,
       });
     });
   }
