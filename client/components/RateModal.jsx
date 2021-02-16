@@ -4,23 +4,19 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import PropTypes from 'prop-types';
-import { Rate } from './Rate';
-import { CommentField } from './CommentField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
+import { Rate } from './Rate';
+import { CommentField } from './CommentField';
 
 import { useAPI } from '../api/api';
 import { useAuth } from '../store/users/AuthContext';
-
-
 
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   paper: {
     backgroundColor: theme.palette.background.default,
@@ -29,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const RateModal = ({quizID, rateVal, setRate, commentVal, setComment }) => {
+export const RateModal = ({ quizID, rateVal, setRate, commentVal, setComment }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -55,42 +51,48 @@ export const RateModal = ({quizID, rateVal, setRate, commentVal, setComment }) =
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
-        BackdropProps={{timeout: 500,}}
+        BackdropProps={{ timeout: 500 }}
       >
         <Fade in={open}>
           <div className={classes.paper}>
-          {/* instructions */}
-          <h2>How did you like the quiz?</h2>
+            {/* instructions */}
+            <h2>How did you like the quiz?</h2>
 
-          {/* rate via stars */}
-            <Grid container justify= "center">
+            {/* rate via stars */}
+            <Grid container justify="center">
               {/* omit handleclose hook if not being used */}
               <Rate handleClose={handleClose} setRate={setRate} />
             </Grid>
 
-          {/* Comment Field */}
-            <br/>
-            <CommentField setComment={setComment}/>
-            <br/>
+            {/* Comment Field */}
+            <br />
+            <CommentField setComment={setComment} />
+            <br />
 
-          {/* Send button */}
+            {/* Send button */}
             <Grid container justify="flex-end">
-              <Button variant="contained" color="primary" onClick={()=>{
-                handleClose();
-                if (rateVal > 0 || commentVal.length > 0) {
-                  api.post('/quizzes/rating', {
-                    User: currentUser.uid,
-                    Quiz: quizID,
-                    Rating: rateVal,
-                    Comment: commentVal,
-                  })
-                  .then( (res) => {
-                    console.log(res);
-                  });
-              }}}>Send</Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  handleClose();
+                  if (rateVal > 0 || commentVal.length > 0) {
+                    api
+                      .post('/quizzes/rating', {
+                        User: currentUser.uid,
+                        Quiz: quizID,
+                        Rating: rateVal,
+                        Comment: commentVal,
+                      })
+                      .then((res) => {
+                        console.log(res);
+                      });
+                  }
+                }}
+              >
+                Send
+              </Button>
             </Grid>
-
-            
           </div>
         </Fade>
       </Modal>
@@ -100,4 +102,8 @@ export const RateModal = ({quizID, rateVal, setRate, commentVal, setComment }) =
 
 RateModal.propTypes = {
   setRate: PropTypes.func.isRequired,
+  setComment: PropTypes.func.isRequired,
+  quizID: PropTypes.number.isRequired,
+  rateVal: PropTypes.number.isRequired,
+  commentVal: PropTypes.string.isRequired,
 };
