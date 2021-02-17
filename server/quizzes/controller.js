@@ -70,12 +70,12 @@ export const createQuiz = async (body, user) => {
   }
 };
 
-export const rateQuiz = async (userQuery) => {
+export const rateQuiz = async (body, user) => {
   try {
     const addRating = await db
       .collection(QUIZZES)
-      .doc(userQuery.id)
-      .update({ rating: { [userQuery.user]: userQuery.score } });
+      .doc(body.Quiz)
+      .update({ rating: { [user.id]: { user_score: body.Rating, user_comment: body.Comment } } });
     return { addRating };
   } catch (error) {
     console.error(error);
