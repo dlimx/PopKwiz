@@ -29,6 +29,7 @@ export const getUserById = async (userID) => {
 
   const doc = await db.collection(USERS).doc(userID).get();
   user = doc.data();
+  console.log(user);
   cache.set(userID, user);
   return user;
 };
