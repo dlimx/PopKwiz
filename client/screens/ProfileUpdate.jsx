@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import PersonIcon from '@material-ui/icons/Person';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../store/users/AuthContext';
 import { FormBuilder } from '../components/FormBuilder';
 
-export function SignUp() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+export function ProfileUpdate() {
+  const { currentUser, updatePassword, updateEmail } = useAuth();
+  const [email, setEmail] = useState(currentUser.email);
   const [password, setPassword] = useState('');
   const [confPassword, setconfPassword] = useState('');
-  const { signup } = useAuth();
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  const handleName = (value) => {
-    setName(value);
-  };
   const handleEmail = (value) => {
     setEmail(value);
   };
@@ -28,45 +23,43 @@ export function SignUp() {
     setconfPassword(value);
   };
 
-  async function handleSubmit(e) {
+  // eslint-disable-next-line consistent-return
+  function handleSubmit(e) {
     e.preventDefault();
-
     if (password !== confPassword) {
       return setError('Passwords do not match');
     }
 
-    // signup user with firebase authentication
-    try {
-      setError('');
-      setLoading(true);
+    const promises = [];
+    setLoading(true);
+    setError('');
 
-      await signup(name, email, password);
-      setMessage('Account successfully created!');
-      history.push('/');
-    } catch (err) {
-      setError('Failed to create an account');
+    if (email !== currentUser.email) {
+      promises.push(updateEmail(email));
+    }
+    if (password) {
+      promises.push(updatePassword(password));
     }
 
-    setLoading(false);
-    return 0;
+    Promise.all(promises)
+      .then(() => {
+        history.push('/');
+      })
+      .catch(() => {
+        setError('Failed to update account');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   return (
     <FormBuilder
-      header="Sign Up"
+      header="Update Profile"
       fields={[
         {
-          name: 'username',
-          label: 'user name',
-          type: 'text',
-          id: 'username',
-          autoComplete: 'username',
-          value: name,
-          onChange: handleName,
-        },
-        {
           name: 'email',
-          label: 'email',
+          label: 'new email',
           type: 'email',
           id: 'email',
           autoComplete: 'email',
@@ -75,7 +68,7 @@ export function SignUp() {
         },
         {
           name: 'password',
-          label: 'password',
+          label: 'new password',
           type: 'password',
           id: 'password',
           autoComplete: 'password',
@@ -84,7 +77,7 @@ export function SignUp() {
         },
         {
           name: 'confpassword',
-          label: 'confirm password',
+          label: 'confirm new password',
           type: 'password',
           id: 'confpassword',
           autoComplete: 'confpassword',
@@ -99,7 +92,7 @@ export function SignUp() {
         },
       ]}
     >
-      <PersonAddIcon />
+      <PersonIcon />
     </FormBuilder>
   );
 }
