@@ -42,7 +42,7 @@ export const addUser = async (user) => {
     username: user.username,
     email: user.email,
     id: newUserID,
-    // image: user.picture,
+    picture: user.picture || null,
     createdAt: now,
     updatedAt: now,
   };
