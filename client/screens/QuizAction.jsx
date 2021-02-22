@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Button, Container } from '@material-ui/core';
 import { useAPI } from '../api/api';
 import { QuizBuilder } from '../components/QuizBuilder';
@@ -15,6 +15,8 @@ import { QuizTypes } from '../../constants/quizConstants';
 export const QuizAction = () => {
   const classes = useStyles();
   const api = useAPI();
+  const history = useHistory();
+
   const [quiz, setQuiz] = useState({});
   const [results, setResults] = useState({});
   const { id } = useParams();
@@ -77,16 +79,16 @@ export const QuizAction = () => {
   const submitQuiz = async (e) => {
     e.preventDefault();
     const score = scoreQuiz();
-    console.log(score);
     const body = {
-      quiz_id: id,
-      user_id: currentUser.uid,
+      quizID: id,
+      userID: currentUser.uid,
       score,
       answers: results,
     };
-    console.log(body);
+    // console.log(body);
     api.post(`/quizzes/${id}/results`, body).then((res) => {
       console.log(res);
+      history.push(`/quiz/${id}/results`);
     });
   };
 
