@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/storage';
 
 // Used only by client
 const firebaseConfig = {
@@ -22,3 +23,4 @@ auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
 // Google provider
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
+export const storage = firebase.storage();

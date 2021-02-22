@@ -17,6 +17,7 @@ if (isDevelopment()) {
 }
 
 export const firebaseAdmin = firebaseAuth;
+export const bucket = firebaseAdmin.storage().bucket('popkwiz.appspot.com');
 
 export const db = firebaseAdmin.firestore();
 db.settings({ ignoreUndefinedProperties: true });
