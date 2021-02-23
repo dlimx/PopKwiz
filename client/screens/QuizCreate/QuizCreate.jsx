@@ -20,6 +20,7 @@ import { useAPI } from '../../api/api';
 import { quizSchema } from '../../../constants/quizConstants';
 import { QuizCreateQuestion } from './QuizCreateQuestion';
 import { DebouncedTextField } from '../../components/DebouncedTextField';
+import { exportQuiz } from './exportQuiz';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -38,7 +39,19 @@ const useStyles = makeStyles((theme) => ({
   formField: {
     marginBottom: theme.spacing(2),
   },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 }));
+
+const defaultValues = {
+  name: '',
+  description: '',
+  questions: [{ question: '', type: '', options: [], id: uniqueId() }],
+  categories: [],
+};
 
 export const QuizCreate = () => {
   const auth = useAuth();
@@ -46,7 +59,9 @@ export const QuizCreate = () => {
   const history = useHistory();
   const classes = useStyles();
 
+  const [formikValues, setFormikValues] = useState(defaultValues);
   const [categories, setCategories] = useState([]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     api.get('/categories').then(({ data }) => {
@@ -63,29 +78,62 @@ export const QuizCreate = () => {
     [api, history],
   );
 
+  const parseQuiz = useCallback(async (event) => {
+    try {
+      const data = JSON.parse(event.target.result);
+      if (!data) {
+        throw new Error();
+      }
+
+      const quiz = { ...defaultValues, ...quizSchema.cast(data) };
+      setFormikValues(quiz);
+    } catch (e) {
+      console.log(e);
+      setError('An unexpected error occurred');
+    }
+  }, []);
+
+  const importQuiz = useCallback(
+    async (event) => {
+      setError('');
+      const file = event.target.files[0];
+      const fileReader = new FileReader();
+      fileReader.onloadend = parseQuiz;
+      fileReader.readAsText(file);
+      setFormikValues({ name: 'hello world', questions: [], categories: [] });
+    },
+    [parseQuiz],
+  );
+
   if (!auth.currentUser) {
     return <Redirect to="/login?to=/quiz/create" />;
   }
 
   return (
     <Container className={classes.root} component="main" maxWidth="lg">
-      <Typography component="h1" variant="h5">
-        Create Quiz
-      </Typography>
-
-      <Formik
-        initialValues={{
-          name: '',
-          description: '',
-          questions: [{ question: '', type: '', options: [], id: uniqueId() }],
-          categories: [],
-        }}
-        onSubmit={createQuiz}
-        validationSchema={quizSchema}
-      >
-        {({ setFieldValue, values }) => {
-          console.log(values);
-          return (
+      <Formik initialValues={formikValues} onSubmit={createQuiz} validationSchema={quizSchema} enableReinitialize>
+        {(formik) => {
+          const { setFieldValue, values } = formik;
+          return [
+            <div className={classes.row}>
+              <Typography component="h1" variant="h5">
+                Create Quiz
+              </Typography>
+              <div>
+                <Button style={{ marginRight: 20 }} variant="contained" component="label">
+                  Import
+                  <input type="file" hidden onChange={importQuiz} />
+                </Button>
+                <Button variant="contained" onClick={() => exportQuiz(values)}>
+                  Export
+                </Button>
+              </div>
+            </div>,
+            error && (
+              <Typography component="p" color="error">
+                {error}
+              </Typography>
+            ),
             <Form className={classes.form}>
               <FastField name="name">
                 {({ field, meta }) => (
@@ -145,8 +193,8 @@ export const QuizCreate = () => {
               <Button type="submit" variant="contained" color="primary">
                 Create Quiz
               </Button>
-            </Form>
-          );
+            </Form>,
+          ];
         }}
       </Formik>
     </Container>

@@ -44,7 +44,7 @@ export const getQuiz = async (id) => {
     const quizRef = db.collection(QUIZZES).doc(id);
     const quiz = await quizRef.get();
 
-    return quiz;
+    return quiz.data();
   } catch (error) {
     console.error(error);
     throw newError(StatusCode.BadRequest, error.message);

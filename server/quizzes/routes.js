@@ -3,6 +3,7 @@ import { getQuiz, getQuizzes, createQuiz, rateQuiz } from './controller';
 import { authMiddleware } from '../users/middleware';
 import { sendError } from '../utils/error';
 import { StatusCode } from '../utils/http';
+import { getDataQuiz } from './model';
 
 export const quizRouter = express.Router();
 
@@ -10,7 +11,7 @@ export const quizRouter = express.Router();
 quizRouter.get('/:id', async (req, res) => {
   await getQuiz(req.params.id)
     .then((quiz) => {
-      res.status(200).json({ data: quiz.data() });
+      res.status(200).json({ data: getDataQuiz(quiz) });
     })
     .catch((err) => {
       console.log(err);
@@ -44,7 +45,7 @@ quizRouter.post('/rating', authMiddleware, async (req, res) => {
 quizRouter.get('/', async (req, res) => {
   await getQuizzes(req.query)
     .then((quizList) => {
-      res.status(200).send(quizList);
+      res.status(200).send(quizList.map((quiz) => getDataQuiz(quiz)));
     })
     .catch((err) => {
       console.log(err);
