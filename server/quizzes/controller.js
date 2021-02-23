@@ -5,6 +5,7 @@ import { QUIZZES } from '../../constants';
 import { newError } from '../utils/error';
 import { StatusCode } from '../utils/http';
 import { quizSchema } from '../../constants/quizConstants';
+import { saveCreationQuiz } from './model';
 
 // get quizzes from firestore
 export const getQuizzes = async (userQuery) => {
@@ -51,23 +52,16 @@ export const getQuiz = async (id) => {
 };
 
 export const createQuiz = async (body, user) => {
-  let quiz;
+  let quizCreateBody;
   try {
-    quiz = quizSchema.validateSync(body);
+    quizCreateBody = quizSchema.validateSync(body);
   } catch (error) {
     throw newError(StatusCode.BadRequest, error.message);
   }
 
-  try {
-    const ref = db.collection(QUIZZES).doc();
-    const now = firebase.firestore.Timestamp.now();
-    await ref.set({ ...quiz, userID: user.id, id: ref.id, createdAt: now, updatedAt: now });
+  quizCreateBody.userID = user.id;
 
-    return { ...quiz, id: ref.id };
-  } catch (error) {
-    console.error(error);
-    throw newError(StatusCode.Error, error.message);
-  }
+  return saveCreationQuiz(quizCreateBody);
 };
 
 export const rateQuiz = async (body, user) => {
