@@ -51,18 +51,18 @@ export const getQuiz = async (id) => {
   }
 };
 
-export const createQuiz = async (body) => {
-  let quiz;
-  try {
-    const quizRef = db.collection(QUIZZES).doc(id);
-    const quiz = await quizRef.get();
+// export const createQuiz = async (body) => {
+//   let quiz;
+//   try {
+//     const quizRef = db.collection(QUIZZES).doc(id);
+//     const quiz = await quizRef.get();
 
-    return quiz;
-  } catch (error) {
-    console.error(error);
-    throw newError(StatusCode.BadRequest, error.message);
-  }
-};
+//     return quiz;
+//   } catch (error) {
+//     console.error(error);
+//     throw newError(StatusCode.BadRequest, error.message);
+//   }
+// };
 
 export const createQuiz = async (body, user) => {
   let quizCreateBody;

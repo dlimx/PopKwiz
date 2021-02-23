@@ -11,13 +11,11 @@ export const MultipleChoice = (props) => {
       <RadioGroup>
         {props.answers.map((answer, index) => (
           <FormControlLabel
-            value={answer.answer}
+            value={answer.option}
             control={<Radio />}
-            label={answer.answer}
+            label={answer.option}
             onChange={(e) => {
               props.onChange(props.qid, e.target.value);
-              // console.log(`qid: ${props.qid}`)
-              // console.log(e.target.value);
             }}
           />
         ))}
