@@ -30,18 +30,17 @@ quizRouter.get('/:id', async (req, res) => {
 //   .catch(error => res.status(500).send(error));
 // });
 
-// Send Score - will change to POST method.
-quizRouter.get('/:user/:id/:score', async (req, res) => {
-  // const data = await rateQuiz(req.params);
+// POST Rating and Comment
+quizRouter.post('/rating', authMiddleware, async (req, res) => {
   try {
-    const data = await rateQuiz(req.params);
+    const data = await rateQuiz(req.body, req.user);
     res.status(StatusCode.Success).send(data);
   } catch (error) {
     sendError(res, error);
   }
 });
 
-// GET quizzes
+// GET List of Quizzes
 quizRouter.get('/', async (req, res) => {
   await getQuizzes(req.query)
     .then((quizList) => {
@@ -53,6 +52,7 @@ quizRouter.get('/', async (req, res) => {
     });
 });
 
+// POST Create Quiz
 quizRouter.post('/', authMiddleware, async (req, res) => {
   try {
     const data = await createQuiz(req.body, req.user);

@@ -29,6 +29,7 @@ export const getUserById = async (userID) => {
 
   const doc = await db.collection(USERS).doc(userID).get();
   user = doc.data();
+  console.log(user);
   cache.set(userID, user);
   return user;
 };
@@ -41,7 +42,7 @@ export const addUser = async (user) => {
     username: user.username,
     email: user.email,
     id: newUserID,
-    image: user.picture,
+    picture: user.picture || null,
     createdAt: now,
     updatedAt: now,
   };

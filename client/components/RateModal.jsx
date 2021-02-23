@@ -4,7 +4,12 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import PropTypes from 'prop-types';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import { Rate } from './Rate';
+import { CommentField } from './CommentField';
+
+import { useAPI } from '../api/api';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -13,15 +18,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   paper: {
-    backgroundColor: theme.palette.primary.main,
-    // border: '3px solid #1976d2',
-    color: 'white',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    backgroundColor: theme.palette.background.default,
+    boxShadow: theme.shadows[10],
+    padding: theme.spacing(5, 5, 5),
   },
 }));
 
-export const RateModal = ({ setRate }) => {
+export const RateModal = ({ quizID, rateVal, setRate, commentVal, setComment }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -33,29 +36,60 @@ export const RateModal = ({ setRate }) => {
     setOpen(false);
   };
 
+  const api = useAPI();
+
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        react-transition-group
-      </button>
+      <Button variant="contained" color="secondary" onClick={handleOpen}>
+        Review
+      </Button>
       <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
         className={classes.modal}
         open={open}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
+        BackdropProps={{ timeout: 500 }}
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2>Please rate the quiz.</h2>
-            <h4>( click on the stars below )</h4>
-            <Rate handleClose={handleClose} setRate={setRate} />
-            <p id="transition-modal-description" />
+            {/* instructions */}
+            <h2>How did you like the quiz?</h2>
+
+            {/* rate via stars */}
+            <Grid container justify="center">
+              {/* omit handleclose hook if not being used */}
+              <Rate handleClose={handleClose} setRate={setRate} />
+            </Grid>
+
+            {/* Comment Field */}
+            <br />
+            <CommentField setComment={setComment} />
+            <br />
+
+            {/* Send button */}
+            <Grid container justify="flex-end">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  handleClose();
+                  if (rateVal > 0 || commentVal.length > 0) {
+                    api
+                      .post('/quizzes/rating', {
+                        Quiz: quizID,
+                        Rating: rateVal,
+                        Comment: commentVal,
+                      })
+                      .then((res) => {
+                        console.log(res);
+                      });
+                  }
+                }}
+              >
+                Send
+              </Button>
+            </Grid>
           </div>
         </Fade>
       </Modal>
@@ -65,4 +99,8 @@ export const RateModal = ({ setRate }) => {
 
 RateModal.propTypes = {
   setRate: PropTypes.func.isRequired,
+  setComment: PropTypes.func.isRequired,
+  quizID: PropTypes.number.isRequired,
+  rateVal: PropTypes.number.isRequired,
+  commentVal: PropTypes.string.isRequired,
 };
