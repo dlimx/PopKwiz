@@ -1,31 +1,44 @@
 import express from 'express';
-import { getUsers, addUser } from './controller';
-import { authMiddleWare } from '../utils/authMiddleWare';
+import { getUsers, getUserById, addUser } from './controller';
+import { authMiddleware } from './middleware';
+import { StatusCode } from '../utils/http';
+import { sendError } from '../utils/error';
 
 export const userRouter = express.Router();
 
 // GET users
-userRouter.get('/', authMiddleWare, async (req, res) => {
+userRouter.get('/', authMiddleware, async (req, res) => {
   const user = req.query;
-  await getUsers(user)
-    .then((userList) => {
-      res.status(200).send(userList);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ error: 'something went wrong retreving users from db.' });
-    });
+
+  try {
+    const userList = await getUsers(user);
+    res.status(StatusCode.Success).send(user);
+  } catch (error) {
+    console.log(error);
+    sendError(res, error);
+  }
+});
+
+// GET users
+userRouter.get('/:id', authMiddleware, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await getUserById(id);
+    res.status(StatusCode.Success).send(user);
+  } catch (error) {
+    console.log(error);
+    sendError(res, error);
+  }
 });
 
 // POST new user to database
 userRouter.post('/', async (req, res) => {
   const user = req.body;
-  await addUser(user)
-    .then(() => {
-      res.status(200).send('add users');
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ error: 'something went wrong adding user to db.' });
-    });
+  try {
+    await addUser(user);
+    res.status(StatusCode.Success).send('added user');
+  } catch (error) {
+    console.log(error);
+    sendError(res, error);
+  }
 });

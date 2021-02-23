@@ -1,8 +1,11 @@
+import firebase from 'firebase-admin';
+
 import { db } from '../database/firestore';
 import { QUIZZES, QUIZ_RESULTS } from '../../constants';
 import { newError } from '../utils/error';
 import { StatusCode } from '../utils/http';
 import { quizSchema } from '../../constants/quizConstants';
+import { saveCreationQuiz } from './model';
 
 // get quizzes from firestore
 export const getQuizzes = async (userQuery) => {
@@ -51,15 +54,36 @@ export const getQuiz = async (id) => {
 export const createQuiz = async (body) => {
   let quiz;
   try {
-    quiz = quizSchema.validateSync(body);
+    const quizRef = db.collection(QUIZZES).doc(id);
+    const quiz = await quizRef.get();
+
+    return quiz;
+  } catch (error) {
+    console.error(error);
+    throw newError(StatusCode.BadRequest, error.message);
+  }
+};
+
+export const createQuiz = async (body, user) => {
+  let quizCreateBody;
+  try {
+    quizCreateBody = quizSchema.validateSync(body);
   } catch (error) {
     throw newError(StatusCode.BadRequest, error.message);
   }
 
-  try {
-    const ref = await db.collection(QUIZZES).add(quiz);
+  quizCreateBody.userID = user.id;
 
-    return { ...quiz, id: ref.id };
+  return saveCreationQuiz(quizCreateBody);
+};
+
+export const rateQuiz = async (body, user) => {
+  try {
+    const addRating = await db
+      .collection(QUIZZES)
+      .doc(body.Quiz)
+      .update({ rating: { [user.id]: { user_score: body.Rating, user_comment: body.Comment } } });
+    return { addRating };
   } catch (error) {
     console.error(error);
     throw newError(StatusCode.Error, error.message);

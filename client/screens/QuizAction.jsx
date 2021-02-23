@@ -96,8 +96,6 @@ export const QuizAction = () => {
     loadQuiz(id);
   }, []);
 
-  // console.log(`user ${currentUser.uid}`)
-
   return (
     <Container maxWidth="md">
       <form className={classes.form}>

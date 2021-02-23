@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
-import { QuizStrings, QuizTypes } from '../../../constants/quizConstants';
+import { QuizConstants, QuizStrings, QuizTypes } from '../../../constants/quizConstants';
 import { DebouncedTextField } from '../../components/DebouncedTextField';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,12 +28,12 @@ const useStyles = makeStyles((theme) => ({
   formFieldMarginRight: {
     marginRight: theme.spacing(2),
   },
-  answerContainer: {
+  optionContainer: {
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
   },
-  answerFormField: {
+  optionFormField: {
     marginRight: theme.spacing(2),
     width: '100%',
   },
@@ -43,6 +43,26 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
   },
 }));
+
+const getNewOption = (type) => {
+  if (type === QuizTypes.MultipleChoice) {
+    return { option: '', correct: false };
+  }
+  return { option: '', correct: true };
+};
+
+const getTrueFalseOptions = (correct) => {
+  return [
+    {
+      option: QuizConstants.True,
+      correct: correct === QuizConstants.True,
+    },
+    {
+      option: QuizConstants.False,
+      correct: correct === QuizConstants.False,
+    },
+  ];
+};
 
 export const QuizCreateQuestion = ({ index, question }) => {
   const formik = useFormikContext();
@@ -55,75 +75,86 @@ export const QuizCreateQuestion = ({ index, question }) => {
     setOpen(isOpen);
   };
 
-  const renderAddAnswer = () => {
+  const renderAddOption = () => {
     if (!question) return null;
     return (
       <Button
         onClick={() =>
-          formik.setFieldValue(`${name}.answers`, [...formik.values.questions[index].answers, { answer: '' }])
+          formik.setFieldValue(`${name}.options`, [
+            ...formik.values.questions[index].options,
+            getNewOption(question.type),
+          ])
         }
       >
-        Add Answer
+        Add Option
       </Button>
     );
   };
 
-  const renderAnswers = () => {
+  const renderOptions = () => {
     if (!question) return null;
-    const { type, answers } = question;
+    const { type, options } = question;
 
     switch (type) {
       case QuizTypes.MultipleChoice:
         return (
-          <div className={classes.answerContainer}>
+          <div className={classes.optionContainer}>
             <div className={classes.row}>
               <FormLabel>Answers</FormLabel>
 
               <FormLabel>Correct</FormLabel>
             </div>
 
-            {answers.map((answer, answerIndex) => (
+            {options.map((option, optionIndex) => (
               // eslint-disable-next-line react/no-array-index-key
-              <div key={answerIndex} className={`${classes.row} ${classes.formField}`}>
-                <FastField name={`${name}.answers[${answerIndex}].answer`}>
+              <div key={optionIndex} className={`${classes.row} ${classes.formField}`}>
+                <FastField name={`${name}.options[${optionIndex}].option`}>
                   {({ field, meta }) => (
                     <DebouncedTextField
                       {...field}
-                      className={classes.answerFormField}
-                      label={`Option ${answerIndex + 1}`}
+                      className={classes.optionFormField}
+                      label={`Option ${optionIndex + 1}`}
                       error={(formik.submitCount || meta.touched) && !!meta.error}
                     />
                   )}
                 </FastField>
-                <FastField name={`${name}.answers[${answerIndex}].correct`}>
-                  {({ field }) => <Checkbox {...field} multiline />}
+                <FastField name={`${name}.options[${optionIndex}].correct`}>
+                  {({ field }) => <Checkbox {...field} />}
                 </FastField>
               </div>
             ))}
-            {renderAddAnswer()}
+            {renderAddOption()}
           </div>
         );
       case QuizTypes.TrueFalse:
         return (
-          <FastField name={`${name}.answers[0].answer`}>
+          <FastField name={`${name}.options[0].option`}>
             {({ field, meta }) => (
               <FormControl className={classes.formField}>
                 <FormLabel
-                  htmlFor={`${name}.answers[0]-form`}
+                  htmlFor={`${name}.options[0]-form`}
                   error={(formik.submitCount || meta.touched) && !!meta.error}
                 >
-                  Answer
+                  Answers
                 </FormLabel>
                 <RadioGroup
                   {...field}
                   onChange={(...args) => {
-                    formik.setFieldValue(`${name}.answers`, []);
+                    formik.setFieldValue(`${name}.options`, getTrueFalseOptions(args[1]));
                     field.onChange(...args);
                   }}
-                  id={`${name}.answers[0]-form`}
+                  id={`${name}.options[0]-form`}
                 >
-                  <FormControlLabel control={<Radio />} label="True" value="TRUE" />
-                  <FormControlLabel control={<Radio />} label="False" value="FALSE" />
+                  <FormControlLabel
+                    control={<Radio />}
+                    label={QuizStrings[QuizConstants.True]}
+                    value={QuizConstants.True}
+                  />
+                  <FormControlLabel
+                    control={<Radio />}
+                    label={QuizStrings[QuizConstants.False]}
+                    value={QuizConstants.False}
+                  />
                 </RadioGroup>
               </FormControl>
             )}
@@ -132,31 +163,31 @@ export const QuizCreateQuestion = ({ index, question }) => {
       // case QuizTypes.FillInTheBlank:
       //   return (
       //     <div>
-      //       {answers.map((answer) => (
-      //         <p>{answer}</p>
+      //       {options.map((option) => (
+      //         <p>{option}</p>
       //       ))}
-      //       {renderAddAnswer()}
+      //       {renderAddOption()}
       //     </div>
       //   );
       case QuizTypes.ShortAnswer:
         return (
-          <div className={classes.answerContainer}>
-            <FormLabel htmlFor={`${name}.answers`}>Answers</FormLabel>
+          <div className={classes.optionContainer}>
+            <FormLabel htmlFor={`${name}.options`}>Answers</FormLabel>
 
-            {answers.map((answer, answerIndex) => (
+            {options.map((option, optionIndex) => (
               // eslint-disable-next-line react/no-array-index-key
-              <FastField key={answerIndex} name={`${name}.answers[${answerIndex}].answer`}>
+              <FastField key={optionIndex} name={`${name}.options[${optionIndex}].option`}>
                 {({ field, meta }) => (
                   <DebouncedTextField
                     {...field}
-                    label={`Answer ${answerIndex + 1}`}
+                    label={`Option ${optionIndex + 1}`}
                     className={classes.formField}
                     error={(formik.submitCount || meta.touched) && !!meta.error}
                   />
                 )}
               </FastField>
             ))}
-            {renderAddAnswer()}
+            {renderAddOption()}
           </div>
         );
       default:
@@ -189,7 +220,8 @@ export const QuizCreateQuestion = ({ index, question }) => {
               <RadioGroup
                 {...field}
                 onChange={(...args) => {
-                  formik.setFieldValue(`${name}.answers`, [{ answer: '' }]);
+                  const options = args[1] === QuizTypes.TrueFalse ? getTrueFalseOptions() : [getNewOption(args[1])];
+                  formik.setFieldValue(`${name}.options`, options);
                   field.onChange(...args);
                 }}
                 id={`${name}-form`}
@@ -201,7 +233,7 @@ export const QuizCreateQuestion = ({ index, question }) => {
             </FormControl>
           )}
         </FastField>
-        {renderAnswers()}
+        {renderOptions()}
       </AccordionDetails>
     </Accordion>
   );
@@ -212,6 +244,6 @@ QuizCreateQuestion.propTypes = {
   question: PropTypes.shape({
     type: PropTypes.string,
     question: PropTypes.string,
-    answers: PropTypes.array,
+    options: PropTypes.array,
   }).isRequired,
 };

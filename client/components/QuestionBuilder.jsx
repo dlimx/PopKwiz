@@ -21,7 +21,6 @@ export const QuestionBuilder = (props) => {
   const classes = useStyles();
   if (props.questions) {
     // console.log(props.questions);
-
     return (
       <div className={classes.paper}>
         {props.questions.map((question, index) => (
