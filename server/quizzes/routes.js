@@ -7,30 +7,6 @@ import { StatusCode } from '../utils/http';
 
 export const quizRouter = express.Router();
 
-// GET quiz
-quizRouter.get('/:id', async (req, res) => {
-  await getQuiz(req.params.id)
-    .then((quiz) => {
-      res.status(200).json({ data: quiz.data() });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ error: 'something went wrong retreving quizzes from db.' });
-    });
-});
-
-// JLIN88 Pending Route
-// quizRouter.get('/quizzes/:id', async (req, res) => {
-//   const id = req.params.id;
-//   console.log(`id = ${id}`)
-//   let doc = db.collection('quizzes').doc(id)
-//   let quiz = doc.get()
-//   .then(quiz => {
-//     if (!quiz.exists) throw new Error('Quiz not found');
-//     res.status(200).json({data: quiz.data})})
-//   .catch(error => res.status(500).send(error));
-// });
-
 // POST Rating and Comment
 quizRouter.post('/rating', authMiddleware, async (req, res) => {
   try {

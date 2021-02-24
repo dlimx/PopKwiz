@@ -25,7 +25,6 @@ export const QuizAction = () => {
 
   const loadQuiz = async (quizID) => {
     api.get(`/quizzes/${quizID}`).then((res) => {
-      // console.log(res.data.data);
       setQuiz(res.data.data);
     });
   };
@@ -34,59 +33,13 @@ export const QuizAction = () => {
     setResults({ ...results, [qid]: value });
   };
 
-  // Really ugly way to calculate quiz score. Should we be doing this in
-  // the back-end and GET request the score?
-  // const scoreQuiz = () => {
-  //   const numQuestions = quiz.questions.length;
-  //   let numCorrect = 0;
-  //   for (let i = 0; i < numQuestions; i++) {
-  //     const { type } = quiz.questions[i];
-  //     switch (type) {
-  //       case QuizTypes.MultipleChoice: {
-  //         for (let j = 0; j < quiz.questions[i].answers.length; j++) {
-  //           if (
-  //             quiz.questions[i].answers[j].correct &&
-  //             results[quiz.questions[i].question_id] === quiz.questions[i].answers[j].answer
-  //           ) {
-  //             numCorrect += 1;
-  //           }
-  //         }
-  //         break;
-  //       }
-  //       case QuizTypes.ShortAnswer: {
-  //         for (let j = 0; j < quiz.questions[i].answers.length; j++) {
-  //           if (quiz.questions[i].answers[j].answer === results[quiz.questions[i].question_id]) {
-  //             numCorrect += 1;
-  //           }
-  //         }
-  //         break;
-  //       }
-  //       case QuizTypes.TrueFalse: {
-  //         if (
-  //           quiz.questions[i].answers[0].answer.toLowerCase() === results[quiz.questions[i].question_id].toLowerCase()
-  //         ) {
-  //           numCorrect += 1;
-  //         }
-  //         break;
-  //       }
-  //       default: {
-  //         return null;
-  //       }
-  //     }
-  //   }
-  //   return (numCorrect / numQuestions) * 100.0;
-  // };
-
   const submitQuiz = async (e) => {
     e.preventDefault();
-    // const score = scoreQuiz();
     const body = {
       quizID: id,
       userID: currentUser.uid,
-      // score,
       answers: results,
     };
-    // console.log(body);
     api.post(`/quizzes/${id}/results`, body).then((res) => {
       console.log(res);
       history.push(`/quiz/${id}/results`);

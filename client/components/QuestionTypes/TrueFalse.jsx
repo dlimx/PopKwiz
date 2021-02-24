@@ -10,7 +10,7 @@ export const TrueFalse = (props) => {
     <FormControl component="fieldset">
       <RadioGroup>
         <FormControlLabel
-          value="True"
+          value="TRUE"
           control={<Radio />}
           label="True"
           onChange={(e) => {
@@ -18,7 +18,7 @@ export const TrueFalse = (props) => {
           }}
         />
         <FormControlLabel
-          value="False"
+          value="FALSE"
           control={<Radio />}
           label="False"
           onChange={(e) => {
