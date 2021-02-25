@@ -1,6 +1,6 @@
 import express from 'express';
 import { getUsers, getUserById, addUser, updateUserPicture } from './controller';
-import { authMiddleware } from './middleware';
+import { authMiddleware, uploadIMG } from './middleware';
 import { StatusCode } from '../utils/http';
 import { sendError } from '../utils/error';
 
@@ -44,13 +44,14 @@ userRouter.post('/', async (req, res) => {
 });
 
 // POST new user to database
-userRouter.post('/picture/:id', async (req, res) => {
-  const user = req.body;
-  try {
-    await updateUserPicture(user);
-    res.status(StatusCode.Success).send('updated user picture');
-  } catch (error) {
-    console.log(error);
-    sendError(res, error);
-  }
+userRouter.post('/picture/:id', uploadIMG.single('file'), async (req, res) => {
+  console.log(req.body);
+  // const user = req.body;
+  // try {
+  //   await updateUserPicture(user);
+  //   res.status(StatusCode.Success).send('updated user picture');
+  // } catch (error) {
+  //   console.log(error);
+  //   sendError(res, error);
+  // }
 });

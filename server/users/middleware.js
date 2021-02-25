@@ -1,3 +1,4 @@
+import multer from 'multer';
 import { firebaseAdmin } from '../database/firestore';
 import { StatusCode } from '../utils/http';
 import { newError, sendError } from '../utils/error';
@@ -49,3 +50,5 @@ export async function userMiddleWare(req, res, next) {
     next();
   }
 }
+
+export const uploadIMG = multer();

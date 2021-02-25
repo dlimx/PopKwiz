@@ -61,7 +61,7 @@ export const Navbar = () => {
       >
         <Toolbar className={classes.toolbar}>
           <Link to="/" style={{ paddingLeft: '1rem' }}>
-            <img src={logo} width="40px" height="40px" alt="" style={{ height: 40, width: 40 }} />;
+            <img src={logo} width="40px" height="40px" alt="" style={{ height: 40, width: 40 }} />
           </Link>
           <Typography className={classes.title} variant="h4" noWrap>
             PopKwiz

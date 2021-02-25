@@ -16,7 +16,6 @@ const useStyles = makeStyles({
   },
 });
 
-
 // temporary border to showcase rating stars
 const defaultProps = {
   bgcolor: 'background.paper',
@@ -32,16 +31,16 @@ export const Rate = ({ handleClose, setRate }) => {
     <div className={classes.rateStyle}>
       {/* Box component is used temporarily to better differentiate rating component */}
       <Box borderColor="grey.400" {...defaultProps}>
-      <Rating
-        name="size-large"
-        precision={1}
-        size="large"
-        onChange={(event, newValue) => {
-          setRate(newValue);
-          //previously closed modal when user clicked on star
-          // handleClose();
-        }}
-      />
+        <Rating
+          name="size-large"
+          precision={1}
+          size="large"
+          onChange={(event, newValue) => {
+            setRate(newValue);
+            // previously closed modal when user clicked on star
+            // handleClose();
+          }}
+        />
       </Box>
     </div>
   );

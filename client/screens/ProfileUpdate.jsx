@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { useAuth } from '../store/users/AuthContext';
 import { useAPI } from '../api/api';
 import { storage } from '../authentication/firebase';
-
+import { FileUpload } from '../components/FileUpload';
 import { FormBuilder } from '../components/FormBuilder';
 
 export function ProfileUpdate() {
@@ -15,7 +15,6 @@ export function ProfileUpdate() {
   const [confPassword, setconfPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
   const [file, setFile] = useState(null);
   const [url, setURL] = useState('');
   const history = useHistory();
@@ -36,6 +35,7 @@ export function ProfileUpdate() {
 
   function handleUpload(e) {
     e.preventDefault();
+
     const uploadTask = storage.ref(`/images/${file.name}`).put(file);
     uploadTask.on('state_changed', console.log, console.error, () => {
       storage
@@ -81,7 +81,8 @@ export function ProfileUpdate() {
 
   return (
     <div>
-      <div>
+      <FileUpload />
+      {/* <div>
         <form onSubmit={handleUpload}>
           <input type="file" onChange={handleChange} />
           <button type="submit" disabled={!file}>
@@ -89,7 +90,7 @@ export function ProfileUpdate() {
           </button>
         </form>
         <img src={url} alt="" />
-      </div>
+      </div> */}
       <FormBuilder
         header="Update Profile"
         fields={[

@@ -11,13 +11,14 @@ if (isDevelopment()) {
   const keys = JSON.parse(keyFile);
   firebaseAuth = firebase.initializeApp({
     credential: firebase.credential.cert(keys),
+    storageBucket: 'popkwiz.appspot.com',
   });
 } else {
   firebaseAuth = firebase.initializeApp();
 }
 
 export const firebaseAdmin = firebaseAuth;
-export const bucket = firebaseAdmin.storage().bucket('popkwiz.appspot.com');
+export const bucket = firebaseAuth.storage().bucket();
 
 export const db = firebaseAdmin.firestore();
 db.settings({ ignoreUndefinedProperties: true });
