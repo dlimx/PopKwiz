@@ -51,6 +51,4 @@ export async function userMiddleWare(req, res, next) {
   }
 }
 
-export const uploadIMG = multer({
-  storage: multer.memoryStorage(),
-});
+export const uploadIMG = multer();

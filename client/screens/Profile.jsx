@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Avatar, Button, Container, Typography, CssBaseline, Grid, TextField } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 
 import { useStyles } from '../styles/useStyles';
 import { storage } from '../authentication/firebase';
@@ -15,35 +15,43 @@ export const Profile = () => {
   const [url, setURL] = useState('');
   const api = useAPI();
 
-  function clearUser(e) {
-    setUser({});
-  }
   // get user info
   useEffect(() => {
-    api.get(`/users/${currentUser.uid}`).then(({ data }) => {
-      setUser(data);
-    });
+    localStorage.clear();
+    if (!localStorage.getItem('user')) {
+      api.get(`/users/${currentUser.uid}`).then(({ data }) => {
+        setUser(data);
+        localStorage.setItem('user', JSON.stringify(data));
+      });
+    } else {
+      const obj = localStorage.getItem('user');
+      setUser(JSON.parse(obj));
+    }
   }, [currentUser.uid, api]);
 
   // fetch image URL from firebase storage
   useEffect(() => {
-    console.log(user.picture);
-    try {
-      storage
-        .ref()
-        .child(user.picture)
-        .getDownloadURL()
-        .then((urll) => {
-          setURL(urll);
-        });
-    } catch (error) {
-      console.log('user loading...');
+    if (localStorage.getItem('avatar')) {
+      setURL(localStorage.getItem('avatar'));
+    } else {
+      try {
+        storage
+          .ref()
+          .child(user.picture)
+          .getDownloadURL()
+          .then((urll) => {
+            setURL(urll);
+            localStorage.setItem('avatar', urll);
+          });
+      } catch (error) {
+        console.log('user loading...');
+      }
     }
   }, [user]);
 
   return (
     <Container maxWidth="xs">
-      <img src={url} alt="" />
+      <img src={url} alt="" width="100px" height="100px" />
       <div className={classes.paper}>
         <h1>Picture goes here</h1>
         <h3>USERNAME: {user.username}</h3>

@@ -1,13 +1,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
-import multer from 'multer';
 import { useAPI } from '../api/api';
 import { useAuth } from '../store/users/AuthContext';
 
 export const FileUpload = () => {
-  const [name, setName] = useState('');
   const [file, setFile] = useState(null);
   const { currentUser } = useAuth();
+  // const [user, setUser] = useState({});
 
   const api = useAPI();
 
@@ -17,30 +16,21 @@ export const FileUpload = () => {
     data.append('uid', currentUser.uid);
     api
       .post(`/users/picture/${currentUser.uid}`, data)
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res.data);
+        localStorage.removeItem('avatar');
+      })
       .catch((err) => console.log(err));
   };
   return (
     <div>
-      <form action="#">
-        {/* <div className="flex">
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            onChange={(event) => {
-              const { value } = event.target;
-              setName(value);
-            }}
-          />
-        </div> */}
-
+      <form action="#" encType="multipart/form-data">
         <div className="flex">
           <label htmlFor="file">File</label>
           <input
             type="file"
             id="file"
-            accept=".jpg"
+            accept="image/png, image/jpeg"
             onChange={(event) => {
               const f = event.target.files[0];
               setFile(f);

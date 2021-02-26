@@ -1,5 +1,6 @@
 import express from 'express';
 import UUID from 'uuid-v4'; // import fs from 'fs';
+// import multer from 'multer';
 // import path from 'path';
 // import url from 'url';
 // import { promisify } from 'util';
@@ -50,20 +51,26 @@ userRouter.post('/', async (req, res) => {
   }
 });
 
-// POST new user to database
+// POST new picture for user
 userRouter.post('/picture/:id', uploadIMG.single('file'), async (req, res) => {
-  // const pipeline = promisify(stream.pipeline);
   const uuid = UUID();
-
-  console.log(req.file);
   const { file } = req;
   const { uid } = req.body;
+  let fname = file.originalname;
+
+  if (file.mimetype === 'image/png') {
+    console.log('file type is png');
+    fname = `${uuid}.png`;
+  } else if (file.mimetype === 'image/jpeg') {
+    console.log('file type is jpeg');
+
+    fname = `${uuid}.jpg`;
+  }
 
   if (!req.file) {
     res.status(400).send('Error: No files found');
   } else {
-    const blob = bucket.file(uid + file.originalname);
-
+    const blob = bucket.file(fname);
     const blobWriter = blob.createWriteStream({
       metadata: {
         destination: 'images',
@@ -77,10 +84,10 @@ userRouter.post('/picture/:id', uploadIMG.single('file'), async (req, res) => {
     });
 
     blobWriter.on('finish', () => {
-      res.status(200).send('File uploaded.');
+      res.status(200).send(fname);
     });
 
     blobWriter.end(req.file.buffer);
+    updateUserPicture(uid, fname);
   }
-  updateUserPicture(uid, `${uid}${file.originalname}`);
 });
