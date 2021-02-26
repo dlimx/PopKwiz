@@ -1,9 +1,16 @@
 import express from 'express';
+import UUID from 'uuid-v4'; // import fs from 'fs';
+// import path from 'path';
+// import url from 'url';
+// import { promisify } from 'util';
+// import * as stream from 'stream';
 import { getUsers, getUserById, addUser, updateUserPicture } from './controller';
 import { authMiddleware, uploadIMG } from './middleware';
 import { StatusCode } from '../utils/http';
 import { sendError } from '../utils/error';
+import { bucket } from '../database/firestore';
 
+// const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 export const userRouter = express.Router();
 
 // GET users
@@ -45,13 +52,35 @@ userRouter.post('/', async (req, res) => {
 
 // POST new user to database
 userRouter.post('/picture/:id', uploadIMG.single('file'), async (req, res) => {
-  console.log(req.body);
-  // const user = req.body;
-  // try {
-  //   await updateUserPicture(user);
-  //   res.status(StatusCode.Success).send('updated user picture');
-  // } catch (error) {
-  //   console.log(error);
-  //   sendError(res, error);
-  // }
+  // const pipeline = promisify(stream.pipeline);
+  const uuid = UUID();
+
+  console.log(req.file);
+  const { file } = req;
+  const { uid } = req.body;
+
+  if (!req.file) {
+    res.status(400).send('Error: No files found');
+  } else {
+    const blob = bucket.file(uid + file.originalname);
+
+    const blobWriter = blob.createWriteStream({
+      metadata: {
+        destination: 'images',
+        contentType: req.file.mimetype,
+        firebaseStorageDownloadtokens: uuid,
+      },
+    });
+
+    blobWriter.on('error', (err) => {
+      console.log(err);
+    });
+
+    blobWriter.on('finish', () => {
+      res.status(200).send('File uploaded.');
+    });
+
+    blobWriter.end(req.file.buffer);
+  }
+  updateUserPicture(uid, `${uid}${file.originalname}`);
 });

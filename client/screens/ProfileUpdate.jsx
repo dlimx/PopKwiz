@@ -33,21 +33,21 @@ export function ProfileUpdate() {
     setFile(e.target.files[0]);
   }
 
-  function handleUpload(e) {
-    e.preventDefault();
+  // function handleUpload(e) {
+  //   e.preventDefault();
 
-    const uploadTask = storage.ref(`/images/${file.name}`).put(file);
-    uploadTask.on('state_changed', console.log, console.error, () => {
-      storage
-        .ref('images')
-        .child(file.name)
-        .getDownloadURL()
-        .then((urll) => {
-          setFile(null);
-          setURL(urll);
-        });
-    });
-  }
+  //   const uploadTask = storage.ref(`/images/${file.name}`).put(file);
+  //   uploadTask.on('state_changed', console.log, console.error, () => {
+  //     storage
+  //       .ref('images')
+  //       .child(file.name)
+  //       .getDownloadURL()
+  //       .then((urll) => {
+  //         setFile(null);
+  //         setURL(urll);
+  //       });
+  //   });
+  // }
 
   // eslint-disable-next-line consistent-return
   function handleSubmit(e) {

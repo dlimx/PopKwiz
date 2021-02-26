@@ -13,8 +13,8 @@ export const FileUpload = () => {
 
   const send = (event) => {
     const data = new FormData();
-    data.append('name', name);
     data.append('file', file);
+    data.append('uid', currentUser.uid);
     api
       .post(`/users/picture/${currentUser.uid}`, data)
       .then((res) => console.log(res))
@@ -23,7 +23,7 @@ export const FileUpload = () => {
   return (
     <div>
       <form action="#">
-        <div className="flex">
+        {/* <div className="flex">
           <label htmlFor="name">Name</label>
           <input
             type="text"
@@ -33,7 +33,7 @@ export const FileUpload = () => {
               setName(value);
             }}
           />
-        </div>
+        </div> */}
 
         <div className="flex">
           <label htmlFor="file">File</label>

@@ -61,6 +61,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "use-debounce": "^5.2.0",
+    "uuid-v4": "^0.1.0",
     "yup": "^0.29.3"
   },
   "devDependencies": {
