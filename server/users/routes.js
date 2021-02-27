@@ -53,41 +53,10 @@ userRouter.post('/', async (req, res) => {
 
 // POST new picture for user
 userRouter.post('/picture/:id', uploadIMG.single('file'), async (req, res) => {
-  const uuid = UUID();
-  const { file } = req;
-  const { uid } = req.body;
-  let fname = file.originalname;
-
-  if (file.mimetype === 'image/png') {
-    console.log('file type is png');
-    fname = `${uuid}.png`;
-  } else if (file.mimetype === 'image/jpeg') {
-    console.log('file type is jpeg');
-
-    fname = `${uuid}.jpg`;
-  }
-
-  if (!req.file) {
-    res.status(400).send('Error: No files found');
-  } else {
-    const blob = bucket.file(fname);
-    const blobWriter = blob.createWriteStream({
-      metadata: {
-        destination: 'images',
-        contentType: req.file.mimetype,
-        firebaseStorageDownloadtokens: uuid,
-      },
-    });
-
-    blobWriter.on('error', (err) => {
-      console.log(err);
-    });
-
-    blobWriter.on('finish', () => {
-      res.status(200).send(fname);
-    });
-
-    blobWriter.end(req.file.buffer);
-    updateUserPicture(uid, fname);
+  try {
+    const update = await updateUserPicture(req);
+    res.status(update.status).send(update.msg);
+  } catch (error) {
+    console.log(error);
   }
 });
