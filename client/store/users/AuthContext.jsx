@@ -46,6 +46,7 @@ export function AuthProvider({ children }) {
   }
 
   function logout() {
+    localStorage.clear();
     return auth.signOut();
   }
 

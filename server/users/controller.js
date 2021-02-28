@@ -5,16 +5,20 @@ import { USERS } from '../../constants';
 import { cache } from './cache';
 
 // remove User's picture from firebase storage
-const pictureRemove = (userid, user) => {
-  bucket
-    .file(user.picture)
-    .delete()
-    .then(() => {
-      console.log(`${user.picture} successfully removed from firebase storage.`);
-    })
-    .catch((err) => console.log(err));
+const pictureRemove = (userid) => {
+  const user = cache.get(userid);
+  console.log(user);
+  if (user.picture) {
+    bucket
+      .file(user.picture)
+      .delete()
+      .then(() => {
+        console.log(`${user.picture} successfully removed from firebase storage.`);
+      })
+      .catch((err) => console.log(err));
 
-  cache.del(userid);
+    cache.del(userid);
+  }
 };
 
 // add new picture to firebase storage
@@ -29,6 +33,7 @@ const uploadPicture = (fname, file, uuid) => {
   });
 
   blobWriter.on('error', (err) => {
+    console.log('hello there!');
     console.log(err);
   });
 
@@ -103,7 +108,7 @@ export const updateUserPicture = async (req) => {
   const { file } = req;
   const { uid } = req.body;
   let fname = file.originalname;
-  const user = cache.get(uid);
+  // const user = cache.get(uid);
 
   if (file.mimetype === 'image/png') {
     console.log('file type is png');
@@ -122,7 +127,7 @@ export const updateUserPicture = async (req) => {
   uploadPicture(fname, file, uuid);
 
   // remove old picture from firebase storage
-  pictureRemove(uid, user);
+  pictureRemove(uid);
 
   // update User's path to picture
   const now = firebase.firestore.Timestamp.now();

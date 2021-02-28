@@ -3,12 +3,12 @@ import PersonIcon from '@material-ui/icons/Person';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../store/users/AuthContext';
 import { useAPI } from '../api/api';
-import { storage } from '../authentication/firebase';
+// import { storage } from '../authentication/firebase';
 import { FileUpload } from '../components/FileUpload';
 import { FormBuilder } from '../components/FormBuilder';
 
 export function ProfileUpdate() {
-  const api = useAPI();
+  // const api = useAPI();
   const { currentUser, updatePassword, updateEmail } = useAuth();
   const [email, setEmail] = useState(currentUser.email);
   const [password, setPassword] = useState('');
@@ -16,7 +16,7 @@ export function ProfileUpdate() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
-  const [url, setURL] = useState('');
+  // const [url, setURL] = useState('');
   const history = useHistory();
 
   const handleEmail = (value) => {

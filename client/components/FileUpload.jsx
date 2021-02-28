@@ -1,26 +1,32 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useAPI } from '../api/api';
 import { useAuth } from '../store/users/AuthContext';
+import { useUser } from '../store/users/UserContext';
 
 export const FileUpload = () => {
   const [file, setFile] = useState(null);
   const { currentUser } = useAuth();
+  const { updateUser } = useUser();
   // const [user, setUser] = useState({});
 
   const api = useAPI();
+  const history = useHistory();
 
   const send = (event) => {
+    localStorage.clear();
     const data = new FormData();
     data.append('file', file);
     data.append('uid', currentUser.uid);
-    api
-      .post(`/users/picture/${currentUser.uid}`, data)
-      .then((res) => {
-        console.log(res.data);
-        localStorage.removeItem('avatar');
-      })
-      .catch((err) => console.log(err));
+    updateUser(data);
+    // api
+    //   .post(`/users/picture/${currentUser.uid}`, data)
+    //   .then((res) => {
+    //     localStorage.removeItem('avatar');
+    //   })
+    //   .catch((err) => console.log(err));
+    // history.push('/');
   };
   return (
     <div>
