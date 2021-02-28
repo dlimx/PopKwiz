@@ -1,4 +1,5 @@
 /* eslint react/prop-types: 0 */
+/* eslint react/no-array-index-key: 0 */
 
 import React from 'react';
 import { Card, CardContent, Divider, Typography } from '@material-ui/core';
@@ -23,7 +24,7 @@ export const QuestionBuilder = (props) => {
     return (
       <div className={classes.paper}>
         {props.questions.map((question, index) => (
-          <Card className={classes.questionCard}>
+          <Card className={classes.questionCard} key={index}>
             <CardContent>
               <Typography variant="h6">Question {index + 1}</Typography>
               <Divider className={classes.divider} variant="fullWidth" />
