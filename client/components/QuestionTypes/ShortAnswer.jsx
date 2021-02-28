@@ -20,7 +20,7 @@ export const ShortAnswer = (props) => {
         id="outlined-basic"
         variant="outlined"
         onChange={(e) => {
-          props.onChange(props.qid, e.target.value);
+          props.saveResults(props.qid, e.target.value);
         }}
       />
     </FormControl>

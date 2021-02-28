@@ -7,21 +7,26 @@ import { TrueFalse } from './QuestionTypes/TrueFalse';
 import { QuizTypes } from '../../constants/quizConstants';
 import { useStyles } from '../styles/useStyles';
 
-export const AnswerBuilder = (props) => {
+export const AnswerBuilder = ({ type, ...rest }) => {
   const classes = useStyles();
-  const answerType = props.type;
+  const props = { ...rest };
 
-  switch (answerType) {
+  // const answerType = props.type;
+
+  switch (type) {
     case QuizTypes.MultipleChoice:
-      return (
-        <MultipleChoice qid={props.qid} answers={props.answers} results={props.results} onChange={props.saveResults} />
-      );
+      return <MultipleChoice {...props} />;
+    // return (
+    // <MultipleChoice qid={props.qid} answers={props.answers} results={props.results} onChange={props.saveResults} />
+    // );
     case QuizTypes.ShortAnswer:
-      return (
-        <ShortAnswer qid={props.qid} answers={props.answers} results={props.results} onChange={props.saveResults} />
-      );
+      return <ShortAnswer {...props} />;
+    // return (
+    // <ShortAnswer qid={props.qid} answers={props.answers} results={props.results} onChange={props.saveResults} />
+    // );
     case QuizTypes.TrueFalse:
-      return <TrueFalse qid={props.qid} answers={props.answers} results={props.results} onChange={props.saveResults} />;
+      return <TrueFalse {...props} />;
+    // return <TrueFalse qid={props.qid} answers={props.answers} results={props.results} onChange={props.saveResults} />;
     default:
       return null;
   }

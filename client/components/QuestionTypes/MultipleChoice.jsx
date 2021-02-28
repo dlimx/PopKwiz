@@ -15,7 +15,7 @@ export const MultipleChoice = (props) => {
             control={<Radio />}
             label={answer.option}
             onChange={(e) => {
-              props.onChange(props.qid, e.target.value);
+              props.saveResults(props.qid, e.target.value);
             }}
           />
         ))}

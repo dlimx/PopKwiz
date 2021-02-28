@@ -14,7 +14,7 @@ export const TrueFalse = (props) => {
           control={<Radio />}
           label="True"
           onChange={(e) => {
-            props.onChange(props.qid, e.target.value);
+            props.saveResults(props.qid, e.target.value);
           }}
         />
         <FormControlLabel
@@ -22,7 +22,7 @@ export const TrueFalse = (props) => {
           control={<Radio />}
           label="False"
           onChange={(e) => {
-            props.onChange(props.qid, e.target.value);
+            props.saveResults(props.qid, e.target.value);
           }}
         />
       </RadioGroup>

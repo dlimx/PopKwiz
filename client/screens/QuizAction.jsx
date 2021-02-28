@@ -3,14 +3,12 @@
 /* eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }] */
 
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Redirect } from 'react-router-dom';
 import { Button, Container } from '@material-ui/core';
 import { useAPI } from '../api/api';
 import { QuizBuilder } from '../components/QuizBuilder';
 import { useStyles } from '../styles/useStyles';
 import { useAuth } from '../store/users/AuthContext';
-import { QuizTypes } from '../../constants/quizConstants';
 
 export const QuizAction = () => {
   const classes = useStyles();
@@ -21,7 +19,7 @@ export const QuizAction = () => {
   const [results, setResults] = useState({});
   const { id } = useParams();
   // Temp way to get user_id
-  const { currentUser } = useAuth();
+  const auth = useAuth();
 
   const loadQuiz = async (quizID) => {
     api.get(`/quizzes/${quizID}`).then((res) => {
@@ -37,7 +35,7 @@ export const QuizAction = () => {
     e.preventDefault();
     const body = {
       quizID: id,
-      userID: currentUser.uid,
+      userID: auth.currentUser.uid,
       answers: results,
     };
     api.post(`/quizzes/${id}/results`, body).then((res) => {
@@ -49,6 +47,10 @@ export const QuizAction = () => {
   useEffect(() => {
     loadQuiz(id);
   }, []);
+
+  if (!auth.currentUser) {
+    return <Redirect to="/login?to=/quiz/create" />;
+  }
 
   return (
     <Container maxWidth="md">
