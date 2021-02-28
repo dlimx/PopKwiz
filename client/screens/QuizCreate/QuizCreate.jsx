@@ -21,6 +21,7 @@ import { quizSchema } from '../../../constants/quizConstants';
 import { QuizCreateQuestion } from './QuizCreateQuestion';
 import { DebouncedTextField } from '../../components/DebouncedTextField';
 import { exportQuiz } from './exportQuiz';
+import { ImageUploadPreview } from '../../components/ImageUploadPreview';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -62,6 +64,7 @@ export const QuizCreate = () => {
   const [formikValues, setFormikValues] = useState(defaultValues);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState('');
+  const [image, setImage] = useState('');
 
   useEffect(() => {
     api.get('/categories').then(({ data }) => {
@@ -70,12 +73,22 @@ export const QuizCreate = () => {
   }, [api]);
 
   const createQuiz = useCallback(
-    (body) => {
-      api.post('/quizzes', body).then((data) => {
+    (data) => {
+      let body;
+      if (image) {
+        body = new FormData();
+        Object.keys(data).forEach((key) => {
+          body.append(key, JSON.stringify(data[key]));
+        });
+        body.append('image', image);
+      } else {
+        body = data;
+      }
+      api.post('/quizzes', body).then((res) => {
         history.push('/');
       });
     },
-    [api, history],
+    [api, history, image],
   );
 
   const parseQuiz = useCallback(async (event) => {
@@ -88,7 +101,7 @@ export const QuizCreate = () => {
       const quiz = { ...defaultValues, ...quizSchema.cast(data) };
       setFormikValues(quiz);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       setError('An unexpected error occurred');
     }
   }, []);
@@ -115,14 +128,14 @@ export const QuizCreate = () => {
         {(formik) => {
           const { setFieldValue, values } = formik;
           return [
-            <div className={classes.row}>
+            <div className={classes.row} key="header">
               <Typography component="h1" variant="h5">
                 Create Quiz
               </Typography>
               <div>
                 <Button style={{ marginRight: 20 }} variant="contained" component="label">
                   Import
-                  <input type="file" hidden onChange={importQuiz} />
+                  <input type="file" accept="application/JSON" hidden onChange={importQuiz} />
                 </Button>
                 <Button variant="contained" onClick={() => exportQuiz(values)}>
                   Export
@@ -134,7 +147,10 @@ export const QuizCreate = () => {
                 {error}
               </Typography>
             ),
-            <Form className={classes.form}>
+            <div className={classes.row} key="image">
+              <ImageUploadPreview image={image} setImage={setImage} />
+            </div>,
+            <Form className={classes.form} key="form">
               <FastField name="name">
                 {({ field, meta }) => (
                   <DebouncedTextField

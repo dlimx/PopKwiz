@@ -1,4 +1,4 @@
-import { firebaseAdmin } from '../database/firestore';
+import { firebaseAdmin } from '../client/firebase';
 import { StatusCode } from '../utils/http';
 import { newError, sendError } from '../utils/error';
 import { getUserById } from './controller';

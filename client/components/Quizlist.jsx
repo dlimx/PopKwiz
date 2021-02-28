@@ -42,26 +42,26 @@ export const Quizlist = ({ quizList }) => {
   return (
     <div className={classes.root}>
       <Box m={2}>
-        {quizList.map((quiz) => (
-          <Accordion expanded={expanded === quiz} onChange={handleChange(quiz)}>
+        {quizList.map((quiz, index) => (
+          <Accordion key={quiz.id || index} expanded={expanded === quiz} onChange={handleChange(quiz)}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{quiz.name}</Typography>
-
-              <Typography className={classes.secondaryHeading}>{quiz.name}</Typography>
+              <Typography className={classes.secondaryHeading}>{quiz.description}</Typography>
+              {!!quiz.image && <img alt="Quiz Preview" src={quiz.image} />}
             </AccordionSummary>
             <AccordionDetails>
-              <Typography>
-                <Grid container spacing={12}>
-                  <Grid item xs={11}>
-                    {quiz.description}
-                  </Grid>
-                  <Grid item xs={1}>
-                    <Button variant="contained" color="primary">
-                      Start
-                    </Button>
-                  </Grid>
+              <Grid container spacing={10}>
+                <Grid item xs={11}>
+                  <Typography>
+                    {quiz?.questions?.length} Question{quiz.questions?.length === 1 ? '' : 's'}
+                  </Typography>
                 </Grid>
-              </Typography>
+                <Grid item xs={1}>
+                  <Button variant="contained" color="primary">
+                    Start
+                  </Button>
+                </Grid>
+              </Grid>
             </AccordionDetails>
           </Accordion>
         ))}

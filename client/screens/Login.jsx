@@ -1,9 +1,5 @@
-/* eslint react/prop-types: 0 */
-/* eslint react/destructuring-assignment: 0 */
-
-import React, { useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-// import { Button } from '@material-ui/core';
+import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useAuth } from '../store/users/AuthContext';
 import { FormBuilder } from '../components/FormBuilder';
 
@@ -13,6 +9,7 @@ export function Login() {
   const { login } = useAuth();
   const { loginWithGoogle } = useAuth();
   const history = useHistory();
+  const location = useLocation();
 
   const handleEmailChange = (value) => {
     setEmail(value);
@@ -22,14 +19,19 @@ export function Login() {
     setPassword(value);
   };
 
+  const onSuccess = () => {
+    const query = new URLSearchParams(location.search);
+    history.push(query.get('to') || '/');
+  };
+
   // Login using firebase authentication
   async function handleLogin(e) {
     try {
       e.preventDefault();
-      const userInfo = await login(email, password);
-      history.push('/');
+      await login(email, password);
+      onSuccess();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -37,10 +39,10 @@ export function Login() {
   async function handleGoogleLogin(e) {
     try {
       e.preventDefault();
-      const userInfo = await loginWithGoogle();
-      history.push('/');
+      await loginWithGoogle();
+      onSuccess();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

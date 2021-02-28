@@ -4,6 +4,7 @@ import { authMiddleware } from '../users/middleware';
 import { sendError } from '../utils/error';
 import { StatusCode } from '../utils/http';
 import { getDataQuiz } from './model';
+import { uploadMiddleware } from '../client/upload';
 
 export const quizRouter = express.Router();
 
@@ -14,7 +15,7 @@ quizRouter.get('/:id', async (req, res) => {
       res.status(200).json({ data: getDataQuiz(quiz) });
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       res.status(500).json({ error: 'something went wrong retreving quizzes from db.' });
     });
 });
@@ -48,15 +49,15 @@ quizRouter.get('/', async (req, res) => {
       res.status(200).send(quizList.map((quiz) => getDataQuiz(quiz)));
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       res.status(500).json({ error: 'something went wrong retreving quizzes from db.' });
     });
 });
 
 // POST Create Quiz
-quizRouter.post('/', authMiddleware, async (req, res) => {
+quizRouter.post('/', authMiddleware, uploadMiddleware.single('image'), async (req, res) => {
   try {
-    const data = await createQuiz(req.body, req.user);
+    const data = await createQuiz(req.body, req.file, req.user);
     res.status(StatusCode.Success).send(data);
   } catch (error) {
     sendError(res, error);

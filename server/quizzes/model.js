@@ -1,5 +1,5 @@
 import firebase from 'firebase-admin';
-import { db } from '../database/firestore';
+import { db } from '../client/db';
 import { QUIZZES } from '../../constants';
 import { newError } from '../utils/error';
 import { StatusCode } from '../utils/http';
