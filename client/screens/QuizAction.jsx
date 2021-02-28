@@ -35,7 +35,6 @@ export const QuizAction = () => {
     e.preventDefault();
     const body = {
       quizID: id,
-      userID: auth.currentUser.uid,
       answers: results,
     };
     api.post(`/quizzes/${id}/results`, body).then((res) => {

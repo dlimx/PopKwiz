@@ -24,7 +24,7 @@ export const QuestionBuilder = (props) => {
     return (
       <div className={classes.paper}>
         {props.questions.map((question, index) => (
-          <Card className={classes.questionCard} key={index}>
+          <Card className={classes.questionCard} key={question.id}>
             <CardContent>
               <Typography variant="h6">Question {index + 1}</Typography>
               <Divider className={classes.divider} variant="fullWidth" />

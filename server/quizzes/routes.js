@@ -53,7 +53,7 @@ quizRouter.get('/:id', async (req, res) => {
 
 quizRouter.post('/:id/results', async (req, res) => {
   try {
-    const data = await submitQuiz(req.body);
+    const data = await submitQuiz(req.body, req.user);
     res.status(StatusCode.Success).send(data);
   } catch (error) {
     sendError(res, error);

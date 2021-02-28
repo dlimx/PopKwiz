@@ -107,11 +107,12 @@ const scoreQuiz = async (quizID, userAnswers) => {
   return score;
 };
 
-export const submitQuiz = async (body) => {
+export const submitQuiz = async (body, user) => {
   try {
     await scoreQuiz(body.quizID, body.answers)
       .then((score) => {
         body['score'] = score;
+        body['userID'] = user.id;
       })
       .then(async (res) => {
         const ref = await db.collection(QUIZ_RESULTS).add(body);
