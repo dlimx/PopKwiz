@@ -93,7 +93,7 @@ export const Navbar = () => {
             onClick={drawerOpen}
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
           >
-            <MenuIcon large style={{ transform: 'scale(2)', color: '#fff' }} />
+            <MenuIcon fontSize="large" style={{ transform: 'scale(2)', color: '#fff' }} />
           </IconButton>
         </Toolbar>
       </AppBar>
