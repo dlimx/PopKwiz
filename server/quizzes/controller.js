@@ -4,12 +4,13 @@
 
 import firebase from 'firebase-admin';
 
-import { db } from '../database/firestore';
 import { QUIZZES, QUIZ_RESULTS } from '../../constants';
+import { db } from '../client/db';
 import { newError } from '../utils/error';
 import { StatusCode } from '../utils/http';
 import { quizSchema } from '../../constants/quizConstants';
 import { saveCreationQuiz } from './model';
+import { quizBucket, uploadFile } from '../client/storage';
 
 // get quizzes from firestore
 export const getQuizzes = async (userQuery) => {
@@ -48,16 +49,21 @@ export const getQuiz = async (id) => {
     const quizRef = db.collection(QUIZZES).doc(id);
     const quiz = await quizRef.get();
 
-    return quiz;
+    return quiz.data();
   } catch (error) {
     console.error(error);
     throw newError(StatusCode.BadRequest, error.message);
   }
 };
 
-export const createQuiz = async (body, user) => {
+export const createQuiz = async (body, file, user) => {
+  const data = body;
   let quizCreateBody;
   try {
+    if (file) {
+      data.image = await uploadFile(quizBucket, file);
+      console.log(data.image);
+    }
     quizCreateBody = quizSchema.validateSync(body);
   } catch (error) {
     throw newError(StatusCode.BadRequest, error.message);

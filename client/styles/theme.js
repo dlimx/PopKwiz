@@ -12,6 +12,8 @@ export const theme = createMuiTheme({
       // paper: '#242424',
       default: '#fff',
       paper: '#fff',
+      greyMedium: '#d9d9d9',
+      greyLight: '#f0f0f0',
     },
     secondary: {
       main: '#f50004',
