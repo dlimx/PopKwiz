@@ -89,8 +89,8 @@ export const rateQuiz = async (body, user) => {
 
 // Helper to score quiz on back-end before POSTing
 const scoreQuiz = async (quizID, userAnswers) => {
-  const score = await getQuiz(quizID).then((res) => {
-    const quiz = res.data();
+  const score = await getQuiz(quizID).then((quiz) => {
+    // const quiz = res.data();
     const numQuestions = quiz.questions.length;
     const questionTypes = new Map();
     quiz.questions.forEach((question) => {
