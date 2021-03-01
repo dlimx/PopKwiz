@@ -25,6 +25,7 @@ export function Logout() {
     setError('');
     try {
       await logout();
+      localStorage.clear();
       history.push('/login'); // move user to login screen after logout
     } catch {
       setError('Failed to log out');

@@ -8,7 +8,7 @@ import { cache } from './cache';
 const pictureRemove = (userid) => {
   const user = cache.get(userid);
   console.log(user);
-  if (user.picture) {
+  if (user.picture !== 'defaultAvatar.png') {
     bucket
       .file(user.picture)
       .delete()
@@ -16,9 +16,8 @@ const pictureRemove = (userid) => {
         console.log(`${user.picture} successfully removed from firebase storage.`);
       })
       .catch((err) => console.log(err));
-
-    cache.del(userid);
   }
+  cache.del(userid);
 };
 
 // add new picture to firebase storage
@@ -67,7 +66,6 @@ export const getUserById = async (userID) => {
 
   const doc = await db.collection(USERS).doc(userID).get();
   user = doc.data();
-  console.log(user);
   cache.set(userID, user);
   return user;
 };
@@ -80,7 +78,7 @@ export const addUser = async (user) => {
     username: user.username,
     email: user.email,
     id: newUserID,
-    picture: user.picture || null,
+    picture: user.picture || 'defaultAvatar.png',
     createdAt: now,
     updatedAt: now,
   };
@@ -119,15 +117,12 @@ export const updateUserPicture = async (req) => {
     fname = `${uuid}.jpg`;
   }
 
-  if (!req.file) {
-    return { status: 400, msg: 'Error: No files found' };
-  }
-
-  // add picture to firebase storage
-  uploadPicture(fname, file, uuid);
+  console.log(fname);
 
   // remove old picture from firebase storage
+
   pictureRemove(uid);
+  const user = getUserById(uid);
 
   // update User's path to picture
   const now = firebase.firestore.Timestamp.now();
@@ -138,5 +133,10 @@ export const updateUserPicture = async (req) => {
 
   // https://firebase.google.com/docs/firestore/manage-data/add-data
   db.collection(USERS).doc(uid).update(updatedUser);
-  return { status: 200, msg: fname };
+
+  // add picture to firebase storage
+  uploadPicture(fname, file, uuid);
+  // return { status: 200, msg: fname };
+
+  return user;
 };

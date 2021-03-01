@@ -5,7 +5,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Router } from './Router';
 import { store, persistor } from './store/store';
 import { AuthProvider } from './store/users/AuthContext';
-import { UserProvider } from './store/users/UserContext';
 
 export const App = () => (
   <AuthProvider>

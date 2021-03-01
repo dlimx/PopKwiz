@@ -33,8 +33,8 @@ export const Router = () => {
             <Route path="/signup" component={SignUp} />
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
+            <Route exact path="/" component={Browse} />
             <UserProvider>
-              <Route exact path="/" component={Browse} />
               <Route path="/profile" component={Profile} />
               <Route path="/update-profile" component={ProfileUpdate} />
               <Route path="/forgot-password" component={ForgotPassword} />

@@ -54,9 +54,9 @@ userRouter.post('/', async (req, res) => {
 // POST new picture for user
 userRouter.post('/picture/:id', uploadIMG.single('file'), async (req, res) => {
   try {
-    const update = await updateUserPicture(req);
-    res.status(update.status).send(update.msg);
+    const updatedUser = await updateUserPicture(req);
+    res.status(200).send(updatedUser);
   } catch (error) {
-    console.log(error);
+    console.log('error on userRouter!!!!!!!!!!!!!');
   }
 });
