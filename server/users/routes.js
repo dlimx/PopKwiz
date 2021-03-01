@@ -1,8 +1,9 @@
 import express from 'express';
-import { getUsers, getUserById, addUser } from './controller';
+import { getUsers, getUserById, addUser, updateUserImage } from './controller';
 import { authMiddleware } from './middleware';
 import { StatusCode } from '../utils/http';
 import { sendError } from '../utils/error';
+import { uploadMiddleware } from '../client/upload';
 
 export const userRouter = express.Router();
 
@@ -39,6 +40,23 @@ userRouter.post('/', async (req, res) => {
     res.status(StatusCode.Success).send('added user');
   } catch (error) {
     console.log(error);
+    sendError(res, error);
+  }
+});
+
+// POST new picture for user
+userRouter.post('/picture', authMiddleware, uploadMiddleware.single('image'), async (req, res) => {
+  // try {
+  //   const updatedUser = await updateUserPicture(req);
+  //   res.status(200).send(updatedUser);
+  // } catch (error) {
+  //   console.log('error on userRouter!!!!!!!!!!!!!');
+  // }
+
+  try {
+    const data = await updateUserImage(req.body, req.file, req.user);
+    res.status(StatusCode.Success).send(data);
+  } catch (error) {
     sendError(res, error);
   }
 });
