@@ -13,21 +13,27 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
+  typographyText: {
+    padding: theme.spacing(1),
+  },
 }));
 
 export const QuizBuilder = (props) => {
   const classes = useStyles();
 
   return (
-    <Container claaName={classes.container}>
+    <Container className={classes.container}>
       <Card>
-        <Typography variant="h4">Quiz: {props.quiz.name}</Typography>
+        <Typography className={classes.typographyText} variant="h4">
+          Quiz: {props.quiz.name}
+        </Typography>
         <Divider className={classes.divider} variant="fullWidth" />
-        <Typography variant="subtitle1">{props.quiz.description}</Typography>
+        <Typography className={classes.typographyText} variant="subtitle1">
+          {props.quiz.description}
+        </Typography>
       </Card>
       <br />
-      {console.log(props.quiz.questions)}
-      <QuestionBuilder questions={props.quiz.questions} />
+      <QuestionBuilder questions={props.quiz.questions} results={props.results} saveResults={props.saveResults} />
     </Container>
   );
 };
