@@ -15,7 +15,7 @@ import { quizBucket, uploadFile } from '../client/storage';
 // get quizzes from firestore
 export const getQuizzes = async (userQuery) => {
   // search and category conditions
-  let quizSearch = '';
+  let quizSearch;
   if (userQuery.search.length > 0 && userQuery.category.length < 1) {
     quizSearch = db
       .collection(QUIZZES)
@@ -34,6 +34,7 @@ export const getQuizzes = async (userQuery) => {
   }
   // import and append list for quizzes from database
   const quizList = [];
+  quizSearch = quizSearch.orderBy('createdAt', 'desc');
   await quizSearch.get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       quizList.push(doc.data());
