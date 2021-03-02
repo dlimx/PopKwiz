@@ -46,13 +46,6 @@ userRouter.post('/', async (req, res) => {
 
 // POST new picture for user
 userRouter.post('/picture', authMiddleware, uploadMiddleware.single('image'), async (req, res) => {
-  // try {
-  //   const updatedUser = await updateUserPicture(req);
-  //   res.status(200).send(updatedUser);
-  // } catch (error) {
-  //   console.log('error on userRouter!!!!!!!!!!!!!');
-  // }
-
   try {
     const data = await updateUserImage(req.body, req.file, req.user);
     res.status(StatusCode.Success).send(data);

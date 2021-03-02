@@ -3,6 +3,7 @@ import { Search } from '../components/Search';
 import { Category } from '../components/Category';
 import { Quizlist } from '../components/Quizlist';
 import { Copyright } from '../components/Copyright';
+import { LoadUser } from '../components/LoadUser';
 import { useAPI } from '../api/api';
 
 // page to browse quizzes - with collection of search modules
@@ -26,6 +27,7 @@ export const Browse = () => {
       <Search setSearchVal={setSearchVal} />
       <Category setCategoryVal={setCategoryVal} />
       <Quizlist quizList={quizList} />
+      <LoadUser />
     </div>
   );
 };

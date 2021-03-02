@@ -61,10 +61,7 @@ export const updateUserImage = async (body, file, user) => {
   try {
     if (file) {
       data.image = await uploadFile(avatarBucket, file);
-
-      console.log(data.image);
     }
-    // avatar = quizSchema.validateSync(body);
   } catch (error) {
     throw newError(StatusCode.BadRequest, error.message);
   }
@@ -77,5 +74,7 @@ export const updateUserImage = async (body, file, user) => {
   };
 
   // https://firebase.google.com/docs/firestore/manage-data/add-data
-  return db.collection(USERS).doc(user.uid).update(updatedUser);
+  db.collection(USERS).doc(user.uid).update(updatedUser);
+  console.log(data.image);
+  return data.image;
 };
