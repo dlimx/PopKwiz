@@ -15,6 +15,7 @@ export const Browse = () => {
     // input delay to reduce number of
     const delaySearch = setTimeout(() => {
       api.get(`/quizzes?search=${searchVal}&category=${categoryVal}`).then((res) => {
+        console.log(res);
         setQuizList(res.data);
       });
     }, 200);

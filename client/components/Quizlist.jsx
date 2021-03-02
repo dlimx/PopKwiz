@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -15,15 +16,23 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    width: '100%',
+    width: '80%',
+    margin: 'auto',
   },
   heading: {
-    fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
+    fontSize: theme.typography.pxToRem(26),
+    // flexBasis: '80%',
     flexShrink: 0,
   },
   secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
+    fontSize: theme.typography.pxToRem(20),
+    padding: 10,
+    color: theme.palette.text.secondary,
+  },
+  headingDetails: {
+    fontSize: theme.typography.pxToRem(20),
+    flexBasis: '82.5%',
+    flexShrink: 0,
     color: theme.palette.text.secondary,
   },
 }));
@@ -38,29 +47,24 @@ export const Quizlist = ({ quizList }) => {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-
+  console.log(quizList);
   return (
     <div className={classes.root}>
       <Box m={2}>
-        {quizList.map((quiz) => (
-          <Accordion expanded={expanded === quiz} onChange={handleChange(quiz)}>
+        {Object.keys(quizList).map((key, index) => (
+          <Accordion expanded={expanded === quizList[key]} onChange={handleChange(quizList[key])}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>{quiz.name}</Typography>
-
-              <Typography className={classes.secondaryHeading}>{quiz.name}</Typography>
+              <Typography className={classes.heading}>{quizList[key].name}</Typography>
+              <Typography className={classes.secondaryHeading}></Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography>
-                <Grid container spacing={12}>
-                  <Grid item xs={11}>
-                    {quiz.description}
-                  </Grid>
-                  <Grid item xs={1}>
-                    <Button variant="contained" color="primary">
-                      Start
-                    </Button>
-                  </Grid>
-                </Grid>
+              <Typography className={classes.headingDetails}> 
+              {quizList[key].description}
+              </Typography>
+              <Typography className={classes.secondaryHeading}> 
+                <Button component={ Link } to={String("/quiz/" + quizList[key].id + "/action")} size="large" variant="contained" color="primary">Take Me</Button>
+                <br/><br/>
+                <Button component={ Link } to={String("/quiz/" + quizList[key].id)} size="large" variant="contained" color="inherit">Overview</Button>
               </Typography>
             </AccordionDetails>
           </Accordion>
