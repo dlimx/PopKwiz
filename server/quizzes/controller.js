@@ -77,10 +77,11 @@ export const createQuiz = async (body, file, user) => {
 
 export const rateQuiz = async (body, user) => {
   try {
+    console.log(user);
     const addRating = await db
       .collection(QUIZZES)
       .doc(body.Quiz)
-      .update({ rating: { [user.id]: { user_score: body.Rating, user_comment: body.Comment } } });
+      .set({ rating: { [user.id]: {user_name: user.username, user_score: body.Rating, user_comment: body.Comment } } }, {merge: true});
     return { addRating };
   } catch (error) {
     console.error(error);

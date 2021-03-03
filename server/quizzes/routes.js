@@ -1,5 +1,4 @@
 import express from 'express';
-
 import { getQuiz, getQuizzes, createQuiz, submitQuiz, rateQuiz } from './controller';
 import { authMiddleware } from '../users/middleware';
 import { sendError } from '../utils/error';
