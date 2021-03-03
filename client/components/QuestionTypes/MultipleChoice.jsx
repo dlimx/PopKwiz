@@ -1,4 +1,5 @@
 /* eslint react/prop-types: 0 */
+/* eslint react/no-array-index-key: 0 */
 
 import React from 'react';
 import { RadioGroup, FormControl, FormControlLabel, Radio } from '@material-ui/core';
@@ -10,7 +11,15 @@ export const MultipleChoice = (props) => {
     <FormControl component="fieldset">
       <RadioGroup>
         {props.answers.map((answer, index) => (
-          <FormControlLabel value={answer.answer} control={<Radio />} label={answer.answer} />
+          <FormControlLabel
+            key={index}
+            value={answer.option}
+            control={<Radio />}
+            label={answer.option}
+            onChange={(e) => {
+              props.saveResults(props.qid, e.target.value);
+            }}
+          />
         ))}
       </RadioGroup>
     </FormControl>

@@ -1,5 +1,5 @@
 import firebase from 'firebase-admin';
-import { db } from '../database/firestore';
+import { db } from '../client/db';
 import { USERS } from '../../constants';
 import { cache } from './cache';
 

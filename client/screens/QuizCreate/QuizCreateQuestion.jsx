@@ -220,7 +220,8 @@ export const QuizCreateQuestion = ({ index, question }) => {
               <RadioGroup
                 {...field}
                 onChange={(...args) => {
-                  const options = args[1] === QuizTypes.TrueFalse ? getTrueFalseOptions() : [getNewOption(args[1])];
+                  const options =
+                    args[1] === QuizTypes.TrueFalse ? getTrueFalseOptions(QuizConstants.True) : [getNewOption(args[1])];
                   formik.setFieldValue(`${name}.options`, options);
                   field.onChange(...args);
                 }}
