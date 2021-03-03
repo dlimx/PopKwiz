@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Search } from '../components/Search';
 import { Category } from '../components/Category';
 import { Quizlist } from '../components/Quizlist';
-import { Copyright } from '../components/Copyright';
 import { LoadUser } from '../components/LoadUser';
 import { useAPI } from '../api/api';
 

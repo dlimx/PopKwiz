@@ -78,3 +78,45 @@ export const updateUserImage = async (body, file, user) => {
   console.log(data.image);
   return data.image;
 };
+
+export const updateUserName = async (body, user) => {
+  const { username } = body;
+
+  // update User's path to picture
+  const now = firebase.firestore.Timestamp.now();
+  const updatedUser = {
+    username,
+    updatedAt: now,
+  };
+
+  // https://firebase.google.com/docs/firestore/manage-data/add-data
+  return db.collection(USERS).doc(user.uid).update(updatedUser);
+};
+
+export const updateEmail = async (body, user) => {
+  const { email } = body;
+
+  // update User's path to picture
+  const now = firebase.firestore.Timestamp.now();
+  const updatedUser = {
+    email,
+    updatedAt: now,
+  };
+
+  // https://firebase.google.com/docs/firestore/manage-data/add-data
+  return db.collection(USERS).doc(user.uid).update(updatedUser);
+};
+
+export const updatePassword = async (body, user) => {
+  const { password } = body;
+
+  // update User's path to picture
+  const now = firebase.firestore.Timestamp.now();
+  const updatedUser = {
+    password,
+    updatedAt: now,
+  };
+
+  // https://firebase.google.com/docs/firestore/manage-data/add-data
+  return db.collection(USERS).doc(user.uid).update(updatedUser);
+};

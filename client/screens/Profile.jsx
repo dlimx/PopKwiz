@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Card, CardMedia } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,18 +30,20 @@ export const Profile = () => {
   }, []);
 
   return (
-    <Container maxWidth="xs">
-      <Card className={styles.card}>
-        <CardMedia className={styles.media}>
-          <img src={picture} alt="" height="300px" width="500px" />
-        </CardMedia>
-      </Card>
+    <>
+      <Container maxWidth="xs">
+        <Card className={styles.card}>
+          <CardMedia className={styles.media}>
+            <img src={picture} alt="" height="300px" width="500px" />
+          </CardMedia>
+        </Card>
 
-      <div style={{ margin: 'auto', width: '50%' }}>
-        <h3>USERNAME: {username}</h3>
-        <h3>EMAIL: {email}</h3>
-        <Link to="/update-profile">update profile</Link>
-      </div>
-    </Container>
+        <div style={{ margin: 'auto', width: '50%' }}>
+          <h3>USERNAME: {username}</h3>
+          <h3>EMAIL: {email}</h3>
+          <Link to="/update-profile">update profile</Link>
+        </div>
+      </Container>
+    </>
   );
 };

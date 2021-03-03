@@ -5,17 +5,31 @@ import { useAPI } from '../api/api';
 export const LoadUser = () => {
   const { currentUser } = useAuth();
   const api = useAPI();
-  useEffect(() => {
-    const picture = localStorage.getItem('picture');
-    const username = localStorage.getItem('username');
-    const email = localStorage.getItem('email');
-    if (!username || !picture || !email) {
+
+  const getUser = () => {
+    try {
       api.get(`/users/${currentUser.uid}`).then(({ data }) => {
         localStorage.setItem('picture', data.picture);
         localStorage.setItem('username', data.username);
         localStorage.setItem('email', data.email);
       });
+    } catch (error) {
+      console.log(error);
     }
-  }, [currentUser.uid, api]);
+  };
+
+  useEffect(() => {
+    if (
+      localStorage.getItem('picture') === 'undefined' ||
+      localStorage.getItem('username') === 'undefined' ||
+      localStorage.getItem('email') === 'undefined' ||
+      !localStorage.getItem('picture') ||
+      !localStorage.getItem('username') ||
+      !localStorage.getItem('email')
+    ) {
+      localStorage.clear();
+      getUser();
+    }
+  });
   return <></>;
 };

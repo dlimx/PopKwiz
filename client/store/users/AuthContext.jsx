@@ -16,7 +16,6 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState('');
 
   // this a global API with auth token baked in - this way we can track the user
-
   // this is going to add a user to firebase auth as well as use the credential or uid created by firebase auth to
   // add the user to firestore. The postURL function acts as a form of frontend middleware (maybe?) between the
   // frontend and backend.
