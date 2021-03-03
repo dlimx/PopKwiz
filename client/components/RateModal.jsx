@@ -85,7 +85,7 @@ export const RateModal = ({ buttonText, quizID, rateVal, setRate, commentVal, se
                         console.log(res);
                       });
                   }
-                  setTimeout(setEdit(editVal+1), 500);
+                  setTimeout(setEdit(editVal + 1), 1500);
                 }}
               >
                 Send
@@ -104,4 +104,7 @@ RateModal.propTypes = {
   quizID: PropTypes.string.isRequired,
   rateVal: PropTypes.number.isRequired,
   commentVal: PropTypes.string.isRequired,
+  buttonText: PropTypes.string.isRequired,
+  editVal: PropTypes.number.isRequired,
+  setEdit: PropTypes.func.isRequired,
 };
