@@ -12,6 +12,10 @@ export const getDataQuiz = (quiz) => {
   return dataQuiz;
 };
 
+export const getQuizAnswers = (quiz) => {
+  const quizAnswers = { ...quiz };
+};
+
 export const getCreationQuiz = async (quiz) => {
   const quizCreateBody = { ...quiz };
   delete quizCreateBody.answers;
