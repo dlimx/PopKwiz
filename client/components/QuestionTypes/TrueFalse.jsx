@@ -1,5 +1,6 @@
 /* eslint react/prop-types: 0 */
 /* eslint no-return-assign: 0 */
+/* eslint no-nested-ternary: 0 */
 
 import React from 'react';
 import { RadioGroup, FormControl, FormControlLabel, Grid, Radio } from '@material-ui/core';
@@ -35,14 +36,18 @@ export const TrueFalse = (props) => {
               {...scoringProps}
             />
           </Grid>
-          {props.quizAnswers && Object.keys(props.quizAnswers[props.qid])[0] === 'TRUE' ? (
-            <Grid item key={props.qid}>
-              <DoneIcon color="primary" />
-            </Grid>
+          {props.quizAnswers ? (
+            Object.keys(props.quizAnswers[props.qid])[0] === 'TRUE' ? (
+              <Grid item key={props.qid}>
+                <DoneIcon color="primary" />
+              </Grid>
+            ) : (
+              <Grid item key={props.qid}>
+                <ClearIcon color="secondary" />
+              </Grid>
+            )
           ) : (
-            <Grid item key={props.qid}>
-              <ClearIcon color="secondary" />
-            </Grid>
+            <div />
           )}
         </Grid>
         <Grid container direction="row" alignItems="center">
@@ -63,14 +68,18 @@ export const TrueFalse = (props) => {
               {...scoringProps}
             />
           </Grid>
-          {props.quizAnswers && Object.keys(props.quizAnswers[props.qid])[0] === 'FALSE' ? (
-            <Grid item key={props.qid}>
-              <DoneIcon color="primary" />
-            </Grid>
+          {props.quizAnswers ? (
+            Object.keys(props.quizAnswers[props.qid])[0] === 'FALSE' ? (
+              <Grid item key={props.qid}>
+                <DoneIcon color="primary" />
+              </Grid>
+            ) : (
+              <Grid item key={props.qid}>
+                <ClearIcon color="secondary" />
+              </Grid>
+            )
           ) : (
-            <Grid item key={props.qid}>
-              <ClearIcon color="secondary" />
-            </Grid>
+            <div />
           )}
         </Grid>
       </RadioGroup>
