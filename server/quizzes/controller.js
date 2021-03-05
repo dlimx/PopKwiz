@@ -15,7 +15,7 @@ import { quizBucket, uploadFile } from '../client/storage';
 // get quizzes from firestore
 export const getQuizzes = async (userQuery) => {
   // search and category conditions
-  let quizSearch = '';
+  let quizSearch;
   if (userQuery.search.length > 0 && userQuery.category.length < 1) {
     quizSearch = db
       .collection(QUIZZES)
@@ -34,6 +34,7 @@ export const getQuizzes = async (userQuery) => {
   }
   // import and append list for quizzes from database
   const quizList = [];
+  quizSearch = quizSearch.orderBy('createdAt', 'desc');
   await quizSearch.get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       quizList.push(doc.data());
@@ -76,10 +77,14 @@ export const createQuiz = async (body, file, user) => {
 
 export const rateQuiz = async (body, user) => {
   try {
+    console.log(user);
     const addRating = await db
       .collection(QUIZZES)
       .doc(body.Quiz)
-      .update({ rating: { [user.id]: { user_score: body.Rating, user_comment: body.Comment } } });
+      .set(
+        { rating: { [user.id]: { user_name: user.username, user_score: body.Rating, user_comment: body.Comment } } },
+        { merge: true },
+      );
     return { addRating };
   } catch (error) {
     console.error(error);

@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const RateModal = ({ quizID, rateVal, setRate, commentVal, setComment }) => {
+export const RateModal = ({ buttonText, quizID, rateVal, setRate, commentVal, setComment, editVal, setEdit }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -40,8 +40,8 @@ export const RateModal = ({ quizID, rateVal, setRate, commentVal, setComment }) 
 
   return (
     <div>
-      <Button variant="contained" color="secondary" onClick={handleOpen}>
-        Review
+      <Button variant="contained" color="primary" onClick={handleOpen}>
+        {buttonText}
       </Button>
       <Modal
         className={classes.modal}
@@ -85,6 +85,7 @@ export const RateModal = ({ quizID, rateVal, setRate, commentVal, setComment }) 
                         console.log(res);
                       });
                   }
+                  setTimeout(setEdit(editVal + 1), 1500);
                 }}
               >
                 Send
@@ -100,7 +101,10 @@ export const RateModal = ({ quizID, rateVal, setRate, commentVal, setComment }) 
 RateModal.propTypes = {
   setRate: PropTypes.func.isRequired,
   setComment: PropTypes.func.isRequired,
-  quizID: PropTypes.number.isRequired,
+  quizID: PropTypes.string.isRequired,
   rateVal: PropTypes.number.isRequired,
   commentVal: PropTypes.string.isRequired,
+  buttonText: PropTypes.string.isRequired,
+  editVal: PropTypes.number.isRequired,
+  setEdit: PropTypes.func.isRequired,
 };
