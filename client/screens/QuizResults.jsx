@@ -9,8 +9,8 @@ import { Button, Card, Container, Divider, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { useAPI } from '../api/api';
 import { useAuth } from '../store/users/AuthContext';
-// import { useStyles } from '../styles/useStyles';
 import { QuizBuilder } from '../components/QuizBuilder';
+import { RateModal } from '../components/RateModal';
 
 const useStyles = makeStyles((theme) => ({
   divider: {
@@ -42,6 +42,10 @@ export const QuizResults = (props) => {
   const [quiz, setQuiz] = useState({});
   const [quizAnswers, setQuizAnswers] = useState({});
   const [userAnswers, setUserAnswers] = useState({});
+  // state to track star rating by user
+  const [rateVal, setRate] = useState(-1);
+  // state to track user comment value in text field
+  const [commentVal, setComment] = useState('');
 
   const loadUserAnswers = async (quizID) => {
     api.get(`/quizzes/${quizID}/results/${resultID}`).then((res) => {
@@ -80,12 +84,23 @@ export const QuizResults = (props) => {
         <Container maxWidth="md" className={classes.container}>
           <Card>
             <Typography className={classes.typographyText} variant="h4" align="center">
-              Results
+              Review your results:
             </Typography>
             <Divider className={classes.divider} variant="fullWidth" />
             <Typography className={classes.typographyText} variant="h5" align="center">
               Score: {userAnswers.score}%
             </Typography>
+            <div align="center">
+              <RateModal
+                buttonText="Leave a comment!"
+                quizID={id}
+                rateVal={rateVal}
+                commentVal={commentVal}
+                setRate={setRate}
+                setComment={setComment}
+              />
+            </div>
+            <br />
           </Card>
         </Container>
         <br />
