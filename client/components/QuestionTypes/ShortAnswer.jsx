@@ -16,9 +16,9 @@ const useStyles = makeStyles((theme) => ({
 export const ShortAnswer = (props) => {
   const classes = useStyles();
 
-  console.log(JSON.stringify(props.userAnswers.answers));
+  console.log(JSON.stringify(props.userAnswers));
 
-  if (props.userAnswers.answers && props.quizAnswers) {
+  if (props.userAnswers && props.quizAnswers) {
     return (
       <FormControl component="fieldset">
         <Grid container direction="row" alignItems="center">
@@ -31,17 +31,31 @@ export const ShortAnswer = (props) => {
               disabled
             />
           </Grid>
-          <Grid item>
-            {Object.keys(props.quizAnswers[props.qid]).includes(props.userAnswers.answers[props.qid]) ? (
-              <Grid item key={props.qid}>
-                <DoneIcon color="primary" />
-              </Grid>
-            ) : (
+          {Object.keys(props.quizAnswers[props.qid]).includes(props.userAnswers.answers[props.qid]) ? (
+            <Grid item key={props.qid}>
+              <DoneIcon color="primary" />
+            </Grid>
+          ) : (
+            <>
               <Grid item key={props.qid}>
                 <ClearIcon color="secondary" />
               </Grid>
-            )}
-          </Grid>
+              <Grid container direction="row" alignItems="center">
+                <Grid item>
+                  <TextField
+                    className={classes.textField}
+                    id="outlined-basic"
+                    variant="outlined"
+                    defaultValue={Object.keys(props.quizAnswers[props.qid])}
+                    disabled
+                  />
+                </Grid>
+                <Grid item key={props.qid}>
+                  <DoneIcon color="primary" />
+                </Grid>
+              </Grid>
+            </>
+          )}
         </Grid>
       </FormControl>
     );
