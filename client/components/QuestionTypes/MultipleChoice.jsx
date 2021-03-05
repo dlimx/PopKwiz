@@ -25,10 +25,14 @@ export const MultipleChoice = (props) => {
             <Grid container direction="row" alignItems="center">
               <Grid item>
                 {/* {console.log(`uA: ${props.userAnswers}`)} */}
-                {props.userAnswers && props.userAnswers.answers[props.qid] !== answer.option
+                {props.userAnswers &&
+                props.userAnswers.answers &&
+                props.userAnswers.answers[props.qid] !== answer.option
                   ? (scoringProps.disabled = true)
                   : (scoringProps.disabled = undefined)}
-                {props.userAnswers && props.userAnswers.answers[props.qid] === answer.option
+                {props.userAnswers &&
+                props.userAnswers.answers &&
+                props.userAnswers.answers[props.qid] === answer.option
                   ? (scoringProps.checked = true)
                   : (scoringProps.checked = undefined)}
                 <FormControlLabel
@@ -43,7 +47,7 @@ export const MultipleChoice = (props) => {
                 />
               </Grid>
               {/* {console.log(`qA: ${props.quizAnswers}`)} */}
-              {props.quizAnswers !== undefined &&
+              {props.quizAnswers &&
                 answer.option &&
                 (answer.option === Object.keys(props.quizAnswers[props.qid])[0] ? (
                   <Grid item key={props.qid}>

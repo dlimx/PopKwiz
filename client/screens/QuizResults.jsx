@@ -11,12 +11,17 @@ import { useAuth } from '../store/users/AuthContext';
 import { useStyles } from '../styles/useStyles';
 import { QuizBuilder } from '../components/QuizBuilder';
 
-const withQuizBuilderResults = (Component) => (props) =>
-  props.quiz !== undefined && props.quizAnswers !== undefined && props.userAnswers !== undefined ? (
-    <Component quiz={props.quiz} quizAnswers={props.quizAnswers} userAnswers={props.userAnswers} />
-  ) : (
-    <div>Loading...</div>
-  );
+const withQuizBuilderResults = (Component) => (props) => {
+  const quiz = props.quiz || undefined;
+  const quizAnswers = props.quizAnswers || undefined;
+  const userAnswers = props.userAnswers || undefined;
+  if (quiz && quizAnswers && userAnswers) {
+    return <Component quiz={quiz} quizAnswers={quizAnswers} userAnswers={userAnswers} />;
+  }
+  return <div>Loading...</div>;
+};
+// props.quiz && props.quizAnswers && props.userAnswers
+// ? <Component quiz={props.quiz} quizAnswers={props.quizAnswers} userAnswers={props.userAnswers} />
 
 export const QuizResults = (props) => {
   const resultID = props.location.state['resultID'];
