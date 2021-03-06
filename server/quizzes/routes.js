@@ -1,5 +1,5 @@
 import express from 'express';
-import { getQuiz, getQuizzes, createQuiz, rateQuiz } from './controller';
+import { getQuiz, getQuizzes, createQuiz, submitQuiz, rateQuiz } from './controller';
 import { authMiddleware } from '../users/middleware';
 import { sendError } from '../utils/error';
 import { StatusCode } from '../utils/http';
@@ -58,6 +58,27 @@ quizRouter.get('/', async (req, res) => {
 quizRouter.post('/picture', authMiddleware, uploadMiddleware.single('image'), async (req, res) => {
   try {
     const data = await createQuiz(req.body, req.file, req.user);
+    res.status(StatusCode.Success).send(data);
+  } catch (error) {
+    sendError(res, error);
+  }
+});
+
+// // GET specific quiz
+// quizRouter.get('/:id', async (req, res) => {
+//   await getQuiz(req.params.id)
+//     .then((quiz) => {
+//       res.status(200).json({ data: quiz.data() });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).json({ error: 'something went wrong retreving quizzes from db.' });
+//     });
+// });
+
+quizRouter.post('/:id/results', async (req, res) => {
+  try {
+    const data = await submitQuiz(req.body, req.user);
     res.status(StatusCode.Success).send(data);
   } catch (error) {
     sendError(res, error);

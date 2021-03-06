@@ -14,6 +14,7 @@ import { ProfileUpdate } from './screens/ProfileUpdate';
 import { QuizCreate } from './screens/QuizCreate/QuizCreate';
 import { QuizProfile } from './screens/QuizProfile';
 import { QuizAction } from './screens/QuizAction';
+import { QuizResults } from './screens/QuizResults';
 import { QuizRate } from './screens/QuizRate';
 
 import { theme } from './styles/theme';
@@ -37,6 +38,7 @@ export const Router = () => {
             <Route path="/forgot-password" component={ForgotPassword} />
             <Route path="/quiz/create" component={QuizCreate} />
             <Route path="/quiz/:id/action" component={QuizAction} />
+            <Route path="/quiz/:id/results" component={QuizResults} />
             <Route path="/quiz/:id/rate" component={QuizRate} />
             <Route path="/quiz/:id" component={QuizProfile} />
           </Switch>
