@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { QuizComments } from '../components/QuizComments';
 import { UserComment } from '../components/UserComment';
+
 import { useAPI } from '../api/api';
 
 export const QuizProfile = () => {
@@ -23,6 +24,10 @@ export const QuizProfile = () => {
     });
   }, [api, id, editVal]);
 
+  console.log(quizComments);
+  if (quizComments === undefined) {
+    return <div>No Comments</div>;
+  }
   return (
     <div>
       <UserComment

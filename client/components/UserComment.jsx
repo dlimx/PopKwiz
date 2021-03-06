@@ -5,6 +5,7 @@ import Rating from '@material-ui/lab/Rating';
 import PropTypes from 'prop-types';
 import { RateModal } from './RateModal';
 import { useAuth } from '../store/users/AuthContext';
+import { DeleteComment } from './DeleteComment';
 
 const useStyles = makeStyles({
   root: {
@@ -38,14 +39,22 @@ export const UserComment = ({ quizID, quizComments, rateVal, setRate, commentVal
   const key = currentUser.uid;
   const classes = useStyles();
   if (quizComments[key] === undefined) {
-    return <></>;
+    return <div>n/a</div>;
   }
+
+  const ratingDisplay = (rateValue) => {
+    if (rateValue > -1) {
+      return <Rating name="read-only" value={rateValue} readOnly />;
+    }
+    return <></>;
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.outer} variant="outlined">
         <div className={classes.inner}>
-          <h1>
-            Review by Me
+          <h1>Review by Me</h1>
+          <div style={{ display: 'inline-flex' }}>
             <RateModal
               buttonText="Edit"
               quizID={quizID}
@@ -56,7 +65,9 @@ export const UserComment = ({ quizID, quizComments, rateVal, setRate, commentVal
               editVal={editVal}
               setEdit={setEdit}
             />
-          </h1>
+            <DeleteComment quizID={quizID} editVal={editVal} setEdit={setEdit} />
+          </div>
+
           <Paper elevation={1} className={classes.paper}>
             <Grid container wrap="nowrap" spacing={2}>
               <Grid item>
@@ -64,7 +75,7 @@ export const UserComment = ({ quizID, quizComments, rateVal, setRate, commentVal
               </Grid>
               <Grid justifyContent="left" item xs zeroMinWidth>
                 <h4 className={classes.commenter}>{quizComments[key].user_name}</h4>
-                <Rating name="read-only" value={quizComments[key].user_score} readOnly />
+                {ratingDisplay(quizComments[key].user_score)}
                 {/* replace test_name 'key' with name variable */}
                 <p className={classes.comment}>{quizComments[key].user_comment}</p>
               </Grid>

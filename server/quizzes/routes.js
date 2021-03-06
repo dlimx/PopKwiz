@@ -1,5 +1,5 @@
 import express from 'express';
-import { getQuiz, getQuizzes, createQuiz, submitQuiz, rateQuiz } from './controller';
+import { getQuiz, getQuizzes, createQuiz, submitQuiz, rateQuiz, delComment } from './controller';
 import { authMiddleware } from '../users/middleware';
 import { sendError } from '../utils/error';
 import { StatusCode } from '../utils/http';
@@ -36,6 +36,18 @@ quizRouter.get('/:id', async (req, res) => {
 quizRouter.post('/rating', authMiddleware, async (req, res) => {
   try {
     const data = await rateQuiz(req.body, req.user);
+    res.status(StatusCode.Success).send(data);
+  } catch (error) {
+    sendError(res, error);
+  }
+});
+
+// Delete Rating and Comment
+quizRouter.delete('/rating', authMiddleware, async (req, res) => {
+  try {
+    // console.log(req.query.quiz);
+    // console.log(req.user.id);
+    const data = await delComment(req.query, req.user);
     res.status(StatusCode.Success).send(data);
   } catch (error) {
     sendError(res, error);
