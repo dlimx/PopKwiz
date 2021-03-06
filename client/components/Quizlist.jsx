@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const Quizlist = ({ quizList }) => {
   const classes = useStyles();
+  const history = useHistory();
   // initialize state
   const [expanded, setExpanded] = React.useState(false);
   // hook to update state for accordion: https://material-ui.com/components/accordion/
@@ -66,8 +67,14 @@ export const Quizlist = ({ quizList }) => {
                   </Typography>
                 </Grid>
                 <Grid item xs={1}>
-                  <Button variant="contained" color="primary">
-                    Start
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={(e) => {
+                      history.push(`/quiz/${quiz.id}`);
+                    }}
+                  >
+                    View Details
                   </Button>
                 </Grid>
               </Grid>

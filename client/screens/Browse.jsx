@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Search } from '../components/Search';
 import { Category } from '../components/Category';
 import { Quizlist } from '../components/Quizlist';
@@ -8,6 +9,7 @@ import { useAPI } from '../api/api';
 // page to browse quizzes - with collection of search modules
 export const Browse = () => {
   const api = useAPI();
+  const history = useHistory();
   const [searchVal, setSearchVal] = useState('');
   const [categoryVal, setCategoryVal] = useState('');
   const [quizList, setQuizList] = useState([]);
