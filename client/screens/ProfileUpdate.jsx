@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button, Typography, Accordion, Container, AccordionDetails, Grid, TextField } from '@material-ui/core';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -21,14 +21,14 @@ const AccordionSummary = withStyles({
   },
 })(MuiAccordionSummary);
 
-export function ProfileUpdate() {
+export const ProfileUpdate = () => {
   const { updatePassword, updateEmail } = useAuth();
   const [status, setStatusBase] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confPassword, setConfPassword] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null);
   const api = useAPI();
 
   // update username
@@ -219,4 +219,4 @@ export function ProfileUpdate() {
       </Accordion>
     </>
   );
-}
+};

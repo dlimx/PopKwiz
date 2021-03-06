@@ -81,7 +81,10 @@ export const rateQuiz = async (body, user) => {
     const addRating = await db
       .collection(QUIZZES)
       .doc(body.Quiz)
-      .set({ rating: { [user.id]: {user_name: user.username, user_score: body.Rating, user_comment: body.Comment } } }, {merge: true});
+      .set(
+        { rating: { [user.id]: { user_name: user.username, user_score: body.Rating, user_comment: body.Comment } } },
+        { merge: true },
+      );
     return { addRating };
   } catch (error) {
     console.error(error);

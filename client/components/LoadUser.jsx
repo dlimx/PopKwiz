@@ -31,5 +31,5 @@ export const LoadUser = () => {
       getUser();
     }
   });
-  return <></>;
+  return null;
 };
