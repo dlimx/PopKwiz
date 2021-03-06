@@ -4,6 +4,7 @@ import { firebaseAdmin } from './firebase';
 
 export const storage = firebaseAdmin.storage();
 export const quizBucket = storage.bucket('popkwiz-quiz');
+export const avatarBucket = storage.bucket('popkwiz-avatar');
 
 export const uploadFile = async (bucket, file) => {
   return new Promise((resolve) => {

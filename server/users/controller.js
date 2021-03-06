@@ -1,7 +1,11 @@
 import firebase from 'firebase-admin';
+import { newError } from '../utils/error';
+import { StatusCode } from '../utils/http';
+
 import { db } from '../client/db';
 import { USERS } from '../../constants';
 import { cache } from './cache';
+import { avatarBucket, uploadFile } from '../client/storage';
 
 // get users from firestore
 export const getUsers = async (userQuery) => {
@@ -49,4 +53,70 @@ export const addUser = async (user) => {
 
   // https://firebase.google.com/docs/firestore/manage-data/add-data
   return db.collection(USERS).doc(newUserID).set(newUser);
+};
+
+export const updateUserImage = async (body, file, user) => {
+  const data = body;
+  console.log(user);
+  try {
+    if (file) {
+      data.image = await uploadFile(avatarBucket, file);
+    }
+  } catch (error) {
+    throw newError(StatusCode.BadRequest, error.message);
+  }
+
+  // update User's path to picture
+  const now = firebase.firestore.Timestamp.now();
+  const updatedUser = {
+    picture: data.image,
+    updatedAt: now,
+  };
+
+  // https://firebase.google.com/docs/firestore/manage-data/add-data
+  db.collection(USERS).doc(user.uid).update(updatedUser);
+  console.log(data.image);
+  return data.image;
+};
+
+export const updateUserName = async (body, user) => {
+  const { username } = body;
+
+  // update User's path to picture
+  const now = firebase.firestore.Timestamp.now();
+  const updatedUser = {
+    username,
+    updatedAt: now,
+  };
+
+  // https://firebase.google.com/docs/firestore/manage-data/add-data
+  return db.collection(USERS).doc(user.uid).update(updatedUser);
+};
+
+export const updateEmail = async (body, user) => {
+  const { email } = body;
+
+  // update User's path to picture
+  const now = firebase.firestore.Timestamp.now();
+  const updatedUser = {
+    email,
+    updatedAt: now,
+  };
+
+  // https://firebase.google.com/docs/firestore/manage-data/add-data
+  return db.collection(USERS).doc(user.uid).update(updatedUser);
+};
+
+export const updatePassword = async (body, user) => {
+  const { password } = body;
+
+  // update User's path to picture
+  const now = firebase.firestore.Timestamp.now();
+  const updatedUser = {
+    password,
+    updatedAt: now,
+  };
+
+  // https://firebase.google.com/docs/firestore/manage-data/add-data
+  return db.collection(USERS).doc(user.uid).update(updatedUser);
 };
