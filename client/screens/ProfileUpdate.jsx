@@ -1,9 +1,10 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button, Typography, Accordion, Container, AccordionDetails, Grid, TextField } from '@material-ui/core';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { withStyles } from '@material-ui/core/styles';
 import { useAuth } from '../store/users/AuthContext';
+import { useUser } from '../store/users/UserContext';
 import { ImageUploadPreview } from '../components/ImageUploadPreview';
 import { useAPI } from '../api/api';
 import { AlertMessage } from '../components/AlertMessage';
@@ -23,6 +24,7 @@ const AccordionSummary = withStyles({
 
 export function ProfileUpdate() {
   const { updatePassword, updateEmail } = useAuth();
+  const { setRefresh, pictureUpdate } = useUser();
   const [status, setStatusBase] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -38,15 +40,14 @@ export function ProfileUpdate() {
 
   const handleUserUpdate = async (e) => {
     e.preventDefault();
-    localStorage.removeItem('username');
-    localStorage.setItem('username', username);
+
     try {
       api.post('/users/username', { username }).then((res) => {
         console.log(res);
       });
+      setRefresh(Math.random());
       setStatusBase({ msg: 'Success: User has been updated', key: Math.random() });
     } catch (error) {
-      localStorage.removeItem('username');
       setStatusBase({ msg: error, key: Math.random() });
     }
   };
@@ -58,16 +59,15 @@ export function ProfileUpdate() {
 
   const handleEmailUpdate = (e) => {
     e.preventDefault();
-    localStorage.removeItem('email');
-    localStorage.setItem('email', email);
+
     try {
+      updateEmail(email);
       api.post('/users/email', { email }).then((res) => {
         console.log(res);
       });
-      updateEmail(email);
+      setRefresh(Math.random());
       setStatusBase({ msg: 'Success: Email has been updated', key: Math.random() });
     } catch (error) {
-      localStorage.removeItem('email');
       setStatusBase({ msg: error, key: Math.random() });
     }
   };
@@ -96,22 +96,23 @@ export function ProfileUpdate() {
       let body;
       try {
         if (image) {
-          localStorage.removeItem('picture');
           body = new FormData();
           body.append('image', image);
           api.post('/users/picture', body).then((res) => {
-            localStorage.setItem('picture', res.data);
+            // retrevies the picture's URL
+            pictureUpdate(res.data);
           });
         } else {
           body = data;
         }
+
+        setRefresh(Math.random());
         setStatusBase({ msg: 'SUCCESS: Image updated.', key: Math.random() });
       } catch (error) {
         setStatusBase({ msg: 'ERROR: Failure uploading image to database.', key: Math.random() });
-        localStorage.removeItem('picture');
       }
     },
-    [api, image],
+    [api, image, pictureUpdate, setRefresh],
   );
 
   return (

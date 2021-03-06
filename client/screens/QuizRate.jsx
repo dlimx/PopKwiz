@@ -19,7 +19,14 @@ export const QuizRate = () => {
 
   return (
     <div>
-      <RateModal buttonText={"Review"} quizID={id} rateVal={rateVal} commentVal={commentVal} setRate={setRate} setComment={setComment} />
+      <RateModal
+        buttonText="Review"
+        quizID={id}
+        rateVal={rateVal}
+        commentVal={commentVal}
+        setRate={setRate}
+        setComment={setComment}
+      />
     </div>
   );
 };
