@@ -1,39 +1,42 @@
-/* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import PropTypes from 'prop-types';
 
-export function AlertMessage({ message }) {
-  const [open, setOpen] = React.useState(true);
-  function handleClose(event, reason) {
+export const AlertMessage = ({ message }) => {
+  const [open, setOpen] = useState(true);
+
+  const handleClose = (reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setOpen(false);
-  }
+  };
 
   return (
-    <div>
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        open={open}
-        autoHideDuration={2000}
-        onClose={handleClose}
-        variant="warning"
-        ContentProps={{
-          'aria-describedby': 'message-id',
-        }}
-        message={message}
-        action={[
-          <IconButton key="close" onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>,
-        ]}
-      />
-    </div>
+    <Snackbar
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'left',
+      }}
+      open={open}
+      autoHideDuration={2500}
+      onClose={handleClose}
+      variant="warning"
+      ContentProps={{
+        'aria-describedby': 'message-id',
+      }}
+      message={message}
+      action={[
+        <IconButton key="close" onClick={handleClose}>
+          <CloseIcon />
+        </IconButton>,
+      ]}
+    />
   );
-}
+};
+
+AlertMessage.propTypes = {
+  message: PropTypes.func.isRequired,
+};
