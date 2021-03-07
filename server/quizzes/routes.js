@@ -56,7 +56,7 @@ quizRouter.get('/', async (req, res) => {
 });
 
 // POST Create Quiz
-quizRouter.post('/', authMiddleware, uploadMiddleware.single('image'), async (req, res) => {
+quizRouter.post('/picture', authMiddleware, uploadMiddleware.single('image'), async (req, res) => {
   try {
     const data = await createQuiz(req.body, req.file, req.user);
     res.status(StatusCode.Success).send(data);
