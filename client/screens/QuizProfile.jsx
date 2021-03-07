@@ -3,6 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { Button, Card, Container, Divider, Typography } from '@material-ui/core';
 import { QuizComments } from '../components/QuizComments';
 import { UserComment } from '../components/UserComment';
+
 import { useAPI } from '../api/api';
 import { useStyles } from '../styles/useStyles';
 
@@ -29,6 +30,10 @@ export const QuizProfile = () => {
     });
   }, [api, id, editVal]);
 
+  console.log(quizComments);
+  if (quizComments === undefined) {
+    return <div>No Comments</div>;
+  }
   return (
     <>
       <Container className={classes.container}>

@@ -34,6 +34,12 @@ const useStyles = makeStyles({
 export const QuizComments = ({ quizComments }) => {
   const classes = useStyles();
 
+  const ratingDisplay = (rateValue) => {
+    if (rateValue > -1) {
+      return <Rating name="read-only" value={rateValue} readOnly />;
+    }
+    return <></>;
+  };
   return (
     <div className={classes.root}>
       <Paper className={classes.outer} variant="outlined">
@@ -49,7 +55,8 @@ export const QuizComments = ({ quizComments }) => {
                 </Grid>
                 <Grid justifyContent="left" item xs zeroMinWidth>
                   <h4 className={classes.commenter}>{quizComments[key].user_name}</h4>
-                  <Rating name="read-only" value={quizComments[key].user_score} readOnly />
+                  {ratingDisplay(quizComments[key].user_score)}
+
                   {/* replace test_name 'key' with name variable */}
                   <p className={classes.comment}>{quizComments[key].user_comment}</p>
                 </Grid>
