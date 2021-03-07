@@ -22,7 +22,7 @@ const AccordionSummary = withStyles({
   },
 })(MuiAccordionSummary);
 
-export function ProfileUpdate() {
+export const ProfileUpdate = () => {
   const { updatePassword, updateEmail } = useAuth();
   const { setRefresh, pictureUpdate } = useUser();
   const [status, setStatusBase] = useState('');
@@ -30,7 +30,7 @@ export function ProfileUpdate() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confPassword, setConfPassword] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null);
   const api = useAPI();
 
   // update username
@@ -220,4 +220,4 @@ export function ProfileUpdate() {
       </Accordion>
     </>
   );
-}
+};

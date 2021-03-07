@@ -14,6 +14,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
+import { Grid } from '@material-ui/core';
 import logo from '../icons/learning.svg';
 
 import { Navlist } from './Navlist';
@@ -69,19 +70,30 @@ export const Navbar = () => {
 
           {currentUser
             ? itemsLoggedIn.map((field) => (
-                // eslint-disable-next-line react/no-array-index-key
                 <Typography key={field.id} className={classes.topLinks} noWrap>
-                  {field.icon}
                   <Link to={field.route} className={classes.topLinksColor}>
-                    {` ${field.text}`}
+                    <Grid container>
+                      <Grid item xs={2}>
+                        {field.icon}
+                      </Grid>
+                      <Grid item xs={4} style={{ paddingTop: '1px' }}>
+                        {` ${field.text}`}
+                      </Grid>
+                    </Grid>
                   </Link>
                 </Typography>
               ))
             : itemsLoggedOut.map((field) => (
                 <Typography key={field.id} className={classes.topLinks} noWrap>
-                  {field.icon}
                   <Link to={field.route} className={classes.topLinksColor}>
-                    {` ${field.text}`}
+                    <Grid container>
+                      <Grid item xs={2}>
+                        {field.icon}
+                      </Grid>
+                      <Grid item xs={4} style={{ paddingTop: '1px' }}>
+                        {` ${field.text}`}
+                      </Grid>
+                    </Grid>
                   </Link>
                 </Typography>
               ))}

@@ -45,11 +45,11 @@ export const getQuizzes = async (userQuery) => {
   return quizList;
 };
 
+// GET specific quiz
 export const getQuiz = async (id) => {
   try {
     const quizRef = db.collection(QUIZZES).doc(id);
     const quiz = await quizRef.get();
-
     return quiz.data();
   } catch (error) {
     console.error(error);
@@ -120,17 +120,30 @@ const scoreQuiz = async (quizID, userAnswers) => {
 
 export const submitQuiz = async (body, user) => {
   try {
-    await scoreQuiz(body.quizID, body.answers)
+    const quiz = await scoreQuiz(body.quizID, body.answers)
       .then((score) => {
         body['score'] = score;
         body['userID'] = user.id;
       })
-      .then(async (res) => {
-        const ref = await db.collection(QUIZ_RESULTS).add(body);
-        return { ...body, id: ref.id };
+      .then(async () => {
+        const resultRef = db.collection(QUIZ_RESULTS).doc();
+        const res = await resultRef.set(body);
+        return { ...body, id: resultRef.id };
       });
+    return quiz;
   } catch (error) {
     console.error(error);
     throw newError(StatusCode.Error, error.message);
+  }
+};
+
+export const getQuizResult = async (resultID) => {
+  try {
+    const resultRef = db.collection(QUIZ_RESULTS).doc(resultID);
+    const results = await resultRef.get();
+    return results.data();
+  } catch (error) {
+    console.error(error);
+    throw newError(StatusCode.BadRequest, error.message);
   }
 };

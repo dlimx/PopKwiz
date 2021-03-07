@@ -39,7 +39,10 @@ export const QuizAction = () => {
     };
     api.post(`/quizzes/${id}/results`, body).then((res) => {
       console.log(res);
-      history.push(`/quiz/${id}/results`);
+      history.push({
+        pathname: `/quiz/${id}/results`,
+        state: { resultID: res.data.id },
+      });
     });
   };
 
