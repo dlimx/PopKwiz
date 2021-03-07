@@ -1,33 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Container, Card, CardMedia } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { Avatar, Button, Container, Typography, CssBaseline, Grid, TextField } from '@material-ui/core';
+const useStyles = () => {
+  const styles = makeStyles((theme) => ({
+    card: {
+      maxWidth: 500,
+      maxHeight: 300,
+    },
+    media: {
+      paddingTop: '1%', // 16:9
+    },
+  }));
 
-import { useStyles } from '../styles/useStyles';
-
-import { useAuth } from '../store/users/AuthContext';
-import { useAPI } from '../api/api';
+  return styles();
+};
 
 export const Profile = () => {
-  const classes = useStyles();
-  const { currentUser } = useAuth();
-  const [user, setUser] = useState({});
-  const api = useAPI();
+  const styles = useStyles();
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [picture, setPicture] = useState('');
 
   useEffect(() => {
-    api.get(`/users/${currentUser.uid}`).then(({ data }) => {
-      setUser(data);
-    });
-  }, [currentUser.uid, api]);
+    setPicture(localStorage.getItem('picture'));
+    setUsername(localStorage.getItem('username'));
+    setEmail(localStorage.getItem('email'));
+  }, []);
 
   return (
-    <Container maxWidth="xs">
-      <div className={classes.paper}>
-        <h1>Picture goes here</h1>
-        <h3>USERNAME: {user.username}</h3>
-        <h3>EMAIL: {user.email}</h3>
-        <Link to="/update-profile">update profile</Link>
-      </div>
-    </Container>
+    <>
+      <Container maxWidth="xs">
+        <Card className={styles.card}>
+          <CardMedia className={styles.media}>
+            <img src={picture} alt="" height="300px" width="500px" />
+          </CardMedia>
+        </Card>
+
+        <div style={{ margin: 'auto', width: '50%' }}>
+          <h3>USERNAME: {username}</h3>
+          <h3>EMAIL: {email}</h3>
+          <Link to="/update-profile">update profile</Link>
+        </div>
+      </Container>
+    </>
   );
 };
