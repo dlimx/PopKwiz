@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Card, CardMedia } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useUser } from '../store/users/UserContext';
 
 const useStyles = () => {
   const styles = makeStyles((theme) => ({
@@ -19,15 +20,7 @@ const useStyles = () => {
 
 export const Profile = () => {
   const styles = useStyles();
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [picture, setPicture] = useState('');
-
-  useEffect(() => {
-    setPicture(localStorage.getItem('picture'));
-    setUsername(localStorage.getItem('username'));
-    setEmail(localStorage.getItem('email'));
-  }, []);
+  const { picture, username, email } = useUser();
 
   return (
     <>

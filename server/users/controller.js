@@ -29,6 +29,7 @@ export const getUsers = async (userQuery) => {
 
 export const getUserById = async (userID) => {
   let user = cache.get(userID);
+  console.log(`cached user: ${JSON.stringify(user)}`);
   if (user) return user;
 
   const doc = await db.collection(USERS).doc(userID).get();
@@ -56,6 +57,7 @@ export const addUser = async (user) => {
 };
 
 export const updateUserImage = async (body, file, user) => {
+  cache.del(user.uid);
   const data = body;
   console.log(user);
   try {
@@ -80,6 +82,7 @@ export const updateUserImage = async (body, file, user) => {
 };
 
 export const updateUserName = async (body, user) => {
+  cache.del(user.uid);
   const { username } = body;
 
   // update User's path to picture
@@ -94,6 +97,7 @@ export const updateUserName = async (body, user) => {
 };
 
 export const updateEmail = async (body, user) => {
+  cache.del(user.uid);
   const { email } = body;
 
   // update User's path to picture
@@ -108,6 +112,7 @@ export const updateEmail = async (body, user) => {
 };
 
 export const updatePassword = async (body, user) => {
+  cache.del(user.uid);
   const { password } = body;
 
   // update User's path to picture
