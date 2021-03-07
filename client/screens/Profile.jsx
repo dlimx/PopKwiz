@@ -21,15 +21,6 @@ const useStyles = () => {
 export const Profile = () => {
   const styles = useStyles();
   const { picture, username, email } = useUser();
-  // const [username, setUsername] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [picture, setPicture] = useState('');
-
-  // useEffect(() => {
-  //   setPicture(localStorage.getItem('picture'));
-  //   setUsername(localStorage.getItem('username'));
-  //   setEmail(localStorage.getItem('email'));
-  // }, []);
 
   return (
     <>
