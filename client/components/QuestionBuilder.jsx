@@ -35,6 +35,8 @@ export const QuestionBuilder = (props) => {
                 answers={question.options}
                 results={props.results}
                 saveResults={props.saveResults}
+                userAnswers={props.userAnswers}
+                quizAnswers={props.quizAnswers}
               />
             </CardContent>
           </Card>

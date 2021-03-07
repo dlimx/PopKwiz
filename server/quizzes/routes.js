@@ -1,5 +1,5 @@
 import express from 'express';
-import { getQuiz, getQuizzes, createQuiz, submitQuiz, rateQuiz } from './controller';
+import { getQuiz, getQuizzes, createQuiz, submitQuiz, rateQuiz, getQuizResult } from './controller';
 import { authMiddleware } from '../users/middleware';
 import { sendError } from '../utils/error';
 import { StatusCode } from '../utils/http';
@@ -20,17 +20,18 @@ quizRouter.get('/:id', async (req, res) => {
     });
 });
 
-// JLIN88 Pending Route
-// quizRouter.get('/quizzes/:id', async (req, res) => {
-//   const id = req.params.id;
-//   console.log(`id = ${id}`)
-//   let doc = db.collection('quizzes').doc(id)
-//   let quiz = doc.get()
-//   .then(quiz => {
-//     if (!quiz.exists) throw new Error('Quiz not found');
-//     res.status(200).json({data: quiz.data})})
-//   .catch(error => res.status(500).send(error));
-// });
+// GET answers for a quiz
+quizRouter.get('/:id/answers', async (req, res) => {
+  await getQuiz(req.params.id)
+    .then((quiz) => {
+      console.log(quiz);
+      res.status(200).json({ data: quiz });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: 'something went wrong retreving quizzes from db.' });
+    });
+});
 
 // POST Rating and Comment
 quizRouter.post('/rating', authMiddleware, async (req, res) => {
@@ -64,18 +65,7 @@ quizRouter.post('/picture', authMiddleware, uploadMiddleware.single('image'), as
   }
 });
 
-// // GET specific quiz
-// quizRouter.get('/:id', async (req, res) => {
-//   await getQuiz(req.params.id)
-//     .then((quiz) => {
-//       res.status(200).json({ data: quiz.data() });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).json({ error: 'something went wrong retreving quizzes from db.' });
-//     });
-// });
-
+// POST quiz results
 quizRouter.post('/:id/results', async (req, res) => {
   try {
     const data = await submitQuiz(req.body, req.user);
@@ -83,4 +73,16 @@ quizRouter.post('/:id/results', async (req, res) => {
   } catch (error) {
     sendError(res, error);
   }
+});
+
+// GET specific quiz results
+quizRouter.get('/:id/results/:resultID', async (req, res) => {
+  await getQuizResult(req.params.resultID)
+    .then((results) => {
+      res.status(200).json({ results });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: 'something went wrong retreving results from db.' });
+    });
 });
