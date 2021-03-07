@@ -92,6 +92,31 @@ export const rateQuiz = async (body, user) => {
   }
 };
 
+export const delComment = async (body, user) => {
+  try {
+    console.log(user);
+    const addRating = await db
+      .collection(QUIZZES)
+      .doc(body.Quiz)
+      .set(
+        {
+          rating: {
+            [user.id]: {
+              user_name: user.username,
+              user_score: -1,
+              user_comment: '[This comment was deleted by the user]',
+            },
+          },
+        },
+        { merge: true },
+      );
+    return { addRating };
+  } catch (error) {
+    console.error(error);
+    throw newError(StatusCode.Error, error.message);
+  }
+};
+
 // Helper to score quiz on back-end before POSTing
 const scoreQuiz = async (quizID, userAnswers) => {
   const score = await getQuiz(quizID).then((quiz) => {
