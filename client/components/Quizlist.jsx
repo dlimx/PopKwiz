@@ -35,6 +35,14 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
     color: theme.palette.text.secondary,
   },
+  image: {
+    maxWidth: '100%',
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+  },
 }));
 
 // dummy database values
@@ -48,7 +56,7 @@ export const Quizlist = ({ quizList }) => {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-  console.log(quizList);
+
   return (
     <div className={classes.root}>
       <Box m={2}>
@@ -57,16 +65,20 @@ export const Quizlist = ({ quizList }) => {
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{quiz.name}</Typography>
               <Typography className={classes.secondaryHeading}>{quiz.description}</Typography>
-              {!!quiz.image && <img alt="Quiz Preview" src={quiz.image} />}
             </AccordionSummary>
             <AccordionDetails>
               <Grid container spacing={10}>
-                <Grid item xs={11}>
+                {!!quiz.image && (
+                  <Grid item xs={12}>
+                    <img className={classes.image} alt="Quiz Preview" src={quiz.image} />
+                  </Grid>
+                )}
+                <Grid item xs={9}>
                   <Typography>
                     {quiz?.questions?.length} Question{quiz.questions?.length === 1 ? '' : 's'}
                   </Typography>
                 </Grid>
-                <Grid item xs={1}>
+                <Grid className={classes.buttonContainer} item xs={3}>
                   <Button
                     variant="contained"
                     color="primary"

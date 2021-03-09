@@ -24,7 +24,6 @@ quizRouter.get('/:id', async (req, res) => {
 quizRouter.get('/:id/answers', async (req, res) => {
   await getQuiz(req.params.id)
     .then((quiz) => {
-      console.log(quiz);
       res.status(200).json({ data: quiz });
     })
     .catch((err) => {
@@ -68,9 +67,9 @@ quizRouter.get('/', async (req, res) => {
 });
 
 // POST Create Quiz
-quizRouter.post('/picture', authMiddleware, uploadMiddleware.single('image'), async (req, res) => {
+quizRouter.post('/', authMiddleware, uploadMiddleware.any(), async (req, res) => {
   try {
-    const data = await createQuiz(req.body, req.file, req.user);
+    const data = await createQuiz(req.body, req.files, req.user);
     res.status(StatusCode.Success).send(data);
   } catch (error) {
     sendError(res, error);

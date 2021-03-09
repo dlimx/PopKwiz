@@ -24,13 +24,12 @@ export function UserProvider({ children }) {
   useEffect(() => {
     try {
       api.get(`/users/${currentUser.uid}?random_number=${new Date().getTime()}`).then(({ data }) => {
-        console.log(data);
         setPicture(data.picture);
         setUsername(data.username);
         setEmail(data.email);
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }, [api, currentUser.uid, refresh]);
 

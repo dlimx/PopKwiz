@@ -36,10 +36,11 @@ const useStyles = makeStyles({
 // pass in comments object as prop
 export const UserComment = ({ quizID, quizComments, rateVal, setRate, commentVal, setComment, editVal, setEdit }) => {
   const { currentUser } = useAuth();
-  const key = currentUser.uid;
   const classes = useStyles();
+
+  const key = currentUser.uid;
   if (quizComments[key] === undefined) {
-    return <div>n/a</div>;
+    return null;
   }
 
   const ratingDisplay = (rateValue) => {
@@ -88,7 +89,7 @@ export const UserComment = ({ quizID, quizComments, rateVal, setRate, commentVal
 };
 
 UserComment.propTypes = {
-  quizComments: PropTypes.arrayOf(Object).isRequired,
+  quizComments: PropTypes.object.isRequired,
   setRate: PropTypes.func.isRequired,
   setComment: PropTypes.func.isRequired,
   quizID: PropTypes.string.isRequired,

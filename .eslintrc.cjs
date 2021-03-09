@@ -14,6 +14,7 @@ module.exports = {
     'react/forbid-prop-types': 'off',
     'react/destructuring-assignment': 'off',
     'arrow-body-style': 'off',
+    'react/require-default-props': 'off',
   },
   env: {
     browser: true,

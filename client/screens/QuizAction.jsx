@@ -38,7 +38,6 @@ export const QuizAction = () => {
       answers: results,
     };
     api.post(`/quizzes/${id}/results`, body).then((res) => {
-      console.log(res);
       history.push({
         pathname: `/quiz/${id}/results`,
         state: { resultID: res.data.id },
@@ -51,7 +50,7 @@ export const QuizAction = () => {
   }, []);
 
   if (!auth.currentUser) {
-    return <Redirect to="/login?to=/quiz/create" />;
+    return <Redirect to={`/login?to=/quiz/${id}/action`} />;
   }
 
   return (
