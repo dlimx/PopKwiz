@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   inner: {
     marginLeft: 20,
     marginRight: 20,
-    marginbotton: 20,
+    marginBottom: 20,
   },
   paper: {
     padding: '40px 20px',
@@ -40,29 +40,36 @@ export const QuizComments = ({ quizComments }) => {
     }
     return <></>;
   };
+
+  const renderComments = () => {
+    if (!quizComments || !Object.keys(quizComments).length) return <p>No quiz comments</p>;
+
+    return Object.keys(quizComments).map((key, index) => (
+      <Paper index={index} elevation={1} className={classes.paper}>
+        <Grid container wrap="nowrap" spacing={2}>
+          <Grid item>
+            {/* picture url here */}
+            <Avatar src={`https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 99) + 1}.jpg`} />
+          </Grid>
+          <Grid justifyContent="left" item xs zeroMinWidth>
+            <h4 className={classes.commenter}>{quizComments[key].user_name}</h4>
+            {ratingDisplay(quizComments[key].user_score)}
+
+            {/* replace test_name 'key' with name variable */}
+            <p className={classes.comment}>{quizComments[key].user_comment}</p>
+          </Grid>
+        </Grid>
+      </Paper>
+    ));
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.outer} variant="outlined">
         <div className={classes.inner}>
           <h1>Quiz Reviews</h1>
 
-          {Object.keys(quizComments).map((key, index) => (
-            <Paper index={index} elevation={1} className={classes.paper}>
-              <Grid container wrap="nowrap" spacing={2}>
-                <Grid item>
-                  {/* picture url here */}
-                  <Avatar src={`https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 99) + 1}.jpg`} />
-                </Grid>
-                <Grid justifyContent="left" item xs zeroMinWidth>
-                  <h4 className={classes.commenter}>{quizComments[key].user_name}</h4>
-                  {ratingDisplay(quizComments[key].user_score)}
-
-                  {/* replace test_name 'key' with name variable */}
-                  <p className={classes.comment}>{quizComments[key].user_comment}</p>
-                </Grid>
-              </Grid>
-            </Paper>
-          ))}
+          {renderComments()}
         </div>
       </Paper>
     </div>
@@ -70,5 +77,5 @@ export const QuizComments = ({ quizComments }) => {
 };
 
 QuizComments.propTypes = {
-  quizComments: PropTypes.arrayOf(Object).isRequired,
+  quizComments: PropTypes.object,
 };

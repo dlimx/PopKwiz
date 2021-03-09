@@ -42,9 +42,7 @@ export const ProfileUpdate = () => {
     e.preventDefault();
 
     try {
-      api.post('/users/username', { username }).then((res) => {
-        console.log(res);
-      });
+      api.post('/users/username', { username }).then((res) => {});
       setRefresh(Math.random());
       setStatusBase({ msg: 'Success: User has been updated', key: Math.random() });
     } catch (error) {
@@ -62,9 +60,7 @@ export const ProfileUpdate = () => {
 
     try {
       updateEmail(email);
-      api.post('/users/email', { email }).then((res) => {
-        console.log(res);
-      });
+      api.post('/users/email', { email }).then((res) => {});
       setRefresh(Math.random());
       setStatusBase({ msg: 'Success: Email has been updated', key: Math.random() });
     } catch (error) {

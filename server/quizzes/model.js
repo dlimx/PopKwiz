@@ -47,14 +47,24 @@ export const saveCreationQuiz = async (quizCreateBody) => {
     });
   });
 
-  payload.questions = quizCreateBody.questions.map((question) => ({
-    ...question,
-    options: question.options.map((option) => {
-      const newOption = { ...option };
-      delete newOption.correct;
-      return newOption;
-    }),
-  }));
+  payload.questions = quizCreateBody.questions.map((question) => {
+    const newQuestion = {
+      ...question,
+      options: question.options.map((option) => {
+        const newOption = { ...option };
+        delete newOption.correct;
+        return newOption;
+      }),
+    };
+
+    if (quizCreateBody.questionImages && quizCreateBody.questionImages[`${question.id}Image`]) {
+      newQuestion.image = quizCreateBody.questionImages[`${question.id}Image`];
+    }
+
+    return newQuestion;
+  });
+
+  delete payload.questionImages;
 
   try {
     await ref.set(payload);

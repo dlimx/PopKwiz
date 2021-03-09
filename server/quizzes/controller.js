@@ -57,15 +57,36 @@ export const getQuiz = async (id) => {
   }
 };
 
-export const createQuiz = async (body, file, user) => {
-  const data = body;
+export const createQuiz = async (body, files, user) => {
   let quizCreateBody;
+
   try {
-    if (file) {
-      data.image = await uploadFile(quizBucket, file);
-      console.log(data.image);
-    }
     quizCreateBody = quizSchema.validateSync(body);
+    quizCreateBody.questionImages = {};
+
+    if (files && files.length) {
+      const promises = [];
+
+      for (const file of files) {
+        if (file.fieldname === 'image') {
+          promises.push(
+            (async () => {
+              quizCreateBody.image = await uploadFile(quizBucket, file);
+            })(),
+          );
+        } else if (file.fieldname.indexOf('Image') !== -1) {
+          promises.push(
+            (async () => {
+              quizCreateBody.questionImages[file.fieldname] = await uploadFile(quizBucket, file);
+            })(),
+          );
+        }
+      }
+
+      if (promises.length) {
+        await Promise.all(promises);
+      }
+    }
   } catch (error) {
     throw newError(StatusCode.BadRequest, error.message);
   }
@@ -77,7 +98,6 @@ export const createQuiz = async (body, file, user) => {
 
 export const rateQuiz = async (body, user) => {
   try {
-    console.log(user);
     const addRating = await db
       .collection(QUIZZES)
       .doc(body.Quiz)
@@ -94,7 +114,6 @@ export const rateQuiz = async (body, user) => {
 
 export const delComment = async (body, user) => {
   try {
-    console.log(user);
     const addRating = await db
       .collection(QUIZZES)
       .doc(body.Quiz)

@@ -16,8 +16,6 @@ const useStyles = makeStyles((theme) => ({
 export const ShortAnswer = (props) => {
   const classes = useStyles();
 
-  console.log(JSON.stringify(props.userAnswers));
-
   if (props.userAnswers && props.quizAnswers) {
     return (
       <FormControl component="fieldset">

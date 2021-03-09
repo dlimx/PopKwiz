@@ -6,8 +6,11 @@ import { UserComment } from '../components/UserComment';
 
 import { useAPI } from '../api/api';
 import { useStyles } from '../styles/useStyles';
+import { useAuth } from '../store/users/AuthContext';
+import { Image } from '../components/Image';
 
 export const QuizProfile = () => {
+  const { currentUser } = useAuth();
   const api = useAPI();
   const classes = useStyles();
   const history = useHistory();
@@ -26,14 +29,10 @@ export const QuizProfile = () => {
   useEffect(() => {
     api.get(`/quizzes/${id}`).then((res) => {
       setQuiz(res.data.data);
-      setQuizComments(res.data.data.rating);
+      setQuizComments(res.data.data.rating || {});
     });
   }, [api, id, editVal]);
 
-  console.log(quizComments);
-  if (quizComments === undefined) {
-    return <div>No Comments</div>;
-  }
   return (
     <>
       <Container className={classes.container}>
@@ -45,6 +44,7 @@ export const QuizProfile = () => {
           <Typography className={classes.typographyText} variant="subtitle1">
             {quiz.description}
           </Typography>
+          <Image image={quiz.image} alt="Quiz Preview" />
           <br />
           <Button
             type="submit"
@@ -60,19 +60,21 @@ export const QuizProfile = () => {
           </Button>
         </Card>
       </Container>
-      <div>
-        <UserComment
-          quizID={id}
-          quizComments={quizComments}
-          rateVal={rateVal}
-          commentVal={commentVal}
-          setRate={setRate}
-          setComment={setComment}
-          editVal={editVal}
-          setEdit={setEdit}
-        />
-        <QuizComments quizComments={quizComments} />
-      </div>
+      {!!currentUser && (
+        <div>
+          <UserComment
+            quizID={id}
+            quizComments={quizComments}
+            rateVal={rateVal}
+            commentVal={commentVal}
+            setRate={setRate}
+            setComment={setComment}
+            editVal={editVal}
+            setEdit={setEdit}
+          />
+          <QuizComments quizComments={quizComments} />
+        </div>
+      )}
     </>
   );
 };

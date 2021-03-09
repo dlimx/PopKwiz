@@ -5,6 +5,7 @@ import React from 'react';
 import { Card, CardContent, Divider, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AnswerBuilder } from './AnswerBuilder';
+import { Image } from './Image';
 // import { useStyles } from '../styles/useStyles';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +30,13 @@ export const QuestionBuilder = (props) => {
               <Typography variant="h6">Question {index + 1}</Typography>
               <Divider className={classes.divider} variant="fullWidth" />
               <Typography>{question.question}</Typography>
+              {question.image && (
+                <>
+                  <Divider className={classes.divider} variant="fullWidth" />
+                  <Image alt={`${question.question}Image`} image={question.image} />
+                </>
+              )}
+              <Divider className={classes.divider} variant="fullWidth" />
               <AnswerBuilder
                 qid={question.id}
                 type={question.type}

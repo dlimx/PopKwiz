@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FastField, useFormikContext } from 'formik';
+import { FastField, useFormikContext, Field } from 'formik';
 import PropTypes from 'prop-types';
 import {
   Accordion,
@@ -12,11 +12,14 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  IconButton,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ClearIcon from '@material-ui/icons/Clear';
 import { makeStyles } from '@material-ui/core/styles';
 import { QuizConstants, QuizStrings, QuizTypes } from '../../../constants/quizConstants';
 import { DebouncedTextField } from '../../components/DebouncedTextField';
+import { ImageUploadPreview } from '../../components/ImageUploadPreview';
 
 const useStyles = makeStyles((theme) => ({
   formField: {
@@ -40,7 +43,19 @@ const useStyles = makeStyles((theme) => ({
   row: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+  },
+  col: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+  },
+  main: {
+    flex: 1,
+  },
+  iconButton: {
+    marginLeft: theme.spacing(1),
+    width: '70px',
+    height: '70px',
   },
 }));
 
@@ -64,7 +79,7 @@ const getTrueFalseOptions = (correct) => {
   ];
 };
 
-export const QuizCreateQuestion = ({ index, question }) => {
+export const QuizCreateQuestion = ({ index, question, handleRemove: onRemove, questionImage, setQuestionImage }) => {
   const formik = useFormikContext();
   const [open, setOpen] = useState(false);
   const classes = useStyles();
@@ -73,6 +88,11 @@ export const QuizCreateQuestion = ({ index, question }) => {
   const handleOpen = (event, isOpen) => {
     if (event.target.name === `${name}.question`) return;
     setOpen(isOpen);
+  };
+
+  const handleRemove = (event) => {
+    event.preventDefault();
+    onRemove();
   };
 
   const renderAddOption = () => {
@@ -118,9 +138,19 @@ export const QuizCreateQuestion = ({ index, question }) => {
                     />
                   )}
                 </FastField>
-                <FastField name={`${name}.options[${optionIndex}].correct`}>
-                  {({ field }) => <Checkbox {...field} />}
-                </FastField>
+                <Field name={`${name}.options[${optionIndex}].correct`}>
+                  {({ field, form }) => (
+                    <Checkbox
+                      {...field}
+                      checked={field.value}
+                      onChange={(e) => {
+                        options.forEach((_, newIndex) => {
+                          form.setFieldValue(`${name}.options[${newIndex}].correct`, newIndex === optionIndex);
+                        });
+                      }}
+                    />
+                  )}
+                </Field>
               </div>
             ))}
             {renderAddOption()}
@@ -196,47 +226,66 @@ export const QuizCreateQuestion = ({ index, question }) => {
   };
 
   return (
-    <Accordion expanded={open} onChange={handleOpen}>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <FastField name={`${name}.question`}>
-          {({ field, meta }) => (
-            <DebouncedTextField
-              {...field}
-              multiline
-              label={`Question ${index + 1}`}
-              className={classes.questionField}
-              error={(formik.submitCount || meta.touched) && !!meta.error}
-            />
-          )}
-        </FastField>
-      </AccordionSummary>
-      <AccordionDetails>
-        <FastField name={`${name}.type`}>
-          {({ field, meta }) => (
-            <FormControl className={`${classes.formField} ${classes.formFieldMarginRight}`}>
-              <FormLabel htmlFor={`${name}-form`} error={(formik.submitCount || meta.touched) && !!meta.error}>
-                Question Type
-              </FormLabel>
-              <RadioGroup
+    <div className={classes.row}>
+      <Accordion className={classes.main} expanded={open} onChange={handleOpen}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <FastField name={`${name}.question`}>
+            {({ field, meta }) => (
+              <DebouncedTextField
                 {...field}
-                onChange={(...args) => {
-                  const options =
-                    args[1] === QuizTypes.TrueFalse ? getTrueFalseOptions(QuizConstants.True) : [getNewOption(args[1])];
-                  formik.setFieldValue(`${name}.options`, options);
-                  field.onChange(...args);
-                }}
-                id={`${name}-form`}
-              >
-                {Object.values(QuizTypes).map((quizType) => (
-                  <FormControlLabel control={<Radio />} label={QuizStrings[quizType]} key={quizType} value={quizType} />
-                ))}
-              </RadioGroup>
-            </FormControl>
-          )}
-        </FastField>
-        {renderOptions()}
-      </AccordionDetails>
-    </Accordion>
+                multiline
+                label={`Question ${index + 1}`}
+                className={classes.questionField}
+                error={(formik.submitCount || meta.touched) && !!meta.error}
+              />
+            )}
+          </FastField>
+        </AccordionSummary>
+        <AccordionDetails>
+          <div className={classes.col}>
+            <div className={classes.row}>
+              <FastField name={`${name}.type`}>
+                {({ field, meta }) => (
+                  <FormControl className={`${classes.formField} ${classes.formFieldMarginRight}`}>
+                    <FormLabel htmlFor={`${name}-form`} error={(formik.submitCount || meta.touched) && !!meta.error}>
+                      Question Type
+                    </FormLabel>
+                    <RadioGroup
+                      {...field}
+                      onChange={(...args) => {
+                        const options =
+                          args[1] === QuizTypes.TrueFalse
+                            ? getTrueFalseOptions(QuizConstants.True)
+                            : [getNewOption(args[1])];
+                        formik.setFieldValue(`${name}.options`, options);
+                        field.onChange(...args);
+                      }}
+                      id={`${name}-form`}
+                    >
+                      {Object.values(QuizTypes).map((quizType) => (
+                        <FormControlLabel
+                          control={<Radio />}
+                          label={QuizStrings[quizType]}
+                          key={quizType}
+                          value={quizType}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                )}
+              </FastField>
+              {renderOptions()}
+            </div>
+            <div className={classes.row} style={{ width: '100%' }} key="image">
+              <ImageUploadPreview image={questionImage} setImage={setQuestionImage} />
+            </div>
+          </div>
+        </AccordionDetails>
+      </Accordion>
+      <IconButton onClick={handleRemove} className={classes.iconButton}>
+        <ClearIcon />
+      </IconButton>
+    </div>
   );
 };
 
@@ -247,4 +296,7 @@ QuizCreateQuestion.propTypes = {
     question: PropTypes.string,
     options: PropTypes.array,
   }).isRequired,
+  handleRemove: PropTypes.func.isRequired,
+  questionImage: PropTypes.object,
+  setQuestionImage: PropTypes.func,
 };
