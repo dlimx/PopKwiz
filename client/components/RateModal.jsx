@@ -83,7 +83,7 @@ export const RateModal = ({ buttonText, quizID, rateVal, setRate, commentVal, se
                       })
                       .then((res) => {});
                   }
-                  setTimeout(setEdit(editVal + 1), 2000);
+                  setTimeout(() => setEdit(editVal + 1), 1500);
                 }}
               >
                 Send
