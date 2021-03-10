@@ -21,7 +21,8 @@ export const DeleteComment = ({ quizID, editVal, setEdit }) => {
                 params: { Quiz: quizID },
               })
               .then((res) => {
-                setTimeout(() => setEdit(editVal + 1), 1500);
+                // setTimeout(() => setEdit(editVal + 1), 500);
+                setEdit(editVal + 1);
               });
           }}
         >
