@@ -160,7 +160,7 @@ const scoreQuiz = async (quizID, userAnswers) => {
     });
     return (totalScore / numQuestions) * 100.0;
   });
-  return score;
+  return Math.round(score * 100) / 100;
 };
 
 export const submitQuiz = async (body, user) => {
