@@ -23,7 +23,7 @@ export function UserProvider({ children }) {
 
   useEffect(() => {
     try {
-      api.get(`/users/${currentUser.uid}?random_number=${new Date().getTime()}`).then(({ data }) => {
+      api.get(`/users/${currentUser?.uid}?random_number=${new Date().getTime()}`).then(({ data }) => {
         setPicture(data.picture);
         setUsername(data.username);
         setEmail(data.email);
