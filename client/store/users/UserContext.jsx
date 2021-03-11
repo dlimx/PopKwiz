@@ -31,7 +31,7 @@ export function UserProvider({ children }) {
     } catch (error) {
       console.error(error);
     }
-  }, [api, currentUser.uid, refresh]);
+  }, [api, currentUser?.uid, refresh]);
 
   const value = { picture, email, username, setRefresh, pictureUpdate };
 

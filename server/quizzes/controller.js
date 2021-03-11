@@ -31,10 +31,11 @@ export const getQuizzes = async (userQuery) => {
     quizSearch = db.collection(QUIZZES).where('category', '==', userQuery.category);
   } else {
     quizSearch = db.collection(QUIZZES);
+    quizSearch = quizSearch.orderBy('createdAt', 'desc');
   }
   // import and append list for quizzes from database
   const quizList = [];
-  quizSearch = quizSearch.orderBy('createdAt', 'desc');
+
   await quizSearch.get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       quizList.push(doc.data());

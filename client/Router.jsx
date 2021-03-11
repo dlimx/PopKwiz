@@ -30,17 +30,16 @@ export const Router = () => {
           <CssBaseline />
           <Navbar />
           <Switch>
-            <Route exact path="/" component={Browse} />
-            <Route path="/signup" component={SignUp} />
-            <Route path="/login" component={Login} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/forgot-password" component={ForgotPassword} />
-            <Route path="/quiz/create" component={QuizCreate} />
-            <Route path="/quiz/:id/action" component={QuizAction} />
-            <Route path="/quiz/:id/results" component={QuizResults} />
-            <Route path="/quiz/:id/rate" component={QuizRate} />
-
             <UserProvider>
+              <Route exact path="/" component={Browse} />
+              <Route path="/signup" component={SignUp} />
+              <Route path="/login" component={Login} />
+              <Route path="/logout" component={Logout} />
+              <Route path="/forgot-password" component={ForgotPassword} />
+              <Route path="/quiz/create" component={QuizCreate} />
+              <Route path="/quiz/:id/action" component={QuizAction} />
+              <Route path="/quiz/:id/results" component={QuizResults} />
+              <Route path="/quiz/:id/rate" component={QuizRate} />
               <Route path="/quiz/:id" component={QuizProfile} />
               <Route path="/profile" component={Profile} />
               <Route path="/update-profile" component={ProfileUpdate} />
