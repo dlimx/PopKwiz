@@ -7,6 +7,8 @@ import { RateModal } from './RateModal';
 import { useAuth } from '../store/users/AuthContext';
 import { DeleteComment } from './DeleteComment';
 
+import { useUser } from '../store/users/UserContext';
+
 const useStyles = makeStyles({
   root: {
     // div
@@ -35,6 +37,7 @@ const useStyles = makeStyles({
 
 // pass in comments object as prop
 export const UserComment = ({ quizID, quizComments, rateVal, setRate, commentVal, setComment, editVal, setEdit }) => {
+  const { picture, username, email } = useUser();
   const { currentUser } = useAuth();
   const classes = useStyles();
 
@@ -72,7 +75,7 @@ export const UserComment = ({ quizID, quizComments, rateVal, setRate, commentVal
           <Paper elevation={1} className={classes.paper}>
             <Grid container wrap="nowrap" spacing={2}>
               <Grid item>
-                <Avatar src={`https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 99) + 1}.jpg`} />
+                <Avatar src={picture} />
               </Grid>
               <Grid justifyContent="left" item xs zeroMinWidth>
                 <h4 className={classes.commenter}>{quizComments[key].user_name}</h4>

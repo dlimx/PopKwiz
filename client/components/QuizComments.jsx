@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Grid, Paper } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import PropTypes from 'prop-types';
+import { CommentAvatar } from './CommentAvatar';
 
 const useStyles = makeStyles({
   root: {
@@ -33,6 +34,7 @@ const useStyles = makeStyles({
 // pass in comments object as prop
 export const QuizComments = ({ quizComments }) => {
   const classes = useStyles();
+  console.log(quizComments);
 
   const ratingDisplay = (rateValue) => {
     if (rateValue > -1) {
@@ -48,8 +50,7 @@ export const QuizComments = ({ quizComments }) => {
       <Paper index={index} elevation={1} className={classes.paper}>
         <Grid container wrap="nowrap" spacing={2}>
           <Grid item>
-            {/* picture url here */}
-            <Avatar src={`https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 99) + 1}.jpg`} />
+            <CommentAvatar id={key} />
           </Grid>
           <Grid justifyContent="left" item xs zeroMinWidth>
             <h4 className={classes.commenter}>{quizComments[key].user_name}</h4>
