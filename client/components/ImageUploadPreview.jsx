@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Typography } from '@material-ui/core';
+import { Box, IconButton, Typography } from '@material-ui/core';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = () => {
   const styles = makeStyles((theme) => ({
@@ -27,6 +28,17 @@ const useStyles = () => {
       display: 'flex',
       alignItems: 'center',
       flexDirection: 'column',
+    },
+    iconButton: {
+      position: 'absolute',
+      right: '20px',
+      top: '20px;',
+    },
+    imageContainer: {
+      position: 'relative',
+      height: '300px',
+      display: 'flex',
+      width: '100%',
     },
   }));
 
@@ -57,8 +69,26 @@ export const ImageUploadPreview = ({ image, setImage }) => {
     [setImage],
   );
 
+  const clearImage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setImage('');
+    setImageDisplay('');
+  };
+
+  const clearImageValue = (e) => {
+    e.target.value = '';
+  };
+
   const renderImage = () => {
-    return <img src={imageDisplay} className={styles.image} alt="Quiz Preview" />;
+    return (
+      <div className={styles.imageContainer}>
+        <img src={imageDisplay} className={styles.image} alt="Quiz Preview" />
+        <IconButton onClick={clearImage} style={{ backgroundColor: 'white' }} className={styles.iconButton}>
+          <ClearIcon />
+        </IconButton>
+      </div>
+    );
   };
 
   const renderIcon = () => {
@@ -73,12 +103,12 @@ export const ImageUploadPreview = ({ image, setImage }) => {
   return (
     <Box className={styles.container} onClick={() => file.current.click()}>
       {imageDisplay ? renderImage() : renderIcon()}
-      <input type="file" accept="image/*" ref={file} hidden onChange={setImageFunc} />
+      <input type="file" accept="image/*" ref={file} hidden onChange={setImageFunc} onClick={clearImageValue} />
     </Box>
   );
 };
 
 ImageUploadPreview.propTypes = {
-  image: PropTypes.object.isRequired,
+  image: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   setImage: PropTypes.func.isRequired,
 };

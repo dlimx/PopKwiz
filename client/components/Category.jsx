@@ -27,25 +27,25 @@ export const Category = ({ setCategoryVal }) => {
           <Tab
             label="Math"
             onClick={() => {
-              setCategoryVal('math');
+              setCategoryVal('Math');
             }}
           />
           <Tab
             label="English"
             onClick={() => {
-              setCategoryVal('english');
+              setCategoryVal('English');
             }}
           />
           <Tab
             label="Science"
             onClick={() => {
-              setCategoryVal('science');
+              setCategoryVal('Science');
             }}
           />
           <Tab
             label="Computer"
             onClick={() => {
-              setCategoryVal('computer');
+              setCategoryVal('Computer');
             }}
           />
         </Tabs>

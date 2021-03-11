@@ -12,7 +12,7 @@ import {
   Checkbox,
 } from '@material-ui/core';
 import { Formik, Field, Form, FastField } from 'formik';
-import { uniqueId } from 'lodash';
+import { uniqueId, isEmpty } from 'lodash';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuth } from '../../store/users/AuthContext';
@@ -52,7 +52,7 @@ const defaultValues = {
   name: '',
   description: '',
   questions: [{ question: '', type: '', options: [], id: uniqueId() }],
-  categories: [],
+  category: '',
 };
 
 export const QuizCreate = () => {
@@ -65,6 +65,7 @@ export const QuizCreate = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState('');
   const [image, setImage] = useState('');
+  const [questionImages, setQuestionImages] = useState({});
 
   useEffect(() => {
     api.get('/categories').then(({ data }) => {
@@ -75,12 +76,25 @@ export const QuizCreate = () => {
   const createQuiz = useCallback(
     (data) => {
       let body;
-      if (image) {
+      if (image || !isEmpty(questionImages)) {
         body = new FormData();
         Object.keys(data).forEach((key) => {
-          body.append(key, JSON.stringify(data[key]));
+          if (typeof data[key] === 'object') {
+            body.append(key, JSON.stringify(data[key]));
+          } else {
+            body.append(key, data[key]);
+          }
         });
-        body.append('image', image);
+
+        if (image) {
+          body.append('image', image);
+        }
+
+        if (!isEmpty(questionImages)) {
+          Object.keys(questionImages).forEach((questionId) => {
+            body.append(`${questionId}Image`, questionImages[questionId]);
+          });
+        }
       } else {
         body = data;
       }
@@ -88,7 +102,7 @@ export const QuizCreate = () => {
         history.push('/');
       });
     },
-    [api, history, image],
+    [api, history, image, questionImages],
   );
 
   const parseQuiz = useCallback(async (event) => {
@@ -113,11 +127,9 @@ export const QuizCreate = () => {
       const fileReader = new FileReader();
       fileReader.onloadend = parseQuiz;
       fileReader.readAsText(file);
-      setFormikValues({ name: 'hello world', questions: [], categories: [] });
     },
     [parseQuiz],
   );
-
   if (!auth.currentUser) {
     return <Redirect to="/login?to=/quiz/create" />;
   }
@@ -127,6 +139,22 @@ export const QuizCreate = () => {
       <Formik initialValues={formikValues} onSubmit={createQuiz} validationSchema={quizSchema} enableReinitialize>
         {(formik) => {
           const { setFieldValue, values } = formik;
+
+          const handleRemove = (id) => {
+            const newQuizzes = values.questions.filter((question) => question.id !== id);
+            if (!newQuizzes.length) {
+              newQuizzes.push([{ question: '', type: '', options: [], id: uniqueId() }]);
+            }
+            setFieldValue('questions', newQuizzes);
+            if (questionImages[id]) {
+              const newQuestionImages = {
+                ...questionImages,
+              };
+              delete newQuestionImages[id];
+              setQuestionImages(newQuestionImages);
+            }
+          };
+
           return [
             <div className={classes.row} key="header">
               <Typography component="h1" variant="h5">
@@ -167,7 +195,7 @@ export const QuizCreate = () => {
                 )}
               </FastField>
 
-              <Field name="categories">
+              <Field name="category">
                 {({ field, meta }) => (
                   <FormControl className={classes.formField}>
                     <InputLabel id="categories-label" htmlFor="categories-form">
@@ -176,15 +204,14 @@ export const QuizCreate = () => {
                     <Select
                       {...field}
                       error={meta.touched && !!meta.error}
-                      multiple
-                      renderValue={(selected) => selected.map((category) => category.name).join(', ')}
+                      renderValue={(selected) => selected}
                       id="categories-form"
                       labelId="categories-label"
                       MenuProps={{ variant: 'menu' }}
                     >
                       {categories.map((category) => (
-                        <MenuItem key={category.id} value={category}>
-                          <Checkbox checked={values.categories.indexOf(category) > -1} />
+                        <MenuItem key={category.id} value={category.name}>
+                          <Checkbox checked={field.value === category.name} />
                           <ListItemText primary={category.name} />
                         </MenuItem>
                       ))}
@@ -193,7 +220,20 @@ export const QuizCreate = () => {
                 )}
               </Field>
               {values.questions.map((question, index) => (
-                <QuizCreateQuestion question={question} key={question.id} index={index} />
+                <QuizCreateQuestion
+                  question={question}
+                  key={question.id}
+                  index={index}
+                  handleRemove={() => handleRemove(question.id)}
+                  setQuestionImage={(newImage) => {
+                    const newQuestionImages = {
+                      ...questionImages,
+                      [question.id]: newImage,
+                    };
+                    setQuestionImages(newQuestionImages);
+                  }}
+                  questionImage={questionImages[question.id]}
+                />
               ))}
               <Button
                 style={{ margin: '20px 0' }}

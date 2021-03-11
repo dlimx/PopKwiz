@@ -16,7 +16,6 @@ export function ForgotPassword() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(email);
 
     try {
       setMessage('');

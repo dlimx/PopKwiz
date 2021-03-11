@@ -7,6 +7,7 @@ import zIndex from '@material-ui/core/styles/zIndex';
 import { makeStyles } from '@material-ui/core/styles';
 import { Copyright } from './Copyright';
 import { QuestionBuilder } from './QuestionBuilder';
+import { Image } from './Image';
 
 const useStyles = makeStyles((theme) => ({
   divider: {
@@ -31,6 +32,7 @@ export const QuizBuilder = (props) => {
         <Typography className={classes.typographyText} variant="subtitle1">
           {props.quiz.description}
         </Typography>
+        <Image image={props.quiz.image} alt="Quiz Preview" />
       </Card>
       <br />
       <QuestionBuilder

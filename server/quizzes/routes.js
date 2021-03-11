@@ -1,5 +1,5 @@
 import express from 'express';
-import { getQuiz, getQuizzes, createQuiz, submitQuiz, rateQuiz, getQuizResult } from './controller';
+import { getQuiz, getQuizzes, createQuiz, submitQuiz, rateQuiz, delComment, getQuizResult } from './controller';
 import { authMiddleware } from '../users/middleware';
 import { sendError } from '../utils/error';
 import { StatusCode } from '../utils/http';
@@ -24,7 +24,6 @@ quizRouter.get('/:id', async (req, res) => {
 quizRouter.get('/:id/answers', async (req, res) => {
   await getQuiz(req.params.id)
     .then((quiz) => {
-      console.log(quiz);
       res.status(200).json({ data: quiz });
     })
     .catch((err) => {
@@ -37,6 +36,18 @@ quizRouter.get('/:id/answers', async (req, res) => {
 quizRouter.post('/rating', authMiddleware, async (req, res) => {
   try {
     const data = await rateQuiz(req.body, req.user);
+    res.status(StatusCode.Success).send(data);
+  } catch (error) {
+    sendError(res, error);
+  }
+});
+
+// Delete Rating and Comment
+quizRouter.delete('/rating', authMiddleware, async (req, res) => {
+  try {
+    // console.log(req.query.quiz);
+    // console.log(req.user.id);
+    const data = await delComment(req.query, req.user);
     res.status(StatusCode.Success).send(data);
   } catch (error) {
     sendError(res, error);
@@ -56,9 +67,9 @@ quizRouter.get('/', async (req, res) => {
 });
 
 // POST Create Quiz
-quizRouter.post('/picture', authMiddleware, uploadMiddleware.single('image'), async (req, res) => {
+quizRouter.post('/', authMiddleware, uploadMiddleware.any(), async (req, res) => {
   try {
-    const data = await createQuiz(req.body, req.file, req.user);
+    const data = await createQuiz(req.body, req.files, req.user);
     res.status(StatusCode.Success).send(data);
   } catch (error) {
     sendError(res, error);

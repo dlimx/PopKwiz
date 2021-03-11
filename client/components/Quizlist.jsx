@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -35,19 +35,28 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
     color: theme.palette.text.secondary,
   },
+  image: {
+    maxWidth: '100%',
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+  },
 }));
 
 // dummy database values
 
 export const Quizlist = ({ quizList }) => {
   const classes = useStyles();
+  const history = useHistory();
   // initialize state
   const [expanded, setExpanded] = React.useState(false);
   // hook to update state for accordion: https://material-ui.com/components/accordion/
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-  console.log(quizList);
+
   return (
     <div className={classes.root}>
       <Box m={2}>
@@ -56,18 +65,28 @@ export const Quizlist = ({ quizList }) => {
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{quiz.name}</Typography>
               <Typography className={classes.secondaryHeading}>{quiz.description}</Typography>
-              {!!quiz.image && <img alt="Quiz Preview" src={quiz.image} />}
             </AccordionSummary>
             <AccordionDetails>
               <Grid container spacing={10}>
-                <Grid item xs={11}>
+                {!!quiz.image && (
+                  <Grid item xs={12}>
+                    <img className={classes.image} alt="Quiz Preview" src={quiz.image} />
+                  </Grid>
+                )}
+                <Grid item xs={9}>
                   <Typography>
                     {quiz?.questions?.length} Question{quiz.questions?.length === 1 ? '' : 's'}
                   </Typography>
                 </Grid>
-                <Grid item xs={1}>
-                  <Button variant="contained" color="primary">
-                    Start
+                <Grid className={classes.buttonContainer} item xs={3}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={(e) => {
+                      history.push(`/quiz/${quiz.id}`);
+                    }}
+                  >
+                    View Details
                   </Button>
                 </Grid>
               </Grid>

@@ -31,10 +31,11 @@ export const getQuizzes = async (userQuery) => {
     quizSearch = db.collection(QUIZZES).where('category', '==', userQuery.category);
   } else {
     quizSearch = db.collection(QUIZZES);
+    quizSearch = quizSearch.orderBy('createdAt', 'desc');
   }
   // import and append list for quizzes from database
   const quizList = [];
-  quizSearch = quizSearch.orderBy('createdAt', 'desc');
+
   await quizSearch.get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       quizList.push(doc.data());
@@ -57,15 +58,36 @@ export const getQuiz = async (id) => {
   }
 };
 
-export const createQuiz = async (body, file, user) => {
-  const data = body;
+export const createQuiz = async (body, files, user) => {
   let quizCreateBody;
+
   try {
-    if (file) {
-      data.image = await uploadFile(quizBucket, file);
-      console.log(data.image);
-    }
     quizCreateBody = quizSchema.validateSync(body);
+    quizCreateBody.questionImages = {};
+
+    if (files && files.length) {
+      const promises = [];
+
+      for (const file of files) {
+        if (file.fieldname === 'image') {
+          promises.push(
+            (async () => {
+              quizCreateBody.image = await uploadFile(quizBucket, file);
+            })(),
+          );
+        } else if (file.fieldname.indexOf('Image') !== -1) {
+          promises.push(
+            (async () => {
+              quizCreateBody.questionImages[file.fieldname] = await uploadFile(quizBucket, file);
+            })(),
+          );
+        }
+      }
+
+      if (promises.length) {
+        await Promise.all(promises);
+      }
+    }
   } catch (error) {
     throw newError(StatusCode.BadRequest, error.message);
   }
@@ -77,12 +99,35 @@ export const createQuiz = async (body, file, user) => {
 
 export const rateQuiz = async (body, user) => {
   try {
-    console.log(user);
     const addRating = await db
       .collection(QUIZZES)
       .doc(body.Quiz)
       .set(
         { rating: { [user.id]: { user_name: user.username, user_score: body.Rating, user_comment: body.Comment } } },
+        { merge: true },
+      );
+    return { addRating };
+  } catch (error) {
+    console.error(error);
+    throw newError(StatusCode.Error, error.message);
+  }
+};
+
+export const delComment = async (body, user) => {
+  try {
+    const addRating = await db
+      .collection(QUIZZES)
+      .doc(body.Quiz)
+      .set(
+        {
+          rating: {
+            [user.id]: {
+              user_name: user.username,
+              user_score: -1,
+              user_comment: '[This comment was deleted by the user]',
+            },
+          },
+        },
         { merge: true },
       );
     return { addRating };
