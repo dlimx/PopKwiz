@@ -52,7 +52,7 @@ const defaultValues = {
   name: '',
   description: '',
   questions: [{ question: '', type: '', options: [], id: uniqueId() }],
-  categories: [],
+  category: '',
 };
 
 export const QuizCreate = () => {
@@ -195,7 +195,7 @@ export const QuizCreate = () => {
                 )}
               </FastField>
 
-              <Field name="categories">
+              <Field name="category">
                 {({ field, meta }) => (
                   <FormControl className={classes.formField}>
                     <InputLabel id="categories-label" htmlFor="categories-form">
@@ -204,15 +204,14 @@ export const QuizCreate = () => {
                     <Select
                       {...field}
                       error={meta.touched && !!meta.error}
-                      multiple
-                      renderValue={(selected) => selected.map((category) => category.name).join(', ')}
+                      renderValue={(selected) => selected}
                       id="categories-form"
                       labelId="categories-label"
                       MenuProps={{ variant: 'menu' }}
                     >
                       {categories.map((category) => (
-                        <MenuItem key={category.id} value={category}>
-                          <Checkbox checked={values.categories.indexOf(category) > -1} />
+                        <MenuItem key={category.id} value={category.name}>
+                          <Checkbox checked={field.value === category.name} />
                           <ListItemText primary={category.name} />
                         </MenuItem>
                       ))}

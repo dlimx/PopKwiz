@@ -76,6 +76,10 @@ export const ImageUploadPreview = ({ image, setImage }) => {
     setImageDisplay('');
   };
 
+  const clearImageValue = (e) => {
+    e.target.value = '';
+  };
+
   const renderImage = () => {
     return (
       <div className={styles.imageContainer}>
@@ -99,7 +103,7 @@ export const ImageUploadPreview = ({ image, setImage }) => {
   return (
     <Box className={styles.container} onClick={() => file.current.click()}>
       {imageDisplay ? renderImage() : renderIcon()}
-      <input type="file" accept="image/*" ref={file} hidden onChange={setImageFunc} />
+      <input type="file" accept="image/*" ref={file} hidden onChange={setImageFunc} onClick={clearImageValue} />
     </Box>
   );
 };
