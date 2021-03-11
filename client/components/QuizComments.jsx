@@ -34,7 +34,6 @@ const useStyles = makeStyles({
 // pass in comments object as prop
 export const QuizComments = ({ quizComments }) => {
   const classes = useStyles();
-  console.log(quizComments);
 
   const ratingDisplay = (rateValue) => {
     if (rateValue > -1) {

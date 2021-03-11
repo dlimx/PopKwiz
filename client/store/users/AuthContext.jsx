@@ -62,13 +62,13 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
-      setCurrentUser(user);
       if (user) {
         const newToken = await user.getIdToken();
         setToken(newToken);
       } else {
         setToken('');
       }
+      setCurrentUser(user);
       setLoading(false);
     });
   }, []);

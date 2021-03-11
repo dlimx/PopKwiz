@@ -26,11 +26,11 @@ export const Router = () => {
   return (
     <BrowserRouter>
       <>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Navbar />
-          <Switch>
-            <UserProvider>
+        <UserProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Navbar />
+            <Switch>
               <Route exact path="/" component={Browse} />
               <Route path="/signup" component={SignUp} />
               <Route path="/login" component={Login} />
@@ -43,12 +43,12 @@ export const Router = () => {
               <Route path="/quiz/:id" component={QuizProfile} />
               <Route path="/profile" component={Profile} />
               <Route path="/update-profile" component={ProfileUpdate} />
-            </UserProvider>
-          </Switch>
-          <Box mt={5}>
-            <Copyright />
-          </Box>
-        </ThemeProvider>
+            </Switch>
+            <Box mt={5}>
+              <Copyright />
+            </Box>
+          </ThemeProvider>
+        </UserProvider>
       </>
     </BrowserRouter>
   );
