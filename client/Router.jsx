@@ -39,8 +39,9 @@ export const Router = () => {
             <Route path="/quiz/:id/action" component={QuizAction} />
             <Route path="/quiz/:id/results" component={QuizResults} />
             <Route path="/quiz/:id/rate" component={QuizRate} />
-            <Route path="/quiz/:id" component={QuizProfile} />
+
             <UserProvider>
+              <Route path="/quiz/:id" component={QuizProfile} />
               <Route path="/profile" component={Profile} />
               <Route path="/update-profile" component={ProfileUpdate} />
             </UserProvider>
