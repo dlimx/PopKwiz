@@ -34,7 +34,7 @@ export const getQuizzes = async (userQuery) => {
   }
   // import and append list for quizzes from database
   const quizList = [];
-  quizSearch = quizSearch.orderBy('createdAt', 'desc');
+  //quizSearch = quizSearch.orderBy('createdAt', 'desc');
   await quizSearch.get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       quizList.push(doc.data());
